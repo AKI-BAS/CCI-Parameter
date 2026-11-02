@@ -1,0 +1,70 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="1240" Height="680" MinWidth="800" MinHeight="420"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        ResizeMode="CanResizeWithGrip" FontSize="13">
+  <DockPanel Margin="12">
+    <TextBlock x:Name="intro" DockPanel.Dock="Top" TextWrapping="Wrap"
+               Margin="0,0,0,8"/>
+    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+      <TextBlock x:Name="search_l" VerticalAlignment="Center"
+                 Margin="0,0,6,0"/>
+      <TextBox x:Name="search_tb" Width="220"
+               TextChanged="search_changed"/>
+      <CheckBox x:Name="only_missing_cb" Margin="14,0,0,0"
+                VerticalAlignment="Center" Click="search_changed"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <Button x:Name="use_rules_b" Margin="14,0,0,0" Padding="8,2"
+                Click="use_rules_click"/>
+        <Button x:Name="pick_b" Margin="8,0,0,0" Padding="8,2"
+                Click="pick_click"/>
+      </StackPanel>
+    </DockPanel>
+    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+      <TextBlock x:Name="status" VerticalAlignment="Center"
+                 Foreground="Gray"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button x:Name="write_b" MinWidth="130" Padding="10,4"
+                Margin="0,0,8,0" IsDefault="True" Click="write_click"/>
+        <Button x:Name="cancel_b" MinWidth="90" Padding="10,4"
+                IsCancel="True"/>
+      </StackPanel>
+    </DockPanel>
+    <DataGrid x:Name="grid" AutoGenerateColumns="False"
+              CanUserAddRows="False" CanUserDeleteRows="False"
+              HeadersVisibility="Column" SelectionMode="Extended"
+              EnableRowVirtualization="True">
+      <DataGrid.Columns>
+        <DataGridCheckBoxColumn
+            Binding="{Binding include, UpdateSourceTrigger=PropertyChanged}"
+            Width="40"/>
+        <DataGridTextColumn Binding="{Binding category}" IsReadOnly="True"
+                            Width="150"/>
+        <DataGridTextColumn Binding="{Binding name}" IsReadOnly="True"
+                            Width="2*"/>
+        <DataGridTextColumn Binding="{Binding count}" IsReadOnly="True"
+                            Width="55"/>
+        <DataGridTextColumn Binding="{Binding current}" IsReadOnly="True"
+                            Width="70"/>
+        <DataGridTextColumn Binding="{Binding suggested}" IsReadOnly="True"
+                            Width="70"/>
+        <DataGridTextColumn Binding="{Binding source}" IsReadOnly="True"
+                            Width="90"/>
+        <DataGridTextColumn
+            Binding="{Binding code, UpdateSourceTrigger=PropertyChanged}"
+            Width="70"/>
+        <DataGridTextColumn
+            Binding="{Binding u, UpdateSourceTrigger=PropertyChanged}"
+            Width="40"/>
+        <DataGridTextColumn
+            Binding="{Binding vv, UpdateSourceTrigger=PropertyChanged}"
+            Width="45"/>
+        <DataGridTextColumn Binding="{Binding class_name}"
+                            IsReadOnly="True" Width="*"/>
+        <DataGridCheckBoxColumn
+            Binding="{Binding remember, UpdateSourceTrigger=PropertyChanged}"
+            Width="70"/>
+      </DataGrid.Columns>
+    </DataGrid>
+  </DockPanel>
+</Window>

@@ -1,0 +1,491 @@
+# Icelandic names for CCI classes - DRAFT translations (status "draft").
+# key<TAB>Icelandic name. Keys: L:<code>, S:<code>, E:<code>,
+# group:component:<code>, group:technical:<code>.
+# Terms marked with * are BIM Ísland's own (CCI leiðbeiningar v2).
+# Regenerate src/data/names_is.json with: python tools/make_names.py
+L:A	Jarðkerfi
+L:B	Veggir*
+L:C	Plötur og gólf
+L:D	Þök
+L:E	Gas- og loftkerfi
+L:F	Vatns- og vökvakerfi
+L:G	Frárennslis- og úrgangskerfi
+L:H	Kæli- og hitakerfi*
+L:J	Loftræsikerfi*
+L:K	Rafkerfi*
+L:L	Sjálfvirknikerfi
+L:M	Upplýsinga- og fjarskiptakerfi
+L:N	Flutningskerfi
+L:P	Öryggiskerfi
+L:Q	Lýsingarkerfi
+L:R	Járnbrautarkerfi
+L:S	Innréttingakerfi
+group:technical:A	Uppbyggingarkerfi
+group:technical:B	Burðarkerfi
+group:technical:C	Yfirborðskerfi lóðar
+group:technical:D	Járnbrautarkerfi
+group:technical:H	Veitukerfi
+group:technical:J	Dreifikerfi
+group:technical:K	Meðhöndlunarkerfi
+group:technical:L	Eftirlits- og stýrikerfi
+group:technical:M	Upplýsingakerfi
+group:technical:P	Varnarkerfi
+group:technical:Q	Geymslukerfi
+group:technical:R	Innréttingakerfi
+L:AA	Yfirborðsuppbygging
+L:AB	Undirstöðuuppbygging
+L:AC	Gólfplötuuppbygging
+L:AD	Vegguppbygging*
+L:AE	Þakuppbygging
+L:AF	Stigauppbygging
+L:AG	Skábrautaruppbygging
+L:AH	Svalir
+L:AJ	Útskotsgluggi
+L:AK	Kvistur
+L:AL	Þakturn
+L:AM	Ljósbrunnur
+L:BA	Burðarvirki í jörðu
+L:BB	Burðarvirki undirstaðna
+L:BC	Burðarvirki gólfplatna
+L:BD	Burðarvirki veggja
+L:BE	Burðarvirki þaks
+L:BF	Burðarvirki gólfs
+L:BG	Burðarvirki lofts
+L:BH	Burðarvirki lagnaleiða
+L:CA	Undirbygging lóðar
+L:CB	Yfirbygging lóðar
+L:CC	Umferðareyja
+L:CD	Vegkantur
+L:CE	Járnbrautarfylling
+L:CF	Gróðursvæði
+L:CG	Ofanvatnslausn
+L:CH	Lagnaskurður
+L:CJ	Undirstöður og jarðvegsstuðningur
+L:CK	Útitröppur og -skábrautir
+L:CL	Stoðveggur á lóð
+L:DA	Járnbrautarspor á kjölfestu
+L:DB	Járnbrautarspor án kjölfestu
+L:DC	Einteinungur
+L:HA	Gas- og loftveita
+L:HB	Vökvaveita
+L:HC	Kæliveita
+L:HD	Hitakerfi*
+L:HE	Samsett hita- og kæliveita
+L:HF	Innblásturskerfi*
+L:HG	Raforkuveita
+L:HH	Lýsing*
+L:HJ	Merkjaveita
+L:JA	Gasdreifing
+L:JB	Vatnsdreifing
+L:JC	Efnadreifing
+L:JD	Frárennsli vökva
+L:JE	Brottflutningur fastefna
+L:JF	Kælidreifing
+L:JG	Upphitunarkerfi*
+L:JH	Samsett hita- og kælidreifing
+L:JJ	Loftdreifing
+L:JK	Raforkudreifing
+L:JL	Merkjadreifing
+L:JM	Fólksflutningakerfi
+L:JN	Vöruflutningakerfi
+L:KA	Sólvarnarkerfi
+L:KB	Opnunarstýring
+L:KC	Síukerfi
+L:KD	Skiljukerfi
+L:KE	Blöndunarkerfi
+L:KF	Dælukerfi
+L:KG	Þrýsti- og þenslukerfi
+L:KH	Spennubreytakerfi
+L:KJ	Loftnetskerfi
+L:KK	Veðurstöð
+L:KL	Aðgangsstýring
+L:LA	Gasviðvörunarkerfi
+L:LB	Brunaviðvörunarkerfi
+L:LC	Hússtjórnarkerfi
+L:LD	Aðgangseftirlit
+L:LE	Viðvörunarkerfi
+L:LF	Myndeftirlitskerfi
+L:MA	Aðvörunarkerfi
+L:MB	Hljóð- og myndkerfi
+L:MC	Umferðarstýring
+L:MD	Klukkukerfi
+L:ME	Skiltakerfi
+L:PA	Brunavarnir
+L:PB	Slökkvikerfi
+L:PC	Jarðtengingarkerfi
+L:PD	Eldingavarnir
+L:PE	Bakskautsvörn
+L:QA	Mælakerfi
+L:QB	Gas- og loftgeymsla
+L:QC	Vökvageymsla
+L:QD	Orkugeymsla
+L:RA	Gróður
+L:RB	Innréttingar og húsgögn
+L:RC	Búnaður
+group:component:B	Skynjarar
+group:component:C	Geymsluhlutar
+group:component:E	Útgeislandi hlutar
+group:component:F	Varnarhlutar
+group:component:G	Orkugjafar og drif
+group:component:H	Efnisvinnsluhlutar
+group:component:K	Upplýsingavinnsla
+group:component:M	Drifbúnaður
+group:component:N	Klæðningar og hlífar
+group:component:P	Upplýsingabirting
+group:component:Q	Opnanlegir og stýrandi hlutar
+group:component:R	Takmarkandi hlutar
+group:component:S	Notendaviðmót
+group:component:T	Umbreytandi hlutar
+group:component:U	Burðar- og festihlutar
+group:component:W	Leiðandi hlutar
+group:component:X	Tengihlutar
+group:component:CL	Hillur, sæti og laugar
+group:component:CM	Lokuð geymsluílát
+group:component:EA	Ljósgjafar
+group:component:EG	Varmaflutningur
+group:component:EP	Hitagjafar
+group:component:FM	Brunavarnir
+group:component:FQ	Fallvarnir og hlífar
+group:component:GL	Samfelldur flutningur
+group:component:GM	Lyftur
+group:component:GP	Dælur
+group:component:GQ	Viftur og þjöppur
+group:component:NA	Fyllingar
+group:component:NB	Hurðablöð og lok
+group:component:NC	Yfirborðsfrágangur
+group:component:ND	Kantfrágangur
+group:component:NE	Listar og hlífar
+group:component:PH	Skjáir og skilti
+group:component:QM	Lokunarlokar
+group:component:QN	Stjórnlokar
+group:component:QQ	Gluggar, hurðir og op
+group:component:RN	Flæðistillar
+group:component:RQ	Einangrun og skermun
+group:component:RU	Aðgangstakmörkun
+group:component:SG	Handföng
+group:component:SJ	Rofar
+group:component:TR	Lifandi gróður
+group:component:UA	Staðsetningarhlutar
+group:component:UB	Burðarhlutar
+group:component:UL	Burðarvirkishlutar
+group:component:UN	Rammar
+group:component:WD	Lágspennuleiðarar
+group:component:WG	Merkjaleiðarar
+group:component:WM	Opnar rásir
+group:component:WP	Rör og stokkar
+group:component:XD	Lágspennutengi
+group:component:XK	Hreinlætistæki
+group:component:XS	Stigar og skábrautir
+group:component:XT	Göt og úrtök
+L:QQA	Gluggi
+L:QQB	Gluggaeining
+L:QQC	Hurð*
+L:QQD	Lúga
+L:QQE	Port
+L:QQF	Hlið
+L:NBA	Hurðarblað
+L:NBB	Portblað
+L:NBC	Skápahurð
+L:NBD	Hliðblað
+L:NBE	Lúgulok
+L:NCA	Slitlag
+L:NCB	Veggklæðning
+L:NCC	Gólfefni
+L:NCD	Loftklæðning
+L:NCE	Þakklæðning
+L:NCF	Sólbekkur
+L:NCG	Gróðurmotta
+L:NDA	Kantsteinn
+L:NDD	Loftlisti
+L:NDE	Þakkantur
+L:NEB	Gólflisti
+L:NEC	Hornlisti
+L:NED	Áfella
+L:NEE	Klæðning í gluggaopi
+L:FMA	Brunaloka
+L:FMB	Reykloka
+L:FMC	Bruna- og reykloka
+L:FMD	Slökkvitæki
+L:FME	Brunatjald
+L:FMF	Reyktjald
+L:FMH	Brunaeinangrun
+L:FMJ	Eldtefjandi húð
+L:FQA	Varnarnet
+L:FQB	Snjógrind
+L:FQC	Handlisti
+L:FQD	Handrið
+L:FQF	Glýjuvörn
+L:RQA	Einangrun
+L:RQB	Dúkur (himna)
+L:RQC	Hljóðvarnarveggur
+L:RQD	Skermur
+L:RQE	Gluggatjald
+L:RQF	Rimlagardína
+L:RQG	Gluggahleri
+L:RQJ	Skjólveggur
+L:RUA	Girðing
+L:RUB	Slá
+L:RUD	Polli
+L:ULC	Sökkull
+L:ULD	Súla
+L:ULE	Biti
+L:ULG	Steinn
+L:ULH	Hleðslueining
+L:ULK	Gólfplata
+L:ULL	Stoðveggseining
+L:ULM	Veggeining
+L:UND	Póstakerfi
+L:UAC	Lampi*
+L:UAD	Stigakjálki
+L:UBA	Strengjabakki
+L:UBB	Upphengja
+L:UBC	Þrep
+L:UBE	Borð
+L:CLA	Laug
+L:CLB	Hilla
+L:CLC	Sæti
+L:CMA	Tankur
+L:CMB	Kassi
+L:XSA	Stigapallur
+L:XSB	Stigahlaup
+L:XSC	Stigi (lóðréttur)
+L:XSD	Skábraut
+L:XTA	Gat
+L:XTB	Úrtak
+L:XKA	Vaskur
+L:XKB	Salerni
+L:XKC	Þvagskál
+L:XKE	Gólfniðurfall
+L:XDA	Tengiklemma
+L:XDB	Tengill
+L:XDC	Raflagnadós
+L:XDD	Úttak
+L:SJA	Rofi
+L:SGB	Handfang
+L:SGD	Hurðarhúnn
+L:WPA	Rör
+L:WPB	Loftstokkur
+L:WMA	Drenlag
+L:WMB	Þakrenna
+L:WMC	Vatnsbretti
+L:WMF	Drenlögn
+L:WHD	Spegill
+L:WDB	Lágspennustrengur
+L:WGB	Gagnastrengur
+L:EAA	Rafljós
+L:EPA	Hitaflötur
+L:EPB	Hitarör
+L:EPC	Ofn
+L:EPD	Hitablásari
+L:EGA	Varmadæla
+L:EGC	Varmaskiptir*
+L:EMA	Eldstæði
+L:EBH	Bakaraofn
+L:GPA	Stimpildæla
+L:GPB	Dæla
+L:GQB	Vifta
+L:GMB	Lyfta
+L:GLE	Rúllustigi
+L:GRA	Sólfangari
+L:QMA	Lokunarloki
+L:QMB	Lokunarspjald
+L:QNA	Stjórnloki*
+L:QNB	Stjórnspjald
+L:RMA	Einstreymisloki
+L:RNA	Stilliloki
+L:RND	Loftdreifari
+L:PHA	Skjár
+L:PHD	Skilti
+L:PHE	Merking
+L:BZC	Viðveruskynjari
+L:BQB	Gasskynjari
+L:TRA	Tré
+L:UCB	Gróðurmold
+S:A	Rými til búsetu
+S:AA	Íverurými
+S:AAA	Herbergi
+S:AAB	Stofa
+S:AAC	Biðrými
+S:AAD	Húsagarður
+S:AB	Hreinlætisrými
+S:ABA	Baðherbergi
+S:ABB	Salerni
+S:ABC	Skiptiaðstaða ungbarna
+S:ABD	Búningsherbergi
+S:ABE	Sturta
+S:ABF	Gufubað
+S:AC	Einangrunarrými
+S:ACA	Skýli
+S:ACB	Klefi
+S:B	Rými fyrir starfsemi
+S:BAA	Skrifstofa
+S:BAB	Fundarrými
+S:BAC	Móttaka
+S:BAD	Söluaðstaða
+S:BAE	Kennslurými
+S:BAF	Lesrými
+S:BAG	Þvottahús
+S:BAH	Meðferðarrými
+S:BAJ	Skoðunarrými
+S:BAK	Eftirlitsrými
+S:BAL	Áhorfendarými
+S:BAM	Margmiðlunarver
+S:BB	Framleiðslurými
+S:BBA	Eldhús
+S:BBB	Efnisverkstæði
+S:BBC	Vélaverkstæði
+S:BBD	Vinnustofa
+S:BBE	Pökkunarrými
+S:BC	Rannsóknarstofa
+S:BCA	Tæknirannsóknarstofa
+S:BCB	Efnisrannsóknarstofa
+S:BCC	Líffræðirannsóknarstofa
+S:BD	Æfingarými
+S:BDA	Íþróttasalur
+S:BDB	Þjálfunarsalur
+S:BDC	Æfingaherbergi
+S:BDD	Svið
+S:BDE	Leikherbergi
+S:BE	Samkomurými
+S:BEA	Borðsalur
+S:BEB	Salur
+S:BEC	Sýningarsalur
+S:BED	Bænarými
+S:C	Geymslurými
+S:CA	Efnisgeymsla
+S:CAA	Sorpgeymsla
+S:CAB	Efnageymsla
+S:CAC	Lyfjageymsla
+S:CAD	Skjalageymsla
+S:CAE	Vökvageymsla
+S:CAF	Hráefnageymsla
+S:CAG	Matvælageymsla
+S:CAH	Öryggisgeymsla
+S:CAJ	Umbúðageymsla
+S:CAK	Fatageymsla
+S:CAL	Byggingarefnageymsla
+S:CAM	Sprengiefnageymsla
+S:CAN	Geymsla
+S:CB	Búnaðargeymsla
+S:CBA	Húsgagnageymsla
+S:CBB	Verkfærageymsla
+S:CBC	Tækjageymsla
+S:CBD	Ökutækjageymsla
+S:CC	Dýrarými
+S:CCA	Búr
+S:CCB	Stía
+S:CCC	Hesthús
+S:CCD	Vatnsgirðing
+S:CD	Gróðurrými
+S:CDA	Gróðurrými innandyra
+S:CDB	Gróðurrými utandyra
+S:CE	Líkgeymsla
+S:CEA	Kistulagningarherbergi
+S:CEB	Grafhvelfing
+S:D	Tæknirými
+S:DA	Lagnarými
+S:DAA	Rafmagnsrými
+S:DAB	Tölvurými
+S:DAC	Lagna- og vélarými
+S:DAD	Sameiginlegt lagnarými
+S:DB	Búnaðarrými
+S:DBA	Stjórnbúnaðarrými
+S:DBB	Framleiðslutækjarými
+S:DBC	Þjónustubúnaðarrými
+S:DBD	Greiningarbúnaðarrými
+S:DC	Athafnarými búnaðar
+S:DCA	Vinnusvið búnaðar
+S:DCB	Fríbil
+S:E	Rými fyrir innviði
+S:EA	Umferðarrými
+S:EAA	Anddyri
+S:EAB	Loftlás
+S:EAC	Gangur
+S:EAD	Stigahús
+S:EAE	Lyftustokkur
+S:EAF	Súlnagöng
+S:EB	Lagnaleiðir
+S:EBA	Lagnagöng
+S:EBB	Lagnastokkur
+S:EBC	Stokkur
+S:F	Umferðarsvæði
+S:FA	Akstursrými
+S:FAA	Akbraut
+S:FAB	Akrein
+S:FAC	Vegöxl
+S:FAD	Útskot
+S:FAE	Mætingarstaður
+S:FAF	Snúningssvæði
+S:FB	Rými gangandi og hjólandi
+S:FBA	Göngustígur
+S:FBB	Hjólastígur
+S:FBC	Göngu- og hjólastígur
+S:FC	Flugumferðarsvæði
+S:FCA	Flugbraut
+S:FCB	Akbraut flugvéla
+S:FD	Brautarrými
+S:FDA	Járnbrautarspor
+S:FDB	Járnbrautarþverun
+S:FE	Siglingarými
+S:FEA	Siglingaleið
+S:FEB	Skipastigi
+S:FF	Umferðarstjórnun
+S:FFA	Miðeyja
+S:FFB	Brautarpallur
+S:FFC	Upplýsingasvæði umferðar
+S:FFD	Rýmisprófíll
+S:FFE	Bannsvæði
+S:P	Rými eðlisfræðilegra fyrirbæra
+S:PA	Efnisflæðisrými
+S:PAA	Brakrými
+S:PAB	Rými fastefnisflæðis
+S:PAC	Gasflæðisrými
+S:PAD	Vökvaflæðisrými
+S:PAE	Rafgasrými
+S:PAF	Reyksvæði
+S:PB	Orkuflæðisrými
+S:PBA	Rafmagnsflæðisrými
+S:PBB	Varmaflæðisrými
+S:PBC	Hreyfiorkurými
+S:PBD	Sprengirými
+S:PBE	Brunahólf
+E:A	Bygging fyrir fólk og starfsemi
+E:AA	Íbúðarhúsnæði
+E:AB	Hótel og veitingahús
+E:AC	Hreinlætisbygging
+E:AD	Vistunarbygging
+E:AE	Stjórnsýslubygging
+E:AF	Framleiðslubygging
+E:AG	Verslunarbygging
+E:AH	Skólabygging
+E:AJ	Umönnunarstofnun
+E:AK	Frístundabygging
+E:AL	Íþróttabygging
+E:AM	Menningarbygging
+E:AN	Samkomuhús
+E:AP	Geymsluhúsnæði
+E:AQ	Aðkomubygging
+E:B	Tæknimannvirki
+E:BA	Framleiðsluver
+E:BB	Tengivirki
+E:BC	Förgunarkerfi
+E:BD	Flutningskerfi
+E:BE	Geymslubúnaður
+E:BF	Vinnslustöð
+E:BG	Skemmtibúnaður
+E:C	Innviðir
+E:CA	Samgöngumannvirki
+E:CB	Endastöð
+E:CC	Bílastæðamannvirki
+E:CD	Fjarskiptabygging
+E:CE	Vatnsstjórnunarmannvirki
+E:D	Landslag
+E:DA	Náttúrusvæði
+E:DB	Útivistarsvæði
+E:DC	Samkomusvæði
+E:DD	Framleiðslusvæði
+E:DE	Íþróttavöllur
+E:E	Minnismerki
+E:EA	Minnisvarði
+E:Z	Óskilgreint
+E:ZZ	Óskilgreint
