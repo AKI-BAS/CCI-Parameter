@@ -379,5 +379,17 @@
   "classify.only_old": "Old/other coding only",
   "classify.replace_old": "Replace old coding",
   "classify.reset_instances": "Also overwrite codes set on single elements",
-  "classify.replaced": "{n} rows changed to the tool's suggestion.\n\n{left} rows with old coding have no suggestion; pick a code by hand or from the table.\n\nNothing is written until you click Write to model."
+  "classify.replaced": "{n} rows changed to the tool's suggestion.\n\n{left} rows with old coding have no suggestion; pick a code by hand or from the table.\n\nNothing is written until you click Write to model.",
+
+  "check.leftovers": "Older CCI/CCS parameters in the project ({n})",
+  "check.leftovers_d": "These parameters are not on BIM Ísland's list and the tool does not use them (e.g. CCITypeID_Type or old CCS parameters). They don't affect IFC deliveries, but they can confuse people. Parameters can be removed in Manage > Project Parameters; that deletes their values on every element.",
+  "check.lo_type": "Type",
+  "check.lo_inst": "Instance",
+  "check.lo_safe": "Unused, probably safe to remove",
+  "check.lo_look": "In use, check first",
+  "col.param": "Parameter",
+  "col.kind": "Kind",
+  "col.with_value": "Elements with a value",
+  "col.schedules": "Used in schedules",
+  "col.advice": "Advice"
 }

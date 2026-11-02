@@ -118,6 +118,10 @@ class _Param(object):
     def AsString(self):
         return self.v
 
+    @property
+    def HasValue(self):
+        return bool(self.v)
+
     def Set(self, v):
         self.v = v
 
@@ -129,7 +133,8 @@ class _El(object):
         self.is_type = is_type
         self.params = {}
 
-    def get_Parameter(self, guid):
+    def get_Parameter(self, key):
+        guid = key.GUID if hasattr(key, "GUID") else key
         return self.params.get(guid.s)
 
 
@@ -308,3 +313,22 @@ def test_case_only_difference_is_the_same_parameter(monkeypatch):
     util.use_project_names(doc)
     assert util.name_for("topnode_t") == "CCITopNode[Type]"
     util._ACTUAL.clear()
+
+
+def test_leftovers(monkeypatch):
+    params = _patch(monkeypatch)
+    win_t = _El(_CatObj("OST_Windows"), True)
+    win_t2 = _El(_CatObj("OST_Windows"), True)
+    doc = _Doc([win_t, win_t2])
+    defs = _defs(sharedparams.guid_for)
+    params.bind_all(doc, defs, ["type_id_t"])
+    old = _Def("CCITypeID_Type", uuid.uuid4())
+    old2 = _Def("CCSClassCode", uuid.uuid4())
+    doc.ParameterBindings.Insert(old, _TypeB(_Cats([_CatObj("OST_Windows")])),
+                                 "id")
+    doc.ParameterBindings.Insert(old2, _InstB(_Cats([_CatObj("OST_Windows")])),
+                                 "id")
+    win_t.get_Parameter(old.GUID).Set("%QQA1")
+    found = params.leftovers(doc)
+    assert [(f["name"], f["is_type"], f["values"]) for f in found] == [
+        ("CCITypeID_Type", True, 1), ("CCSClassCode", False, 0)]

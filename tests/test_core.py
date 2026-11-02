@@ -354,3 +354,14 @@ def test_overview():
             _rec(id="3", type_uid="b", cat_name="Doors", values={})]
     assert checker.overview(recs) == [("Doors", "", "", 1, 1),
                                       ("Doors", "QQC", "", 1, 2)]
+
+
+def test_is_leftover():
+    assert formats.is_leftover("CCITypeID_Type")
+    assert formats.is_leftover("CCITypeName_Type")
+    assert formats.is_leftover("CCSClassCode_Type")
+    assert not formats.is_leftover("CCITypeID[Type]")
+    assert not formats.is_leftover("CCITopNode[Type]")      # case only
+    assert not formats.is_leftover("CCIClassName[Type]")    # Molio extra
+    assert not formats.is_leftover("CCIClassification")
+    assert not formats.is_leftover("Auðkenni_Type")

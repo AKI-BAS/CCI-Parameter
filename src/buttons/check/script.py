@@ -97,6 +97,18 @@ for (sev, key), items in sorted(by_key.items(),
     if len(items) > MAX_ROWS:
         out.print_md(t("check.more", n=len(items) - MAX_ROWS))
 
+old_params = params.leftovers(doc)
+if old_params:
+    out.print_md("### " + t("check.leftovers", n=len(old_params)))
+    out.print_md(t("check.leftovers_d"))
+    out.print_table(
+        [[p["name"], t("check.lo_type" if p["is_type"] else "check.lo_inst"),
+          p["values"], ", ".join(p["schedules"]) or "-",
+          t("check.lo_safe") if not p["values"] and not p["schedules"]
+          else t("check.lo_look")] for p in old_params],
+        columns=[t("col.param"), t("col.kind"), t("col.with_value"),
+                 t("col.schedules"), t("col.advice")])
+
 skipped = sum(1 for r in recs if r["exported"] is False)
 if skipped:
     out.print_md(t("check.skipped_ifc", n=skipped))

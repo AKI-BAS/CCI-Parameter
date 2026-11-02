@@ -226,6 +226,56 @@ def project_entries(doc):
     return sorted(out)
 
 
+def leftovers(doc):
+    """Bound CCI/CCS parameters the tool does not use (formats.is_leftover).
+
+    [{"name", "is_type", "shared", "values", "schedules"}]: how many
+    elements have a value, and which schedules show it, so the person can
+    judge whether it is safe to remove."""
+    found = []
+    it = doc.ParameterBindings.ForwardIterator()
+    it.Reset()
+    while it.MoveNext():
+        d, b = it.Key, it.Current
+        if not formats.is_leftover(d.Name):
+            continue
+        spe = shared_element(doc, d)
+        found.append({"name": d.Name, "definition": d,
+                      "is_type": isinstance(b, TypeBinding),
+                      "shared": spe is not None, "categories": b.Categories,
+                      "values": 0, "schedules": []})
+    if not found:
+        return []
+    for item in found:
+        d = item["definition"]
+        n = 0
+        for e in _elements(doc, item["categories"], item["is_type"]):
+            p = e.get_Parameter(d)
+            if p is None or not p.HasValue:
+                continue
+            if p.StorageType == StorageType.String:
+                if p.AsString():
+                    n += 1
+            else:
+                n += 1
+        item["values"] = n
+    ids = dict((item["definition"].Id, item) for item in found)
+    try:
+        from Autodesk.Revit.DB import ViewSchedule
+        for vs in FilteredElementCollector(doc).OfClass(ViewSchedule):
+            sd = vs.Definition
+            for i in range(sd.GetFieldCount()):
+                pid = sd.GetField(i).ParameterId
+                item = ids.get(pid)
+                if item is not None and vs.Name not in item["schedules"]:
+                    item["schedules"].append(vs.Name)
+    except Exception:
+        pass
+    for item in found:
+        del item["definition"], item["categories"]
+    return sorted(found, key=lambda x: x["name"].lower())
+
+
 def bound_names(doc):
     names = set()
     it = doc.ParameterBindings.ForwardIterator()
