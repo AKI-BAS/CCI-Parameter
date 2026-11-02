@@ -1,0 +1,3 @@
+title: "Number"
+tooltip: "Type IDs (%QQC001), multi-level type IDs (§B.AD.QQC001) and product IDs (#QQC001). Numbers stay put and are never reused."
+author: "Sveinn Aki Olafs"
