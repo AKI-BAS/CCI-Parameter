@@ -379,5 +379,17 @@
   "classify.only_old": "Aðeins eldri/önnur kóðun",
   "classify.replace_old": "Skipta út eldri kóðun",
   "classify.reset_instances": "Yfirskrifa líka kóða sem eru settir á einstaka hluti",
-  "classify.replaced": "{n} línum breytt í tillögu verkfærisins.\n\n{left} línur með eldri kóðun hafa enga tillögu; veldu kóða handvirkt eða úr töflu.\n\nEkkert er skrifað fyrr en þú smellir á Skrifa í líkan."
+  "classify.replaced": "{n} línum breytt í tillögu verkfærisins.\n\n{left} línur með eldri kóðun hafa enga tillögu; veldu kóða handvirkt eða úr töflu.\n\nEkkert er skrifað fyrr en þú smellir á Skrifa í líkan.",
+
+  "check.leftovers": "Eldri CCI/CCS eigindi í verkefninu ({n})",
+  "check.leftovers_d": "Þessi eigindi eru ekki á lista BIM Íslands og verkfærið notar þau ekki (t.d. CCITypeID_Type eða gömul CCS eigindi). Þau trufla ekki IFC skil, en geta ruglað fólk. Fjarlægja má eigindi í Manage > Project Parameters; það eyðir gildum þeirra á öllum hlutum.",
+  "check.lo_type": "Tegund",
+  "check.lo_inst": "Instance",
+  "check.lo_safe": "Ónotað, má líklega fjarlægja",
+  "check.lo_look": "Í notkun, athugaðu fyrst",
+  "col.param": "Eigindi",
+  "col.kind": "Gerð",
+  "col.with_value": "Hlutir með gildi",
+  "col.schedules": "Notað í skrám (schedules)",
+  "col.advice": "Ráð"
 }

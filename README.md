@@ -127,6 +127,13 @@ töflunni, ekki hvort hann sé rétti kóðinn fyrir hlutinn. Hlutum sem eiga
 ekki að fara í IFC er sleppt. Hlutir utan þróunarstigshópanna (generic
 models o.fl.) gefa aðeins viðvaranir.
 
+Athuga listar líka **eldri CCI/CCS eigindi** í verkefninu sem eru ekki á
+lista BIM Íslands og verkfærið notar ekki, t.d. `CCITypeID_Type`,
+`CCITypeName_Type` eða gömul `CCS*` eigindi. Fyrir hvert eigindi sést hvort
+það er type eða instance, hversu margir hlutir hafa gildi og í hvaða
+skrám (schedules) það er notað. Ónotuð eigindi má yfirleitt fjarlægja í
+Manage > Project Parameters.
+
 ## Shared parameter skrá
 Opinbera CCI shared parameter skrá Molio og IFC property set skráin eru
 verkfærapakkinn **C420 + C421** í áskriftinni *CAD og bygningsmodel* hjá
