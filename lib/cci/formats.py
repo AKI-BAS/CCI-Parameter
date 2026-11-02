@@ -37,6 +37,12 @@ PARAM = {
     # "Classification field name" points at it.
     "classification": "CCIClassification",
     "classification_t": "CCIClassification[Type]",
+    # Not BIM Ísland parameters, but many templates have them (Molio's
+    # file): written when the project has them, never added.
+    "class_name": "CCIClassName",
+    "class_name_t": "CCIClassName[Type]",
+    "class_version": "CCIClassCodeVersion",
+    "class_version_t": "CCIClassCodeVersion[Type]",
 }
 
 # The 11 parameters BIM Ísland requires (CCI leiðbeiningar fyrir Revit).
@@ -138,14 +144,39 @@ def location_at_id(building, level_code, room, building_pad=2, room_pad=3):
                              room_pad)
 
 
-def classification(topnode_letter, class_code):
-    """Value for CCIClassification, e.g. [L]AD (Þróunarstig, Eiginleikar)."""
+def classification(class_code, description=None):
+    """Value for CCIClassification: 'AD' or 'AD:Wall construction'.
+
+    Revit's IFC exporter reads this field as
+    [ClassificationName]Code:Description, so a leading bracket would be
+    taken as the name of the classification system: '[L]AD' would export
+    as a classification called 'L' with the code 'AD'. No brackets here;
+    the system name comes from IFC Classification Settings and the topnode
+    has its own parameter (CCITopnode), as BIM Ísland's IDS expects.
+    """
     class_code = norm(class_code)
     if not class_code:
         return ""
-    if topnode_letter:
-        return topnode(topnode_letter) + class_code
+    description = (description or "").replace(":", " ").strip()
+    if description:
+        return "%s:%s" % (class_code, description)
     return class_code
+
+
+_CLS_RE = re.compile(r"^((?:\[[^\]]*\])*)([A-Z]{1,3})(:.*)?$")
+
+
+def code_of_classification(value):
+    """'AD' from 'AD', 'AD:Wall construction' or '[CCI][L]AD:...'."""
+    m = _CLS_RE.match((value or "").strip())
+    return m.group(2) if m else None
+
+
+def classification_prefix(value):
+    """The bracket part Revit takes as the classification name, if any:
+    '[CCI][L]AD' -> 'CCI', '[L]AD' -> 'L', 'AD' -> None."""
+    m = re.match(r"^\[([^\]]*)\]", (value or "").strip())
+    return m.group(1) if m else None
 
 
 # -------------------------------------------------------------- validators
@@ -217,11 +248,8 @@ def check_level_code(value):
 def check_classification(value):
     if not value:
         return "fmt.empty"
-    m = re.match(r"^(\[[A-Z]\])?([A-Z]{1,3})$", value)
-    if not m:
+    if code_of_classification(value) is None:
         return "fmt.classification"
-    if m.group(1) and check_topnode(m.group(1)):
-        return "fmt.topnode"
     return None
 
 

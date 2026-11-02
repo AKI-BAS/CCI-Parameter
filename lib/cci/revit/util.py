@@ -204,6 +204,36 @@ def facts(doc, element, etype=None):
     return f
 
 
+def exported_to_ifc(element, etype=None):
+    """False when the element (or its type) is set not to export to IFC:
+    'Export to IFC' = Don't Export, or IfcExportAs = DontExport."""
+    for src in (element, etype):
+        if src is None:
+            continue
+        v = get(src, "IfcExportAs") or get(src, "Export Type to IFC As") or ""
+        if v.replace(" ", "").lower().startswith("dontexport"):
+            return False
+    inst = _int_param(element, "IFC_EXPORT_ELEMENT")
+    if inst == 2:
+        return False
+    if inst in (0, None) and etype is not None:
+        if _int_param(etype, "IFC_EXPORT_ELEMENT_TYPE") == 2:
+            return False
+    return True
+
+
+def _int_param(element, bip_name):
+    from Autodesk.Revit.DB import BuiltInParameter
+    b = getattr(BuiltInParameter, bip_name, None)
+    if b is None or element is None:
+        return None
+    try:
+        p = element.get_Parameter(b)
+        return p.AsInteger() if p is not None and p.HasValue else None
+    except Exception:
+        return None
+
+
 def _structural(element):
     from Autodesk.Revit.DB import BuiltInParameter
     for bip in ("WALL_STRUCTURAL_SIGNIFICANT", "FLOOR_PARAM_IS_STRUCTURAL"):

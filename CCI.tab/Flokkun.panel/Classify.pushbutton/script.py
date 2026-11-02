@@ -58,6 +58,28 @@ class Row(forms.Reactive):
             else (result.class_code or "")
         self._u = result.u or ""
         self._vv = result.vv or ""
+        self.inst_codes = set()     # other codes set on single elements
+
+    @property
+    def outdated(self):
+        """Existing code that is malformed or not in the CCI table."""
+        cur = self.current
+        if not cur or cur == "*":
+            return False
+        return bool(formats.check_class(cur)) or \
+            not table.known(cur, self.domain_topnode)
+
+    @property
+    def differs(self):
+        """Existing code differs from the suggestion."""
+        cur = self.current
+        return bool(self.rule.class_code and cur and cur != "*"
+                    and cur != self.rule.class_code)
+
+    @property
+    def old_coding(self):
+        return self.outdated or self.differs or bool(self.inst_codes) \
+            or self.current == "*"
 
     @forms.reactive
     def include(self):
@@ -160,6 +182,13 @@ def collect():
                 if cur != row.current:
                     row.current = "*"
     out = list(rows.values())
+    for r in out:
+        if r.kind == "space":
+            continue
+        for e in r.elements:
+            v = util.get_key(e, "class") or ""
+            if v and v != r.current:
+                r.inst_codes.add(v)
     out.sort(key=lambda r: (bool(r.current), r.category, r.name))
     return out, bool(selected)
 
@@ -176,6 +205,10 @@ class ClassifyWindow(forms.WPFWindow):
                             else "classify.intro")
         self.search_l.Text = t("classify.search")
         self.only_missing_cb.Content = t("classify.only_missing")
+        self.only_diff_cb.Content = t("classify.only_old")
+        self.replace_b.Content = t("classify.replace_old")
+        self.reset_inst_cb.Content = t("classify.reset_instances")
+        self.reset_instances = False
         self.use_rules_b.Content = t("classify.use_rules")
         self.pick_b.Content = t("classify.pick")
         self.write_b.Content = t("classify.write")
@@ -192,16 +225,40 @@ class ClassifyWindow(forms.WPFWindow):
 
     def _status(self):
         done = sum(1 for r in self.rows if r.code)
+        old = sum(1 for r in self.rows if r.old_coding)
         self.status.Text = t("classify.status", done=done,
-                             total=len(self.rows))
+                             total=len(self.rows), old=old)
 
     def search_changed(self, sender, args):
         text = (self.search_tb.Text or "").lower()
         only = bool(self.only_missing_cb.IsChecked)
+        only_old = bool(self.only_diff_cb.IsChecked)
         self.grid.ItemsSource = [
             r for r in self.rows
             if (not text or text in (r.name + " " + r.category).lower())
-            and (not only or not r.code)]
+            and (not only or not r.code)
+            and (not only_old or r.old_coding)]
+
+    def replace_click(self, sender, args):
+        """Replace old coding with the suggestion: selected rows, or every
+        row with old coding when nothing is selected."""
+        selected = list(self.grid.SelectedItems or [])
+        rows = selected or [r for r in self.rows if r.old_coding]
+        n = 0
+        for r in rows:
+            if r.rule.class_code and r.code != r.rule.class_code:
+                r.code = r.rule.class_code
+                r.u = r.rule.u or ""
+                r.vv = r.rule.vv or ""
+                n += 1
+        if any(r.inst_codes for r in rows):
+            self.reset_inst_cb.IsChecked = True
+        no_sugg = sum(1 for r in rows if r.old_coding and
+                      not r.rule.class_code)
+        self.grid.Items.Refresh()
+        self._status()
+        forms.alert(t("classify.replaced", n=n, left=no_sugg),
+                    title=t("classify.title"))
 
     def use_rules_click(self, sender, args):
         for r in self.grid.SelectedItems or []:
@@ -248,11 +305,14 @@ class ClassifyWindow(forms.WPFWindow):
                 "%s: %s" % (r.name, r.code) for r in bad[:15]),
                 title=t("classify.title"))
             return
+        self.reset_instances = bool(self.reset_inst_cb.IsChecked)
         self.ok = True
         self.Close()
 
 
-def write(rows):
+def write(rows, reset_instances=False):
+    """reset_instances: also replace codes set on single elements (old
+    coding), not only empty values and copies of the old type value."""
     copy = settings["copy_to_instance"]
     registry = storage.load_registry(doc)
     stats = {"types": 0, "spaces": 0, "not_bound": 0}
@@ -260,9 +320,14 @@ def write(rows):
         if not r.include or not r.code:
             continue
         tn = formats.topnode(r.topnode) if settings["write_topnode"] else None
+        entry = table.entry(r.code, r.domain_topnode) or {}
+        en_name = entry.get("en", "")
         cls = formats.classification(
-            r.topnode if settings["classification_with_topnode"] else None,
-            r.code) if settings["write_classification"] else None
+            r.code, en_name if settings["classification_desc"] else None) \
+            if settings["write_classification"] else None
+        # filled only where the template has these parameters
+        extra = {"class_name": en_name,
+                 "class_version": table.data.get("edition", "")}
         if r.kind == "space":
             for room in r.elements:
                 if not util.has_key(room, "class"):
@@ -273,6 +338,9 @@ def write(rows):
                     util.set_key(room, "topnode", tn)
                 if cls:
                     util.set_key(room, "classification", cls)
+                for k, v in extra.items():
+                    if v and util.has_key(room, k):
+                        util.set_key(room, k, v)
                 stats["spaces"] += 1
             continue
         etype = r.etype
@@ -284,6 +352,9 @@ def write(rows):
             new["topnode"] = tn
         if cls:
             new["classification"] = cls
+        for k, v in extra.items():
+            if v and util.has_key(etype, k + "_t"):
+                new[k] = v
         old = dict((k, util.get_key(etype, k + "_t") or "") for k in new)
         for k, v in new.items():
             util.set_key(etype, k + "_t", v)
@@ -291,8 +362,11 @@ def write(rows):
             for k, v in new.items():
                 if not util.has_key(inst, k):
                     continue
-                value = numbering.resolve_instance(
-                    util.get_key(inst, k), old[k], v, copy)
+                if reset_instances:
+                    value = v if copy else ""
+                else:
+                    value = numbering.resolve_instance(
+                        util.get_key(inst, k), old[k], v, copy)
                 if value is not None:
                     util.set_key(inst, k, value)
         if r.u and r.vv:
@@ -339,7 +413,7 @@ if not win.ok:
     script.exit()
 
 with ui.Tx(doc, "tx.classify"):
-    stats = write(rows)
+    stats = write(rows, win.reset_instances)
 remembered = remember(rows)
 
 msg = t("classify.done", types=stats["types"], spaces=stats["spaces"])

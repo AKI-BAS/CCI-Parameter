@@ -13,16 +13,24 @@
                TextChanged="search_changed"/>
       <CheckBox x:Name="only_missing_cb" Margin="14,0,0,0"
                 VerticalAlignment="Center" Click="search_changed"/>
+      <CheckBox x:Name="only_diff_cb" Margin="14,0,0,0"
+                VerticalAlignment="Center" Click="search_changed"/>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
         <Button x:Name="use_rules_b" Margin="14,0,0,0" Padding="8,2"
                 Click="use_rules_click"/>
         <Button x:Name="pick_b" Margin="8,0,0,0" Padding="8,2"
                 Click="pick_click"/>
+        <Button x:Name="replace_b" Margin="8,0,0,0" Padding="8,2"
+                Click="replace_click"/>
       </StackPanel>
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-      <TextBlock x:Name="status" VerticalAlignment="Center"
-                 Foreground="Gray"/>
+      <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+        <TextBlock x:Name="status" VerticalAlignment="Center"
+                   Foreground="Gray"/>
+        <CheckBox x:Name="reset_inst_cb" Margin="16,0,0,0"
+                  VerticalAlignment="Center"/>
+      </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <Button x:Name="write_b" MinWidth="130" Padding="10,4"
                 Margin="0,0,8,0" IsDefault="True" Click="write_click"/>

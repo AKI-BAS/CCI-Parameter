@@ -18,12 +18,31 @@ app = doc.Application
 cfg = script.get_config()
 store = util.store()
 
-OPTIONS = ["molio", "tool", "save_tool"]
+OPTIONS = ["molio", "tool", "export_project", "save_tool"]
 labels = [t("params.opt_" + o) for o in OPTIONS]
 choice = forms.CommandSwitchWindow.show(labels, message=t("params.choose"))
 if not choice:
     script.exit()
 mode = OPTIONS[labels.index(choice)]
+
+if mode == "export_project":
+    entries = params.project_entries(doc)
+    if not entries:
+        ui.alert("params.no_project_params", exit=True)
+    path = forms.save_file(file_ext="txt",
+                           default_name="CCI_SharedParameters_" +
+                           (doc.Title or "verkefni").replace(".rvt", ""))
+    if path:
+        tool = sum(1 for n, g, _, _ in entries
+                   if sharedparams.is_tool_guid(n, g))
+        sharedparams.write_file(
+            path, entries, ["# CCI parameters saved from the project "
+                            "'%s' by CCI-tools." % doc.Title])
+        ui.alert("params.exported_project", path=path, n=len(entries),
+                 names=", ".join(n for n, _, _, _ in entries),
+                 source=t("params.src_tool" if tool == len(entries)
+                          else "params.src_other"))
+    script.exit()
 
 if mode == "save_tool":
     path = forms.save_file(file_ext="txt",
