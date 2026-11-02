@@ -200,6 +200,32 @@ def migrate(doc, definitions, names):
     return out
 
 
+def project_entries(doc):
+    """The CCI shared parameters bound in this project, as entries for
+    sharedparams.write_file: [(name, guid, datatype, description)].
+
+    Lets a studio save the file its template already uses (e.g. one made
+    from Molio's C420) and use it in other projects."""
+    out = []
+    it = doc.ParameterBindings.ForwardIterator()
+    it.Reset()
+    while it.MoveNext():
+        d = it.Key
+        if not d.Name.upper().startswith("CCI"):
+            continue
+        spe = shared_element(doc, d)
+        if spe is None:
+            continue
+        datatype = "TEXT"
+        try:
+            if d.GetDataType() != SpecTypeId.String.Text:
+                continue
+        except AttributeError:
+            pass
+        out.append((d.Name, str(spe.GuidValue), datatype, ""))
+    return sorted(out)
+
+
 def bound_names(doc):
     names = set()
     it = doc.ParameterBindings.ForwardIterator()

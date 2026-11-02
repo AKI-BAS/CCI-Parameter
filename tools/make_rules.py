@@ -217,7 +217,7 @@ for rid, cats in [
         ("pipe_accessory", ["OST_PipeAccessory"]),
         ("plumbing", ["OST_PlumbingFixtures"]),
         ("sprinkler", ["OST_Sprinklers"]),
-        ("spaces", ["OST_Rooms", "OST_MEPSpaces", "OST_Areas"])]:
+        ("spaces", ["OST_Rooms", "OST_MEPSpaces"])]:
     r(rid, cats, None, "Enginn sjálfgefinn kóði / no default code")
 
 data = {

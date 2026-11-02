@@ -78,6 +78,8 @@ def check(records, project_settings, class_table=None):
     type_ids = {}
 
     for rec in records:
+        if rec.get("exported") is False:
+            continue        # set not to export to IFC
         kind = rec.get("kind", "element")
         group = rec.get("group")
         lod = settings_mod.lod_for(s, group)
@@ -92,15 +94,17 @@ def check(records, project_settings, class_table=None):
             # walls, floors, ducts... span several rooms
             need.remove("location_at_id")
 
-        # required fields
+        # required fields; elements outside the LOD groups (generic
+        # models, furniture...) only get warnings
+        sev = ERROR if group is not None else WARNING
         for f in need:
             if not _bound(rec, f):
-                add(ERROR, "chk.not_bound", rec,
+                add(sev, "chk.not_bound", rec,
                     param=formats.PARAM[FIELDS[f][0]])
                 continue
             value, _ = effective(rec, f)
             if not value:
-                add(ERROR, "chk.missing", rec,
+                add(sev, "chk.missing", rec,
                     param=formats.PARAM[FIELDS[f][0]])
 
         values = rec.get("values") or {}
@@ -149,14 +153,17 @@ def check(records, project_settings, class_table=None):
                         param=formats.PARAM[FIELDS[f][0]], value=v,
                         code=code)
 
-        # CCIClassification should agree with topnode + class
+        # CCIClassification should carry the same code, and must not start
+        # with a topnode: Revit's IFC export reads [X] as the system name
         cls_val, _ = effective(rec, "classification")
         if cls_val and code:
-            tn, _ = effective(rec, "topnode")
-            expected = (tn if s["classification_with_topnode"] else "") + code
-            if cls_val != expected:
+            if formats.code_of_classification(cls_val) != code:
                 add(WARNING, "chk.classification_mismatch", rec,
-                    value=cls_val, expected=expected)
+                    value=cls_val, expected=code)
+            elif formats.classification_prefix(cls_val) in \
+                    formats.TOPNODES:
+                add(WARNING, "chk.classification_topnode", rec,
+                    value=cls_val)
 
         # collect for duplicate checks
         v, _ = effective(rec, "single_id")
@@ -191,4 +198,31 @@ def summary(issues):
     out = {ERROR: 0, WARNING: 0, INFO: 0}
     for i in issues:
         out[i.severity] += 1
+    return out
+
+
+def overview(records, class_table=None, lang="en", topnodes=None):
+    """Rows for a review table: what each category was classified as.
+
+    [(category, code, name, types, elements)], unclassified as code ''.
+    """
+    topnodes = topnodes or {"space": "B", "element": "L", "system": "L"}
+    rows = {}
+    for rec in records:
+        if rec.get("exported") is False:
+            continue
+        code, _ = effective(rec, "class")
+        tn, _ = effective(rec, "topnode")
+        if not tn:
+            tn = "[%s]" % topnodes.get(rec.get("kind", "element"), "L")
+        key = (rec.get("cat_name") or rec.get("category") or "", code or "",
+               tn)
+        row = rows.setdefault(key, [set(), 0])
+        row[0].add(rec.get("type_uid") or rec.get("id"))
+        row[1] += 1
+    out = []
+    for (cat, code, tn), (types, n) in sorted(rows.items()):
+        name = class_table.name(code, lang, tn) \
+            if code and class_table is not None else ""
+        out.append((cat, code, name, len(types), n))
     return out

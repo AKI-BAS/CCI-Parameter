@@ -83,6 +83,50 @@ tafla er nú í notkun.
 
 JSON töflu má búa til utan Revit: `python tools/build_table.py <xlsx…>`.
 
+## Líkön með eldri kóðun
+Mörg líkön hafa þegar CCI (eða CCS) kóðun úr eldra verkfæri eða
+sniðmáti. Dálkurinn *Núna* í Flokka sýnir hana.
+
+- **Skipta út eldri kóðun** setur tillögu verkfærisins í stað kóða sem
+  víkja frá henni eða eru ekki í CCI töflunni. Virkar á valdar línur, eða
+  á allar línur með eldri kóðun ef ekkert er valið. Ekkert er skrifað fyrr
+  en smellt er á *Skrifa í líkan*. Línur með eldri kóðun en enga tillögu
+  bíða þess að þú veljir kóða úr töflunni.
+- **Yfirskrifa líka kóða sem eru settir á einstaka hluti**: venjulega lætur
+  verkfærið instance gildi í friði, því BIM Ísland leyfir þeim að víkja
+  viljandi frá tegundinni. Hakaðu við þetta til að hreinsa eldri kóða af
+  einstökum hlutum líka.
+- **Númera** endurskrifar tegundarauðkenni og vöruauðkenni eftir núverandi
+  flokkun, svo eldri auðkenni eru líka leyst af hólmi. Handgerðar
+  undirtegundir (`%QQC01.001`) haldast.
+- Verkfærið snertir aðeins tegundir sem eru notaðar í líkaninu. Ónotaðar
+  tegundir halda því sem þær höfðu.
+- Ef sniðmátið hefur `CCIClassName[Type]` og `CCIClassCodeVersion[Type]`,
+  eins og skrá Molio, fyllir Flokka þau líka út: enska heiti flokksins og
+  útgáfu töflunnar (R1).
+
+## CCIClassification og IFC
+IFC export Revit les flokkunarreitinn sem `[Kerfi]Kóði:Lýsing`.
+Verkfærið skrifar `AD:Wall construction`: kóðann og enska heitið frá
+Molio. Heiti kerfisins kemur úr IFC Classification Settings („CCI
+Classification“) og klasinn hefur eigið eigindi, eins og IDS BIM Íslands
+gerir ráð fyrir. Eldri útgáfur verkfærisins skrifuðu `[L]AD`, sem Revit
+myndi flytja út sem flokkunarkerfi sem heitir „L“. Athuga merkir það snið
+og það lagast ef Flokka er keyrt aftur. Gildi eins og
+`[CCI][L]AD:Wall construction` úr öðrum verkfærum eru tekin gild.
+
+Property set skráin varpar CCI eigindunum sem `Text`, eins og í
+leiðbeiningum BIM Íslands. Þetta eru kóðar en ekki tölur, svo texti er
+réttur.
+
+## Athuga
+Auk villna sýnir Athuga **yfirlit flokkunar**: hvern flokk (category) og
+kóðana sem hann fékk, með heitum og fjölda. Þar sérðu ef eitthvað er
+rangt flokkað. Sjálf athugunin sannreynir snið og að kóðinn sé til í
+töflunni, ekki hvort hann sé rétti kóðinn fyrir hlutinn. Hlutum sem eiga
+ekki að fara í IFC er sleppt. Hlutir utan þróunarstigshópanna (generic
+models o.fl.) gefa aðeins viðvaranir.
+
 ## Shared parameter skrá
 Opinbera CCI shared parameter skrá Molio og IFC property set skráin eru
 verkfærapakkinn **C420 + C421** í áskriftinni *CAD og bygningsmodel* hjá
@@ -107,6 +151,10 @@ sömu eigindanöfn úr skrá sem verkfærið skrifar sjálft. Það þýðir:
   skiptir um eigindi og skrifar gildin aftur, allt í einu skrefi sem má
   afturkalla. Athuga segir hvaða skrá verkefnið notar. Fjölskyldur
   (families) sem hafa CCI eigindin innbyggð þarf að uppfæra sérstaklega.
+- **Ef líkan hefur þegar CCI eigindin** (t.d. úr sniðmáti stofunnar)
+  vistar **Eigindi > Vista skrá úr þessu verkefni** shared parameter skrá
+  með GUID þess verkefnis. Notaðu hana fyrir önnur verkefni og þá passa
+  öll verkefni við sniðmátið.
 - Ef skrá Molio stafar nafn öðruvísi í há-/lágstöfum (IDS skýrsla BIM
   Íslands skrifar `CCITopNode`, Revit leiðbeiningarnar `CCITopnode`)
   notar verkfærið þá stafsetningu sem er í verkefninu.

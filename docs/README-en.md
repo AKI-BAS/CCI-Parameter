@@ -80,6 +80,48 @@ if the active table is a different one.
 
 To make a .json table outside Revit: `python tools/build_table.py <xlsx…>`.
 
+## Models with old coding
+Many models already have CCI (or CCS) coding from an earlier tool or
+template. The *Now* column in Classify shows it.
+
+- **Replace old coding** puts the tool's suggestion in place of codes that
+  differ from it or are not in the CCI table. It works on the selected rows,
+  or on every row with old coding when nothing is selected. Nothing is
+  written until *Write to model*. Rows with old coding but no suggestion
+  are left for you to pick from the table.
+- **Also overwrite codes set on single elements**: normally the tool
+  leaves an instance value alone, because BIM Ísland lets instance values
+  override the type on purpose. Tick this to clear old codes on elements
+  as well.
+- **Number** rewrites type IDs and product IDs to the current class, so
+  old IDs are replaced too. Hand-made subtypes (`%QQC01.001`) are kept.
+- The tool only touches types that are placed in the model. Unused types
+  keep whatever they had.
+- Where the template has `CCIClassName[Type]` and
+  `CCIClassCodeVersion[Type]`, as Molio's file does, Classify fills those
+  as well: the English class name and the table edition (R1).
+
+## CCIClassification and IFC
+Revit's IFC exporter reads the classification field as
+`[System]Code:Description`. The tool writes `AD:Wall construction`: the
+code, then Molio's English name. The system name comes from IFC
+Classification Settings ("CCI Classification"), and the topnode has its own
+parameter, as BIM Ísland's IDS expects. Earlier versions of this tool wrote
+`[L]AD`, which Revit would export as a classification system called "L".
+Check flags that format, and running Classify again fixes it. Values like
+`[CCI][L]AD:Wall construction` from other tools are accepted.
+
+The property set file maps the CCI parameters as `Text`, as in BIM
+Ísland's guide. They are codes, not numbers, so text is correct.
+
+## Check
+Besides errors, Check prints a **classification overview**: each category
+and the codes it got, with names and counts. That is where you spot a
+wrong class. The check itself verifies format and that a code exists in
+the table, not that it is the right code for the element. Elements set not
+to export to IFC are skipped. Elements outside the LOD groups (generic
+models etc.) only give warnings.
+
 ## Shared parameter file
 Molio's official CCI shared parameter file and its IFC property set file
 are tool package **C420 + C421**, part of Molio's paid *CAD og
@@ -104,6 +146,10 @@ same parameter names from a file the tool writes itself. What that means:
   every value, swaps the parameters and writes the values back, all in
   one undoable step. Check says which file a project uses. Families that
   have the CCI parameters built in need updating separately.
+- **If a model already has the CCI parameters** (e.g. from the studio's
+  template), **Parameters > Save the file from this project** writes a
+  shared parameter file with that project's GUIDs. Use it for other
+  projects, and every project matches the template.
 - If Molio's file spells a name differently in upper/lower case (BIM
   Ísland's IDS report writes `CCITopNode`, the Revit guide
   `CCITopnode`), the tool uses whatever spelling the project has.

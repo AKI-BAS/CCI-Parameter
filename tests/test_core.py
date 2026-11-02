@@ -61,7 +61,16 @@ def test_builders():
     assert formats.single_id("UAC", 593) == "#UAC593"
     assert formats.location_id(1, "01", 1) == "B01.01.001"
     assert formats.location_at_id(3, "K1", 51) == "+B03.K1.051"
-    assert formats.classification("L", "AD") == "[L]AD"
+    assert formats.classification("AD") == "AD"
+    assert formats.classification("ad", "Wall construction") == \
+        "AD:Wall construction"
+    assert formats.classification("UAC", "a:b") == "UAC:a b"
+    assert formats.code_of_classification("[CCI][L]AD:Wall construction") \
+        == "AD"
+    assert formats.classification_prefix("[L]AD") == "L"
+    assert formats.classification_prefix("AD:x") is None
+    assert formats.check_classification("[CCI][L]AD:Wall") is None
+    assert formats.check_classification("ad") == "fmt.classification"
     with pytest.raises(ValueError):
         formats.type_id("QQ1", 1)
     with pytest.raises(ValueError):
@@ -252,7 +261,7 @@ def test_checker_missing_and_ok():
     issues = checker.check([_rec()], s)
     assert sorted(i.key for i in issues) == ["chk.missing", "chk.missing"]
     ok = _rec(values={"class_t": "QQC", "type_id_t": "%QQC001",
-                      "topnode_t": "[L]", "classification_t": "[L]QQC"})
+                      "topnode_t": "[L]", "classification_t": "QQC:Door"})
     assert checker.check([ok], s) == []
 
 
@@ -287,7 +296,7 @@ def test_checker_skips_what_cant_apply():
     s = settings.merged({"scopes": ["operations", "location_id"]})
     wall = _rec(category="OST_Walls", group="light_walls", has_point=False,
                 values={"class_t": "AD", "topnode_t": "[L]",
-                        "classification_t": "[L]AD"})
+                        "classification_t": "AD"})
     assert checker.check([wall], s) == []
     door = _rec(has_point=True, values={"class_t": "QQC", "topnode_t": "[L]"})
     keys = sorted(i.params["param"] for i in checker.check([door], s))
@@ -316,3 +325,32 @@ def test_ifc_file():
     # instance line comes after the type line so it wins
     assert lines.index("\tCCIClassCode\tText\tCCIClassCode") > \
         lines.index("\tCCIClassCode\tText\tCCIClassCode[Type]")
+
+
+def test_checker_classification_format():
+    s = settings.merged({"scopes": ["coordination"]})
+    base = {"class_t": "QQC", "type_id_t": "%QQC001", "topnode_t": "[L]"}
+    keys = lambda v: [i.key for i in checker.check(  # noqa: E731
+        [_rec(values=dict(base, classification_t=v))], s)]
+    assert keys("QQC:Door") == []
+    assert keys("[CCI][L]QQC:Door") == []        # Revit-style, other tool
+    assert keys("[L]QQC") == ["chk.classification_topnode"]
+    assert keys("QQA:Window") == ["chk.classification_mismatch"]
+
+
+def test_checker_softer_outside_lod_groups_and_ifc_skip():
+    s = settings.merged({"scopes": ["coordination"]})
+    generic = _rec(category="OST_GenericModel", group=None)
+    assert {i.severity for i in checker.check([generic], s)} == {"warning"}
+    hidden = _rec(exported=False)
+    assert checker.check([hidden], s) == []
+
+
+def test_overview():
+    recs = [_rec(id="1", type_uid="a", cat_name="Doors",
+                 values={"class_t": "QQC"}),
+            _rec(id="2", type_uid="a", cat_name="Doors",
+                 values={"class_t": "QQC"}),
+            _rec(id="3", type_uid="b", cat_name="Doors", values={})]
+    assert checker.overview(recs) == [("Doors", "", "", 1, 1),
+                                      ("Doors", "QQC", "", 1, 2)]

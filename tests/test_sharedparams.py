@@ -18,7 +18,7 @@ def test_file_is_stable_and_complete(tmp_path):
     a = sharedparams.file_text()
     assert a == sharedparams.file_text()
     params = sharedparams.parse(a)
-    assert set(params) == set(formats.PARAM.values())
+    assert set(params) == set(formats.PARAM[k] for k in sharedparams.KEYS)
     assert params["CCITopnode[Type]"]["datatype"] == "TEXT"
     assert params["CCIClassCode"]["guid"] == str(
         sharedparams.guid_for("CCIClassCode"))

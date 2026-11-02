@@ -87,7 +87,7 @@ def test_full_workflow(model):
     run("classify")
     assert val(model["door_t"], "class_t") == "QQC"
     assert val(model["door_t"], "topnode_t") == "[L]"
-    assert val(model["door_t"], "classification_t") == "[L]QQC"
+    assert val(model["door_t"], "classification_t") == "QQC:Door"
     assert val(model["doors"][0], "class") == "QQC"       # copied
     assert val(model["wall_t"], "class_t") == "AD"
     assert val(model["room"], "class") == "AAB"            # "Stofa"
@@ -253,3 +253,38 @@ def test_names_export_import(model, monkeypatch, tmp_path):
     table = util.store().load_table()
     assert table.name("BAA", "is", "[L]") == "Spennuspennir"
     assert table.name_status("QQA", "[L]") == "reviewed"
+
+
+def test_old_coding_is_replaced(model, monkeypatch):
+    """A model with old coding: wrong code on the type, an old code on a
+    single element and an old CCIClassification format. 'Replace old
+    coding' + 'overwrite single elements' cleans all of it."""
+    door_t, d0 = model["door_t"], model["doors"][0]
+    door_t.LookupParameter("CCIClassCode[Type]").Set("QQX")      # not in table
+    door_t.LookupParameter("CCIClassification[Type]").Set(
+        "[CCI][L]QQX:Old door")
+    d0.LookupParameter("CCIClassCode").Set("QQB")                # on element
+
+    def write_click(self, sender, args):
+        self.replace_click(None, None)
+        self.reset_inst_cb.IsChecked = True
+        self.reset_instances = True
+        self.ok = True
+
+    path = os.path.join(SRC, "buttons", "classify", "script.py")
+    src = open(path, encoding="utf-8").read()
+    src = src.replace("    def write_click(self, sender, args):",
+                      "    def _orig_write_click(self, sender, args):")
+    src = src.replace("class ClassifyWindow(forms.WPFWindow):",
+                      "class ClassifyWindow(forms.WPFWindow):\n"
+                      "    write_click = _TEST_WRITE_CLICK")
+    code = compile(src, path, "exec")
+    try:
+        exec(code, {"__name__": "__main__", "__file__": path,
+                    "_TEST_WRITE_CLICK": write_click})
+    except SystemExit:
+        pass
+    assert val(door_t, "class_t") == "QQC"
+    assert val(door_t, "classification_t") == "QQC:Door"
+    assert val(d0, "class") == "QQC"                  # element override reset
+    assert any("rows changed" in a for a in fr.STATE["alerts"])

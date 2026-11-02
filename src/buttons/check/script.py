@@ -31,6 +31,8 @@ def records():
                "category": cat, "kind": kind, "group": group,
                "type_uid": etype.UniqueId if etype is not None else None,
                "has_point": util.point_of(e) is not None,
+               "cat_name": e.Category.Name if e.Category else "",
+               "exported": util.exported_to_ifc(e, etype),
                "bound": [], "values": {}}
         for key in ALL_KEYS:
             src = etype if key.endswith("_t") else e
@@ -94,6 +96,23 @@ for (sev, key), items in sorted(by_key.items(),
                                    t("col.problem")])
     if len(items) > MAX_ROWS:
         out.print_md(t("check.more", n=len(items) - MAX_ROWS))
+
+skipped = sum(1 for r in recs if r["exported"] is False)
+if skipped:
+    out.print_md(t("check.skipped_ifc", n=skipped))
+
+out.print_md("### " + t("check.overview"))
+out.print_md(t("check.overview_d"))
+LANG = ui.lang()
+tops = {"element": settings["topnode_elements"],
+        "system": settings["topnode_elements"],
+        "space": settings["topnode_spaces"]}
+out.print_table(
+    [[cat, code or "-", name or ("" if code else t("check.unclassified")),
+      types, n] for cat, code, name, types, n in
+     checker.overview(recs, table, LANG, tops)],
+    columns=[t("col.category"), t("col.code"), t("col.name"),
+             t("col.types"), t("col.count")])
 
 if not issues:
     out.print_md("**" + t("check.all_ok") + "**")

@@ -42,18 +42,29 @@ DESCRIPTIONS = {
 }
 
 KEYS = list(formats.REQUIRED_PARAMS) + list(formats.OPTIONAL_PARAMS)
+OWN_HEADER = ["# CCI parameters written by CCI-tools (BIM Ísland names). Same",
+              "# GUIDs in every copy of the tool. Not Molio's C420 file."]
 
 
 def guid_for(name):
     return uuid.uuid5(NAMESPACE, "cci-tools:" + name)
 
 
-def file_text():
+def own_entries():
+    return [(formats.PARAM[k], guid_for(formats.PARAM[k]), "TEXT",
+             DESCRIPTIONS[k]) for k in KEYS]
+
+
+def file_text(entries=None, header=None):
+    """Shared parameter file text. entries: [(name, guid, datatype,
+    description)]; default: the tool's own CCI parameters."""
+    if entries is None:
+        entries = own_entries()
+        header = OWN_HEADER if header is None else header
     lines = [
         "# This is a Revit shared parameter file.",
         "# Do not edit manually.",
-        "# CCI parameters written by CCI-tools (BIM Ísland names). Same",
-        "# GUIDs in every copy of the tool. Not Molio's C420 file.",
+    ] + list(header or []) + [
         "*META\tVERSION\tMINVERSION",
         "META\t2\t1",
         "*GROUP\tID\tNAME",
@@ -61,17 +72,16 @@ def file_text():
         "*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\t"
         "DESCRIPTION\tUSERMODIFIABLE\tHIDEWHENNOEXPRESSION",
     ]
-    for key in KEYS:
-        name = formats.PARAM[key]
-        lines.append("PARAM\t%s\t%s\tTEXT\t\t1\t1\t%s\t1\t0" % (
-            guid_for(name), name, DESCRIPTIONS[key]))
+    for name, guid, datatype, desc in entries:
+        lines.append("PARAM\t%s\t%s\t%s\t\t1\t1\t%s\t1\t0" % (
+            guid, name, datatype, (desc or "").replace("\t", " ")))
     return "\r\n".join(lines) + "\r\n"
 
 
-def write_file(path):
+def write_file(path, entries=None, header=None):
     """Revit reads and writes these files as UTF-16 LE with a BOM."""
     with io.open(path, "w", encoding="utf-16", newline="") as f:
-        f.write(file_text())
+        f.write(file_text(entries, header))
     return path
 
 
