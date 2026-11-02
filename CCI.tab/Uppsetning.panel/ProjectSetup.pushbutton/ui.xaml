@@ -1,0 +1,182 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="720" Height="640" MinWidth="620" MinHeight="520"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        ResizeMode="CanResizeWithGrip" FontSize="13">
+  <DockPanel Margin="12">
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                HorizontalAlignment="Right" Margin="0,10,0,0">
+      <Button x:Name="save_b" MinWidth="110" Padding="10,4" Margin="0,0,8,0"
+              IsDefault="True" Click="save_click"/>
+      <Button x:Name="cancel_b" MinWidth="90" Padding="10,4"
+              IsCancel="True"/>
+    </StackPanel>
+    <TabControl>
+      <!-- Scope -->
+      <TabItem x:Name="tab_scope">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="10">
+            <TextBlock x:Name="scope_intro" TextWrapping="Wrap"
+                       Margin="0,0,0,10"/>
+            <CheckBox x:Name="sc_coordination" Margin="0,4"/>
+            <TextBlock x:Name="sc_coordination_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+            <CheckBox x:Name="sc_systems" Margin="0,4"/>
+            <TextBlock x:Name="sc_systems_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+            <CheckBox x:Name="sc_operations" Margin="0,4"/>
+            <TextBlock x:Name="sc_operations_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+            <TextBlock x:Name="scope_other" FontWeight="SemiBold"
+                       Margin="0,10,0,4"/>
+            <CheckBox x:Name="sc_product_id" Margin="0,4"/>
+            <TextBlock x:Name="sc_product_id_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+            <CheckBox x:Name="sc_location_id" Margin="0,4"/>
+            <TextBlock x:Name="sc_location_id_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+
+      <!-- Levels and rooms -->
+      <TabItem x:Name="tab_levels">
+        <DockPanel Margin="10">
+          <StackPanel DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+              <TextBlock x:Name="building_l" Width="200"
+                         VerticalAlignment="Center"/>
+              <TextBox x:Name="building_tb" Width="60"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+              <TextBlock x:Name="ground_l" Width="200"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="ground_cb" Width="220"/>
+              <Button x:Name="suggest_b" Margin="8,0,0,0" Padding="8,2"
+                      Click="suggest_click"/>
+            </StackPanel>
+            <TextBlock x:Name="levels_help" Foreground="Gray"
+                       TextWrapping="Wrap" Margin="0,0,0,6"/>
+          </StackPanel>
+          <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+              <TextBlock x:Name="roomnum_l" Width="200"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="roomnum_cb" Width="320"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock x:Name="doorroom_l" Width="200"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="doorroom_cb" Width="320"/>
+            </StackPanel>
+          </StackPanel>
+          <DataGrid x:Name="levels_dg" AutoGenerateColumns="False"
+                    CanUserAddRows="False" CanUserDeleteRows="False"
+                    HeadersVisibility="Column" SelectionMode="Single">
+            <DataGrid.Columns>
+              <DataGridTextColumn x:Name="col_lvl_name"
+                  Binding="{Binding name}" IsReadOnly="True" Width="*"/>
+              <DataGridTextColumn x:Name="col_lvl_elev"
+                  Binding="{Binding elevation}" IsReadOnly="True"
+                  Width="100"/>
+              <DataGridTextColumn x:Name="col_lvl_code"
+                  Binding="{Binding code, UpdateSourceTrigger=PropertyChanged}"
+                  Width="100"/>
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- LOD -->
+      <TabItem x:Name="tab_lod">
+        <DockPanel Margin="10">
+          <StackPanel DockPanel.Dock="Top">
+            <TextBlock x:Name="lod_help" TextWrapping="Wrap"
+                       Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+              <TextBlock x:Name="lod_default_l" Width="200"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="lod_default_cb" Width="100"/>
+              <Button x:Name="lod_all_b" Margin="8,0,0,0" Padding="8,2"
+                      Click="lod_all_click"/>
+            </StackPanel>
+          </StackPanel>
+          <DataGrid x:Name="lod_dg" AutoGenerateColumns="False"
+                    CanUserAddRows="False" CanUserDeleteRows="False"
+                    HeadersVisibility="Column" SelectionMode="Single">
+            <DataGrid.Columns>
+              <DataGridTextColumn x:Name="col_lod_group"
+                  Binding="{Binding name}" IsReadOnly="True" Width="*"/>
+              <DataGridTemplateColumn x:Name="col_lod_value" Width="120">
+                <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                    <ComboBox ItemsSource="{Binding options}"
+                        SelectedItem="{Binding lod, UpdateSourceTrigger=PropertyChanged}"/>
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+              </DataGridTemplateColumn>
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <!-- Codes and IFC -->
+      <TabItem x:Name="tab_codes">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+              <TextBlock x:Name="tn_el_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="tn_el_cb" Width="320"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+              <TextBlock x:Name="tn_sp_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="tn_sp_cb" Width="320"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+              <TextBlock x:Name="pad_type_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="pad_type_cb" Width="120"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+              <TextBlock x:Name="pad_single_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="pad_single_cb" Width="120"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+              <TextBlock x:Name="mlnum_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <ComboBox x:Name="mlnum_cb" Width="320"/>
+            </StackPanel>
+            <CheckBox x:Name="write_topnode_cb" Margin="0,3"/>
+            <CheckBox x:Name="write_cls_cb" Margin="0,3"/>
+            <CheckBox x:Name="cls_tn_cb" Margin="20,3,0,3"/>
+            <CheckBox x:Name="copy_inst_cb" Margin="0,3"/>
+            <TextBlock x:Name="copy_inst_d" Margin="22,0,0,10"
+                       Foreground="Gray" TextWrapping="Wrap"/>
+            <TextBlock x:Name="ifc_h" FontWeight="SemiBold"
+                       Margin="0,6,0,6"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+              <TextBlock x:Name="ifc_edition_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <TextBox x:Name="ifc_edition_tb" Width="120"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+              <TextBlock x:Name="ifc_date_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <TextBox x:Name="ifc_date_tb" Width="120"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+              <TextBlock x:Name="ifc_loc_l" Width="260"
+                         VerticalAlignment="Center"/>
+              <TextBox x:Name="ifc_loc_tb" Width="320"/>
+            </StackPanel>
+            <TextBlock x:Name="ifc_d" Foreground="Gray" TextWrapping="Wrap"
+                       Margin="0,4,0,0"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
