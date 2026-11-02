@@ -310,3 +310,16 @@ def has_subtype(value, class_code):
     m = _TYPE_RE.match(value) or _ML_TYPE_RE.match(value)
     return bool(m and m.group(m.lastindex) and
                 m.group(m.lastindex).startswith("."))
+
+
+LEFTOVER_PREFIXES = ("CCI", "CCS")
+
+
+def is_leftover(name):
+    """A CCI/CCS parameter that is not one the tool knows: not in BIM
+    Ísland's list, not CCIClassification, not Molio's CCIClassName /
+    CCIClassCodeVersion. E.g. CCITypeID_Type or old CCS* parameters."""
+    if not name or not name.upper().startswith(LEFTOVER_PREFIXES):
+        return False
+    known = set(n.lower() for n in PARAM.values())
+    return name.lower() not in known

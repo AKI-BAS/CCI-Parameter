@@ -122,6 +122,13 @@ the table, not that it is the right code for the element. Elements set not
 to export to IFC are skipped. Elements outside the LOD groups (generic
 models etc.) only give warnings.
 
+Check also lists **older CCI/CCS parameters** in the project that are
+not on BIM Ísland's list and that the tool doesn't use, such as
+`CCITypeID_Type`, `CCITypeName_Type` or old `CCS*` parameters. For each it
+shows whether it's a type or instance parameter, how many elements have a
+value, and which schedules use it. Unused ones can usually be removed in
+Manage > Project Parameters.
+
 ## Shared parameter file
 Molio's official CCI shared parameter file and its IFC property set file
 are tool package **C420 + C421**, part of Molio's paid *CAD og
