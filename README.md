@@ -49,11 +49,3 @@ them straight from this repo (pick one, not both):
 pyrevit extend ui CCI-IS https://github.com/AKI-BAS/CCI-Parameter.git --branch=cci-is --dest="C:\pyRevit-ext" --username=<github user> --password=<token>
 pyrevit extend ui CCI-EN https://github.com/AKI-BAS/CCI-Parameter.git --branch=cci-en --dest="C:\pyRevit-ext" --username=<github user> --password=<token>
 ```
-
-Update later with `pyrevit extensions update CCI-IS`.
-
-To publish a change: edit `src/`, run `python -m pytest tests` and
-`python build.py`, then copy `dist/CCI-IS.extension/*` to the `cci-is`
-branch and `dist/CCI-EN.extension/*` to the `cci-en` branch.
-
-Keep this repository private: it includes Molio's CCI tables.
