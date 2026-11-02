@@ -20,7 +20,7 @@ GROUPS = [
     ("railings", ["OST_StairsRailing", "OST_Railings"]),
     ("roofs", ["OST_Roofs"]),
     ("casework", ["OST_Casework"]),
-    ("spaces", ["OST_Rooms", "OST_MEPSpaces", "OST_Areas"]),
+    ("spaces", ["OST_Rooms", "OST_MEPSpaces"]),
     ("foundations", ["OST_StructuralFoundation"]),
     ("concrete_walls", []),
     ("concrete_columns", ["OST_StructuralColumns"]),

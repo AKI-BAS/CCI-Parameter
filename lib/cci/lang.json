@@ -66,7 +66,7 @@
   "setup.mlnum.instance": "Running number per element",
   "setup.write_topnode": "Write the domain to CCITopnode, e.g. [L]",
   "setup.write_cls": "Fill CCIClassification (read by the IFC export)",
-  "setup.cls_tn": "With the domain first, e.g. [L]AD",
+  "setup.cls_tn": "With the class name, e.g. AD:Wall construction",
   "setup.copy_inst": "Copy type values onto instance parameters",
   "setup.copy_inst_d": "Instance values always win over type values. Values someone changed on a single element are left alone; only empty values and old copies are updated.",
   "setup.ifc_h": "IFC Classification Settings",
@@ -149,7 +149,7 @@
   "fmt.location_plus": "BIM Ísland recommends not using the + prefix in space information",
   "fmt.location_at_prefix": "location ID starts with +, e.g. +B01.01.001",
   "fmt.level_code": "storey code must be 01, K1, M2 etc. ({name}: \"{value}\")",
-  "fmt.classification": "CCIClassification in the form [L]XXX or XXX",
+  "fmt.classification": "CCIClassification in the form AD or AD:Name",
 
   "loc.no_level_code": "the level has no code in Project setup",
   "loc.bad_level_code": "the level's code in Project setup is not valid (01, K1, M2)",
@@ -180,7 +180,7 @@
   "params.no_classification": "CCIClassification is not in the file. The IFC export uses it as the Classification field name; without it the CCI classification is not exported as an IfcClassificationReference.",
 
   "classify.title": "CCI classification",
-  "classify.intro": "One row per type (and per room name). Edit the Class column or pick from the table. Source: Guidelines = code from BIM Ísland's/Molio's guides, Suggestion = the tool's suggestion, Studio = a studio rule. Tick Remember to save the classification as a rule. Unticked rows are not written.",
+  "classify.intro": "One row per type (and per room name). The Now column shows coding already in the model, e.g. old coding. Replace old coding puts the tool's suggestion in its place (selected rows, or all rows with old coding). Source: Guidelines = BIM Ísland/Molio, Suggestion = the tool, Studio = a studio rule. Tick Remember to save a classification as a rule. Unticked rows are not written.",
   "classify.intro_sel": "Only the types of the selected elements. Edit the Class column where needed. Unticked rows are not written.",
   "classify.search": "Search",
   "classify.only_missing": "Unclassified only",
@@ -198,7 +198,7 @@
   "classify.pending": "(no code yet)",
   "classify.bad_code": "invalid code",
   "classify.not_in_table": "not in table",
-  "classify.status": "{done} of {total} rows classified",
+  "classify.status": "{done} of {total} rows classified · {old} with old or other coding",
   "classify.fix_codes": "Fix these codes first (class 1-3 capital letters, U one letter, VV two):",
   "classify.done": "Classification written on {types} types and {spaces} rooms.\n\nRun Number to update the type IDs.",
   "classify.not_bound": "{n} types/rooms are missing CCI parameters and were skipped. Run Parameters.",
@@ -360,5 +360,24 @@
   "params.values": "{n} values carried over",
   "tx.params_migrate": "CCI: move parameters to Molio's file",
   "check.params_tool": "The CCI parameters come from CCI-tools' file, not Molio's (C420). Fine for IFC deliveries; move the project over when you get Molio's file (Parameters button).",
-  "check.params_mixed": "Some CCI parameters come from CCI-tools' file and others from another file. Run Parameters with Molio's file to align them."
+  "check.params_mixed": "Some CCI parameters come from CCI-tools' file and others from another file. Run Parameters with Molio's file to align them.",
+
+  "chk.classification_topnode": "CCIClassification = \"{value}\": Revit's IFC export reads the first [ ] as the name of the classification system, so this becomes a system called \"L\". Run Classify again to fix it.",
+  "chk.classification_topnode.h": "CCIClassification starts with a topnode",
+  "check.skipped_ifc": "{n} elements set not to export to IFC (Export to IFC = Don't Export) were skipped.",
+  "check.overview": "Classification overview",
+  "check.overview_d": "What each category was classified as. Review this: if a wall were marked as a window, it would show here. Check verifies format and that the code exists in the table, not whether it is the right code for the element.",
+  "check.unclassified": "(unclassified)",
+  "col.category": "Category",
+  "col.types": "Types",
+  "params.opt_export_project": "Save the file from this project (the parameters it already has)",
+  "params.no_project_params": "No CCI shared parameters found in this project.",
+  "params.exported_project": "{n} CCI parameters saved with the same GUIDs as in the project:\n{path}\n\n{names}\n\n{source}\n\nUse this file with Parameters > Molio's shared parameter file in other projects, so every project in the studio uses the same parameters.",
+  "params.src_tool": "These are the tool's GUIDs.",
+  "params.src_other": "These GUIDs are not the tool's; they come from the studio's template, probably Molio's file.",
+
+  "classify.only_old": "Old/other coding only",
+  "classify.replace_old": "Replace old coding",
+  "classify.reset_instances": "Also overwrite codes set on single elements",
+  "classify.replaced": "{n} rows changed to the tool's suggestion.\n\n{left} rows with old coding have no suggestion; pick a code by hand or from the table.\n\nNothing is written until you click Write to model."
 }

@@ -1373,8 +1373,7 @@
    "id": "spaces",
    "category": [
     "OST_Rooms",
-    "OST_MEPSpaces",
-    "OST_Areas"
+    "OST_MEPSpaces"
    ],
    "class": null,
    "note": "Enginn sjálfgefinn kóði / no default code"

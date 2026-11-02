@@ -24,7 +24,7 @@ DEFAULTS = {
     "topnode_spaces": "B",
     "write_topnode": True,
     "write_classification": True,  # CCIClassification, used by IFC export
-    "classification_with_topnode": True,   # [L]AD vs AD
+    "classification_desc": True,   # AD:Wall construction vs AD
     "copy_to_instance": True,      # copy type values onto instances
     "table_id": None,              # CCI table used when last classified
     "ifc": {

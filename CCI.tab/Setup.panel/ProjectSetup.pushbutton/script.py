@@ -160,7 +160,7 @@ class SetupWindow(forms.WPFWindow):
                     s["ml_number"])
         self.write_topnode_cb.IsChecked = s["write_topnode"]
         self.write_cls_cb.IsChecked = s["write_classification"]
-        self.cls_tn_cb.IsChecked = s["classification_with_topnode"]
+        self.cls_tn_cb.IsChecked = s["classification_desc"]
         self.copy_inst_cb.IsChecked = s["copy_to_instance"]
         self.ifc_edition_tb.Text = s["ifc"]["edition"]
         self.ifc_date_tb.Text = s["ifc"]["edition_date"]
@@ -214,7 +214,7 @@ class SetupWindow(forms.WPFWindow):
         s["ml_number"] = self._picked(self.mlnum_cb)
         s["write_topnode"] = bool(self.write_topnode_cb.IsChecked)
         s["write_classification"] = bool(self.write_cls_cb.IsChecked)
-        s["classification_with_topnode"] = bool(self.cls_tn_cb.IsChecked)
+        s["classification_desc"] = bool(self.cls_tn_cb.IsChecked)
         s["copy_to_instance"] = bool(self.copy_inst_cb.IsChecked)
         ifc = dict(self.s["ifc"])
         ifc["edition"] = self.ifc_edition_tb.Text.strip()
