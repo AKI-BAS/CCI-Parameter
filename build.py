@@ -38,6 +38,14 @@ PANELS = [
     ]),
 ]
 LANGS = {"is": "CCI-IS", "en": "CCI-EN"}
+AUTHOR = "Aki Olafs"
+REPO = "https://github.com/AKI-BAS/CCI-Parameter"
+DESCRIPTION = {
+    "is": "CCI flokkun í Revit samkvæmt leiðbeiningum BIM Íslands "
+          "(Molio CCI): flokkun, auðkenni, staðsetning, athugun og IFC.",
+    "en": "CCI classification in Revit following BIM Ísland's guidelines "
+          "(Molio CCI): classify, IDs, locations, checks and IFC.",
+}
 TAB = "CCI"
 
 
@@ -94,6 +102,16 @@ def build(lang):
     shutil.copytree(os.path.join(SRC, "data"), os.path.join(ext, "data"))
     shutil.copy(os.path.join(ROOT, "docs", "README-%s.md" % lang),
                 os.path.join(ext, "README.md"))
+    # shown in pyRevit's Extensions window ("Developed by")
+    write(os.path.join(ext, "extension.json"), json.dumps({
+        "type": "extension",
+        "name": LANGS[lang],
+        "description": DESCRIPTION[lang],
+        "author": AUTHOR,
+        "author_profile": "https://github.com/AKI-BAS",
+        "url": REPO + ".git",
+        "website": REPO,
+    }, ensure_ascii=False, indent=2) + "\n")
 
     tab = os.path.join(ext, TAB + ".tab")
     os.makedirs(tab)
@@ -113,7 +131,7 @@ def build(lang):
                   "title: %s\ntooltip: %s\nauthor: %s\n" % (
                       q(text["btn.%s.title" % src_name]),
                       q(text["btn.%s.tip" % src_name]),
-                      q("Sveinn Aki Olafs")))
+                      q(AUTHOR)))
             icon(os.path.join(btn, "icon.png"), glyph, colour)
     return ext
 

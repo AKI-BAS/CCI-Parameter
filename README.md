@@ -42,10 +42,57 @@ differ).
 
 ## Install in pyRevit
 
-The built extensions live on their own branches, so pyRevit can install
-them straight from this repo (pick one, not both):
+There are two versions of the extension. Install **one** of them:
 
+| Version   | Language  | Branch   |
+|-----------|-----------|----------|
+| CCI-IS    | Icelandic | `cci-is` |
+| CCI-EN    | English   | `cci-en` |
+
+### Option 1: Download (simplest, no git needed)
+
+1. On this page, open the branch menu (top left, says `main`) and pick
+   `cci-is`.
+2. Click **Code → Download ZIP**.
+3. Unzip it and rename the folder to `CCI-IS.extension` (the name must
+   end in `.extension`).
+4. Open File Explorer, paste `%APPDATA%\pyRevit\Extensions` into the
+   address bar, and move the folder there.
+5. In Revit: **pyRevit tab → Reload**. A **CCI** tab appears.
+
+To update: download again and replace the folder.
+
+### Option 2: pyRevit command line (easy updates)
+
+Open PowerShell and run (one command, two lines):
+
+```powershell
+pyrevit extend ui CCI-IS https://github.com/AKI-BAS/CCI-Parameter.git `
+  --branch=cci-is --username=AKI-BAS --password=YOUR-TOKEN
 ```
-pyrevit extend ui CCI-IS https://github.com/AKI-BAS/CCI-Parameter.git --branch=cci-is --dest="C:\pyRevit-ext" --username=<github user> --password=<token>
-pyrevit extend ui CCI-EN https://github.com/AKI-BAS/CCI-Parameter.git --branch=cci-en --dest="C:\pyRevit-ext" --username=<github user> --password=<token>
+
+- `CCI-IS` is the name the extension gets in pyRevit.
+- `--branch=cci-is` picks the Icelandic version. Use `cci-en` for English.
+- The repository is private, so pyRevit needs your GitHub username and a
+  token (GitHub → Settings → Developer settings → Personal access tokens,
+  read-only access to this repository).
+- It installs into pyRevit's own Extensions folder. Then **pyRevit tab →
+  Reload**.
+
+To update later:
+
+```powershell
+pyrevit extensions update CCI-IS
 ```
+
+If a `CCI-IS.extension` folder is already in `%APPDATA%\pyRevit\Extensions`
+(e.g. copied there by hand), delete it first, or pyRevit will show the
+tab twice.
+
+### For developers: making a new version
+
+Edit `src/`, then run `python -m pytest tests` and `python build.py`.
+Copy `dist/CCI-IS.extension/*` to the `cci-is` branch and
+`dist/CCI-EN.extension/*` to the `cci-en` branch, and commit.
+
+Keep this repository private: it includes Molio's CCI tables.
