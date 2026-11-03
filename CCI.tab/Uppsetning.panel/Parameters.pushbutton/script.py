@@ -89,8 +89,13 @@ with ui.Tx(doc, "tx.params"):
 moved = None
 if report["other_file"] and mode == "molio":
     if ui.confirm("params.migrate_ask", n=len(report["other_file"])):
-        with ui.Tx(doc, "tx.params_migrate"):
-            moved = params.migrate(doc, defs, report["other_file"])
+        try:
+            with ui.Tx(doc, "tx.params_migrate"):
+                moved = params.migrate(doc, defs, report["other_file"])
+        except params.MigrationError as ex:
+            # the transaction was rolled back: the project is as it was
+            moved = {"moved": [], "failed": [
+                ("-", t("params.migrate_rolled_back", error="%s" % ex))]}
 
 util.use_project_names(doc)
 

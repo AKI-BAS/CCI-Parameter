@@ -34,7 +34,6 @@ class Row(forms.Reactive):
         self.type_name = type_name
         self.elements = elements
         self.etype = etype
-        self.count = len(elements)
         self.topnode = result.topnode
         self.rule = result
         self.current = current or ""
@@ -59,6 +58,15 @@ class Row(forms.Reactive):
         self._u = result.u or ""
         self._vv = result.vv or ""
         self.inst_codes = set()     # other codes set on single elements
+
+    @property
+    def instance_only(self):
+        """Rooms, and elements without a type: values go on the elements."""
+        return self.kind == "space" or self.etype is None
+
+    @property
+    def count(self):
+        return len(self.elements)
 
     @property
     def outdated(self):
@@ -159,13 +167,19 @@ def collect():
         else:
             etype = util.element_type(doc, e)
             if etype is None:
-                continue
-            key = etype.UniqueId
+                # shaft openings and other elements without a type: one
+                # row per category, written on the elements themselves
+                key = "notype|%s" % cat
+            else:
+                key = etype.UniqueId
         row = rows.get(key)
         if row is None:
             res = ruleset.classify(util.facts(doc, e, etype), kind)
             if kind == "space":
                 name = room_name
+                current = util.get_key(e, "class") or ""
+            elif etype is None:
+                name = e.Category.Name
                 current = util.get_key(e, "class") or ""
             else:
                 name = "%s : %s" % (util.family_name(etype),
@@ -174,16 +188,17 @@ def collect():
             rows[key] = Row(key, kind, e.Category.Name, name, [e], etype,
                             res, current, cat,
                             util.family_name(etype) if etype else "",
-                            util.type_name(etype) if etype else room_name)
+                            util.type_name(etype) if etype else
+                            (room_name if kind == "space" else ""))
         else:
             row.elements.append(e)
-            if kind == "space":
+            if row.instance_only:
                 cur = util.get_key(e, "class") or ""
                 if cur != row.current:
                     row.current = "*"
     out = list(rows.values())
     for r in out:
-        if r.kind == "space":
+        if r.instance_only:
             continue
         for e in r.elements:
             v = util.get_key(e, "class") or ""
@@ -328,7 +343,7 @@ def write(rows, reset_instances=False):
         # filled only where the template has these parameters
         extra = {"class_name": en_name,
                  "class_version": table.data.get("edition", "")}
-        if r.kind == "space":
+        if r.instance_only:
             for room in r.elements:
                 if not util.has_key(room, "class"):
                     stats["not_bound"] += 1
@@ -341,7 +356,10 @@ def write(rows, reset_instances=False):
                 for k, v in extra.items():
                     if v and util.has_key(room, k):
                         util.set_key(room, k, v)
-                stats["spaces"] += 1
+                if r.kind == "space":
+                    stats["spaces"] += 1
+                else:
+                    stats["types"] += 1
             continue
         etype = r.etype
         if not util.has_key(etype, "class_t"):
@@ -391,12 +409,13 @@ def remember(rows):
     for r in rows:
         if not (r.include and r.remember and r.code):
             continue
-        match = {"type": r.type_name}
-        if r.kind != "space":
-            match["family"] = r.family
         rule = {"id": "studio:%s:%s:%s" % (r.bic, r.family, r.type_name),
-                "category": [r.bic], "match": match, "class": r.code,
-                "note": "Classify"}
+                "category": [r.bic], "class": r.code, "note": "Classify"}
+        if r.kind == "space":
+            rule["match"] = {"type": r.type_name}
+        elif r.etype is not None:
+            rule["match"] = {"family": r.family, "type": r.type_name}
+        # no type: the rule covers the whole category
         if r.u and r.vv:
             rule["u"], rule["vv"] = r.u, r.vv
         st.add_rule(rule)

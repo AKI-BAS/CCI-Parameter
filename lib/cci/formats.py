@@ -62,8 +62,11 @@ _ML_TYPE_RE = re.compile(
     r"^(\[[A-Z]\])?§([A-Z])\.([A-Z]{2})\.([A-Z]{3})(\d{1,3})(\.\d{1,3})?$")
 _SINGLE_RE = re.compile(r"^(\[[A-Z]\])?#([A-Z]{1,3})(\d{1,4})$")
 # =Ukk[.VVmm][.WWnn].XXXppp - the feeding system (VVmm) may be left out.
+# kk/mm are two digits in BIM Ísland's detailed section (=H01.HD02.EGC001)
+# but three in its summary table (=H201.HD002.EPC001); both are accepted.
 _FUNC_RE = re.compile(
-    r"^(\[[A-Z]\])?=([A-Z])(\d{2})(\.[A-Z]{2}\d{2}){0,2}\.([A-Z]{3})(\d{3})$")
+    r"^(\[[A-Z]\])?=([A-Z])(\d{2,3})(\.[A-Z]{2}\d{2,3}){0,2}\.([A-Z]{3})"
+    r"(\d{3})$")
 
 
 def _pad(n, width):
@@ -231,6 +234,12 @@ def check_location_id(value):
         # BIM Ísland: do not use the + prefix on room numbers.
         return "fmt.location_plus"
     return None if _LOC_RE.match(value) else "fmt.location_id"
+
+
+def parse_location(value):
+    """'B01.K1.007' (or '+B01.K1.007') -> ('01', 'K1', '007'), else None."""
+    m = _LOC_RE.match((value or "").lstrip("+"))
+    return m.groups() if m else None
 
 
 def check_location_at_id(value):

@@ -61,19 +61,49 @@ def room_number(raw, mode="as_is", pad=3):
     return ("%0" + str(pad) + "d") % int(raw)
 
 
-def auto_room_numbers(rooms, pad=3):
-    """Running numbers per storey for rooms that have no usable number.
+def natural_key(text):
+    """'2' < '10' < 'A2' < 'A10' (numbers compared as numbers)."""
+    return [(0, int(p), "") if p.isdigit() else (1, 0, p.lower())
+            for p in re.split(r"(\d+)", text or "") if p]
+
+
+def _order(sort_key):
+    if isinstance(sort_key, tuple):
+        return (natural_key("%s" % (sort_key[0],)),) + tuple(sort_key[1:])
+    return (natural_key("%s" % (sort_key,)),)
+
+
+def auto_room_numbers(rooms, pad=3, existing=None):
+    """Running numbers per storey.
 
     rooms: list of (key, level_code, sort_key). Numbers start at 1 per
-    level and follow sort_key. Returns {key: 'zzz'}.
+    level and follow sort_key. existing: {key: 'zzz'} numbers rooms
+    already have (from an earlier run, on the same level). Those are kept,
+    so adding a room never renumbers the others; new rooms get the next
+    free numbers. A number held by two rooms is kept by the first one.
+    Returns {key: 'zzz'}.
     """
+    existing = existing or {}
+    fmt = "%0" + str(pad) + "d"
     out = {}
     by_level = {}
     for key, level_code, sort_key in rooms:
         by_level.setdefault(level_code, []).append((sort_key, key))
     for level_code in by_level:
-        for i, (_, key) in enumerate(sorted(by_level[level_code])):
-            out[key] = ("%0" + str(pad) + "d") % (i + 1)
+        ordered = sorted(by_level[level_code],
+                         key=lambda item: _order(item[0]))
+        used = set()
+        for _, key in ordered:
+            n = existing.get(key)
+            if n and n.isdigit() and int(n) not in used:
+                used.add(int(n))
+                out[key] = fmt % int(n)
+        nxt = max(used) if used else 0
+        for _, key in ordered:
+            if key not in out:
+                nxt += 1
+                used.add(nxt)
+                out[key] = fmt % nxt
     return out
 
 
