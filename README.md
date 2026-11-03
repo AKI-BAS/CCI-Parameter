@@ -1,14 +1,34 @@
 # CCI-IS (pyRevit viðbót)
 
+*English version: branch [`en`](https://github.com/AKI-BAS/CCI-Parameter/tree/en). Source code: branch [`source`](https://github.com/AKI-BAS/CCI-Parameter/tree/source).*
+
 CCI flokkun í Revit samkvæmt leiðbeiningum BIM Íslands:
 *CCI leiðbeiningar* (útgáfa 2, 11.01.2023), *CCI leiðbeiningar fyrir Revit*
 (útgáfa 1, 30.01.2023) og *Þróunarstig byggingarhluta* (REV4). Sama
 verkfæri er til á ensku sem **CCI-EN**; settu aðeins annað þeirra upp.
 
 ## Uppsetning
-Settu möppuna `CCI-IS.extension` í `%APPDATA%\pyRevit\Extensions\` og
-smelltu á Reload í pyRevit. Flipinn **CCI** birtist. Revit 2024 eða nýrra,
-IronPython vél pyRevit.
+Revit 2024 eða nýrra, IronPython vél pyRevit. Settu aðeins **eina**
+útgáfu upp, íslensku eða ensku.
+
+**Í pyRevit (mælt með):** opnaðu PowerShell og keyrðu
+
+```powershell
+pyrevit extend ui CCI-IS https://github.com/AKI-BAS/CCI-Parameter.git `
+  --username=AKI-BAS --password=TOKEN
+```
+
+Smelltu svo á **pyRevit → Reload**. Flipinn **CCI** birtist.
+Tengillinn einn og sér gefur íslensku útgáfuna. Enska útgáfan fæst með
+`--branch=en` og nafninu `CCI-EN` í stað `CCI-IS`. Geymslan er private,
+svo pyRevit þarf GitHub notandanafn og token (Settings → Developer
+settings → Personal access tokens, read-only).
+
+Uppfæra síðar: `pyrevit extensions update CCI-IS`, svo Reload.
+
+**Handvirkt:** Code → Download ZIP, afþjappaðu, endurnefndu möppuna
+`CCI-IS.extension`, settu hana í `%APPDATA%\pyRevit\Extensions` og smelltu
+á Reload.
 
 ## Röð verka
 1. **Uppsetning verkefnis**: hakaðu við umfang (BIM Ísland, bls. 1), settu
