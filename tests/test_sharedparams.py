@@ -332,3 +332,16 @@ def test_leftovers(monkeypatch):
     found = params.leftovers(doc)
     assert [(f["name"], f["is_type"], f["values"]) for f in found] == [
         ("CCITypeID_Type", True, 1), ("CCSClassCode", False, 0)]
+
+
+def test_migrate_failure_raises_so_the_move_rolls_back(monkeypatch):
+    params = _patch(monkeypatch)
+    door_t = _El(_CatObj("OST_Doors"), True)
+    doc = _Doc([door_t])
+    tool = _defs(sharedparams.guid_for)
+    params.bind_all(doc, tool, ["class_t"])
+    molio = _defs(lambda n: uuid.uuid4())
+    monkeypatch.setattr(_Bindings, "Insert", lambda self, d, b, g: False)
+    import pytest
+    with pytest.raises(params.MigrationError):
+        params.migrate(doc, molio, ["CCIClassCode[Type]"])

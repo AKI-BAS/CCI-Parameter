@@ -130,7 +130,36 @@ def test_auto_room_numbers():
     assert out == {"b": "001", "a": "002", "c": "001"}
 
 
+def test_auto_room_numbers_are_stable_and_natural():
+    rooms = [("r2", "01", ("2", 5)), ("r10", "01", ("10", 1)),
+             ("r1", "01", ("1", 9))]
+    first = levels.auto_room_numbers(rooms)
+    assert first == {"r1": "001", "r2": "002", "r10": "003"}
+    # a new room "1a" sorts between 1 and 2 but must not renumber others
+    rooms.append(("r1a", "01", ("1a", 3)))
+    again = levels.auto_room_numbers(rooms, existing=first)
+    assert again == dict(first, r1a="004")
+    # two rooms claiming the same number: the first in order keeps it
+    dup = levels.auto_room_numbers(rooms[:2], existing={"r2": "001",
+                                                        "r10": "001"})
+    assert sorted(dup.values()) == ["001", "002"] and dup["r2"] == "001"
+    assert formats.parse_location("+B01.K1.007") == ("01", "K1", "007")
+    assert formats.parse_location("B1.01.7") is None
+
+
 # ------------------------------------------------------------ numbering
+
+def test_registry_prime_reserves_existing_ids():
+    r = numbering.Registry()
+    s = numbering.series("single", "QQC")
+    # element b already has #QQC001 in the model; a has nothing
+    assert r.prime(s, "b", "#QQC001")
+    assert not r.prime(s, "c", "#QQB004")       # other class: not taken
+    assert r.number_for(s, "a") == 2           # does not steal 1
+    assert r.number_for(s, "b", "#QQC001") == 1
+    assert not r.prime(s, "b", "#QQC009")      # already known: unchanged
+    assert r.number_for(s, "b") == 1
+
 
 def test_registry_is_stable():
     r = numbering.Registry()
@@ -365,3 +394,10 @@ def test_is_leftover():
     assert not formats.is_leftover("CCIClassName[Type]")    # Molio extra
     assert not formats.is_leftover("CCIClassification")
     assert not formats.is_leftover("Auðkenni_Type")
+
+
+def test_functional_id_examples_from_bim_island():
+    for v in ("=H01.HD02.EGC001", "=J01.HF01.JG01.QNA021",
+              "=H201.HD002.EPC001"):
+        assert formats.check_functional_id(v) is None, v
+    assert formats.check_functional_id("=H1.HD02.EGC001")

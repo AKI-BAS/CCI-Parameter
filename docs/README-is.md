@@ -69,7 +69,14 @@ fylgja breytingum.
 - **Númer breytast aldrei.** Tegund eða hlutur heldur sínu númeri. Númer
   eyddra hluta eru ekki endurnýtt. Ef tegund skiptir um flokkun fær hún
   nýtt númer í nýju flokkuninni og gamla númerið er lagt niður. Númer sem
-  eru þegar í líkaninu (handslegin) eru tekin upp ef þau eru laus.
+  eru þegar í líkaninu (handslegin) eru tekin upp ef þau eru laus, og
+  þau eru frátekin áður en ný númer eru gefin.
+- **Hlaupandi rýmisnúmer haldast líka** (Staðsetning, „hlaupandi númer á
+  hverri hæð“): nýtt rými fær næsta lausa númer á sinni hæð í stað þess að
+  hliðra hinum.
+- **Hlutir án tegundar** (lagnaop og önnur op) eru flokkaðir á hlutnum
+  sjálfum, ein lína fyrir hvern flokk í Flokka, og fá vöruauðkenni en
+  ekki tegundarauðkenni.
 - **Instance gildi taka forgang yfir type gildi** (BIM Ísland). Verkfærið
   afritar gildi tegundar á instance eigindi (hægt að slökkva á í
   uppsetningu) en skrifar aldrei yfir gildi sem einhver breytti viljandi.

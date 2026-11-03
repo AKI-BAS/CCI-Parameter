@@ -152,9 +152,17 @@ class Wall(Element):
     pass
 
 
+class XYZ(tuple):
+    def __new__(cls, x=0, y=0, z=0):
+        return tuple.__new__(cls, (x, y, z))
+
+    def __add__(self, o):
+        return XYZ(*[a + b for a, b in zip(self, o)])
+
+
 class LocationPoint(object):
     def __init__(self):
-        self.Point = (0, 0, 0)
+        self.Point = XYZ(0, 0, 0)
 
 
 class Level(Element):
@@ -244,7 +252,7 @@ _db = _mod("Autodesk.Revit.DB",
            ElementMulticategoryFilter=Filter,
            FamilyInstance=FamilyInstance,
            FilteredElementCollector=FilteredElementCollector,
-           LocationPoint=LocationPoint, StorageType=StorageType, Wall=Wall,
+           LocationPoint=LocationPoint, XYZ=XYZ, StorageType=StorageType, Wall=Wall,
            WallKind=_AnyNS(), Element=Element, Level=Level,
            BuiltInParameter=_AnyNS(), Category=Category,
            CategorySet=list, GroupTypeId=_AnyNS(), SpecTypeId=_AnyNS(),

@@ -378,5 +378,6 @@
   "guide.status_d": "Athugar hvaða skref eru búin í opna líkaninu. Breytir engu.",
   "guide.status_none": "Ekkert verkefni opið (eða fjölskylduskrá).",
   "guide.browser_d": "Leitaðu í allri CCI töflunni á íslensku, ensku eða dönsku, eða eftir kóða. Veldu línu til að sjá skilgreiningu, hvar hún er í kerfinu og hvaða gildi fara í Revit.",
-  "guide.browser_count": "{n} flokkar"
+  "guide.browser_count": "{n} flokkar",
+  "params.migrate_rolled_back": "Flutningurinn tókst ekki og var allur afturkallaður, svo verkefnið er óbreytt og engin gildi töpuðust. Villa: {error}"
 }

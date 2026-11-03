@@ -154,11 +154,17 @@ def _elements(doc, categories, types):
             yield e
 
 
+class MigrationError(Exception):
+    """A parameter could not be moved. Raised inside the transaction so
+    the whole move is rolled back and no values are lost."""
+
+
 def migrate(doc, definitions, names):
     """Replace each named parameter with the one in `definitions`,
-    keeping every value. Must run inside a Transaction.
+    keeping every value. Must run inside a Transaction; if any parameter
+    fails, MigrationError is raised so the transaction rolls back.
 
-    Returns {"moved": [(name, values)], "failed": [(name, error)]}.
+    Returns {"moved": [(name, values)], "failed": []}.
     """
     out = {"moved": [], "failed": []}
     bindings = doc.ParameterBindings
@@ -194,8 +200,7 @@ def migrate(doc, definitions, names):
                 if p is not None and not p.IsReadOnly:
                     p.Set(v)
         except Exception as ex:
-            out["failed"].append((name, "%s" % ex))
-            continue
+            raise MigrationError("%s: %s" % (name, ex))
         out["moved"].append((name, len(values)))
     return out
 

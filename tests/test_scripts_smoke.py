@@ -174,8 +174,9 @@ def test_studio_rule_wins(model):
     assert val(model["door_t"], "class_t") == "QQE"
 
 
-MOLIO = "/tmp/claude-0/-home-claude/257c7628-b372-5a2e-ae5a-6a5129c4c2dd/" \
-    "scratchpad/molio"
+# Molio's original spreadsheets (P150a-d), if you have them locally.
+# Tests that need them are skipped otherwise.
+MOLIO = os.environ.get("CCI_MOLIO_DIR", "")
 
 
 def _choose(monkeypatch, label):
@@ -288,3 +289,28 @@ def test_old_coding_is_replaced(model, monkeypatch):
     assert val(door_t, "classification_t") == "QQC:Door"
     assert val(d0, "class") == "QQC"                  # element override reset
     assert any("rows changed" in a for a in fr.STATE["alerts"])
+
+
+def test_elements_without_a_type(model):
+    """Shaft openings have no type: classified and numbered on the
+    element itself, and Check doesn't ask them for a type ID."""
+    shaft = fr.Element("OST_ShaftOpening", "Shaft", cci(INST_KEYS))
+    shaft2 = fr.Element("OST_ShaftOpening", "Shaft", cci(INST_KEYS))
+    model["doc"].elements += [shaft, shaft2]
+    from cci.revit import storage
+    s = storage.load_settings(model["doc"])
+    s["lod"]["openings"] = 400
+    storage.save_settings(model["doc"], s)
+    run("classify")
+    code = val(shaft, "class")
+    assert code and code == val(shaft2, "class")
+    run("number")
+    ids = sorted([val(shaft, "single_id"), val(shaft2, "single_id")])
+    assert ids == ["#%s001" % code, "#%s002" % code]
+    run("check")
+    tables = [x for x in fr.STATE["output"].lines if isinstance(x, tuple)]
+    findings = " ".join(" ".join("%s" % c for c in row)
+                        for _, _, rows in tables for row in rows)
+    shaft_rows = [row for _, _, rows in tables for row in rows
+                  if "Shaft" in " ".join("%s" % c for c in row)]
+    assert not any("CCITypeID" in "%s" % row for row in shaft_rows)

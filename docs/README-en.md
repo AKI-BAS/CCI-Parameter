@@ -66,7 +66,14 @@ from the tool's own data, so they follow changes.
 - **Numbers never change.** A type or element keeps its number. Deleted
   numbers are not reused. If a type changes class it gets a new number in the
   new class, and the old one is retired. Numbers already in the model (typed
-  by hand) are adopted when they are free.
+  by hand) are adopted when they are free, and they are reserved before
+  any new number is handed out.
+- **Room running numbers stay too** (Locations, "running number per
+  storey"): a new room gets the next free number on its storey instead of
+  shifting the others.
+- **Elements without a type** (shaft openings and other openings) are
+  classified on the element, one row per category in Classify, and get
+  product IDs but no type ID.
 - **Instance values win over type values** (BIM Ísland). The tool copies type
   values onto instances (can be turned off in setup) but never overwrites an
   instance value someone changed on purpose.

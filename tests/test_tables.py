@@ -13,8 +13,9 @@ sys.path.insert(0, os.path.join(SRC, "lib"))
 
 from cci import importer, rules, store as store_mod, table  # noqa: E402
 
-MOLIO = "/tmp/claude-0/-home-claude/257c7628-b372-5a2e-ae5a-6a5129c4c2dd/" \
-    "scratchpad/molio"
+# Molio's original spreadsheets (P150a-d), if you have them locally.
+# Tests that need them are skipped otherwise.
+MOLIO = os.environ.get("CCI_MOLIO_DIR", "")
 DATA = os.path.join(SRC, "data")
 
 
@@ -276,7 +277,7 @@ def test_real_molio_files():
         assert t["domains"][d] == shipped["domains"][d]
 
 
-MOLIO2 = MOLIO + "2"
+MOLIO2 = os.environ.get("CCI_MOLIO_P150_DIR", "")
 
 
 @pytest.mark.skipif(not os.path.isdir(MOLIO2), reason="P150 files not here")

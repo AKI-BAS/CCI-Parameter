@@ -90,6 +90,11 @@ def check(records, project_settings, class_table=None):
             # §U.VV.XXX needs a component (3 letters); systems such as
             # AD (walls) can't have one.
             need.remove("ml_type_id")
+        if kind != "space" and not rec.get("type_uid", True):
+            # no type (shaft openings...): no type IDs to give
+            for f in ("type_id", "ml_type_id"):
+                if f in need:
+                    need.remove(f)
         if rec.get("has_point") is False and "location_at_id" in need:
             # walls, floors, ducts... span several rooms
             need.remove("location_at_id")
