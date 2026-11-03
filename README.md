@@ -56,6 +56,15 @@ Uppfæra síðar: `pyrevit extensions update CCI-IS`, svo Reload.
 8. **IFC skrá**: býr til `CCI_in_Revit_to_IFC.txt` og sýnir gildin fyrir
    Classification Settings.
 
+## Leiðbeiningar
+Hnappurinn **Leiðbeiningar** (spjaldið Hjálp) opnar glugga með flipum:
+skref fyrir skref (með hnappi sem sýnir hvað er búið í opna líkaninu),
+hvað CCI er, eigindin og rétt gildi, þróunarstig (LOD), umfang, algeng
+vandamál (hver athugasemd í Athuga útskýrð), CCI vafri (leit í allri
+töflunni á íslensku, ensku og dönsku, með skilgreiningum) og orðasafn.
+Töflurnar í glugganum eru búnar til úr gögnum verkfærisins, svo þær
+fylgja breytingum.
+
 ## Það sem breytist ekki
 - **Númer breytast aldrei.** Tegund eða hlutur heldur sínu númeri. Númer
   eyddra hluta eru ekki endurnýtt. Ef tegund skiptir um flokkun fær hún
