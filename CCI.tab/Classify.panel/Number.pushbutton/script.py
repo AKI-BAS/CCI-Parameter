@@ -41,11 +41,13 @@ def run():
             del registry.parents[uid]
 
     by_type = {}
+    no_type = []        # shaft openings etc.: product ID only
     for e in util.classified_instances(doc):
         if groups.kind_of(util.bic_name(e)) == "space":
             continue
         etype = util.element_type(doc, e)
         if etype is None:
+            no_type.append(e)
             continue
         by_type.setdefault(etype.UniqueId, (etype, []))[1].append(e)
 
@@ -57,7 +59,29 @@ def run():
                 util.bic_name(etype) or "", util.family_name(etype),
                 util.type_name(etype))
 
-    for uid, (etype, insts) in sorted(by_type.items(), key=type_order):
+    ordered = sorted(by_type.items(), key=type_order)
+
+    # first take over IDs already in the model (typed by hand or from an
+    # earlier tool), so new numbers never collide with them
+    for inst in no_type:
+        inst_code = util.get_key(inst, "class") or ""
+        if inst_code and not formats.check_class(inst_code):
+            registry.prime(numbering.series("single", inst_code),
+                           inst.UniqueId, util.get_key(inst, "single_id"))
+    for uid, (etype, insts) in ordered:
+        code = util.get_key(etype, "class_t") or ""
+        if not code or formats.check_class(code):
+            continue
+        if do_type:
+            registry.prime(numbering.series("type", code), uid,
+                           util.get_key(etype, "type_id_t"))
+        for inst in insts:
+            inst_code = util.get_key(inst, "class") or code
+            if not formats.check_class(inst_code):
+                registry.prime(numbering.series("single", inst_code),
+                               inst.UniqueId, util.get_key(inst, "single_id"))
+
+    for uid, (etype, insts) in ordered:
         code = util.get_key(etype, "class_t") or ""
         if not code or formats.check_class(code):
             stats["no_class"] += len(insts)
@@ -127,6 +151,27 @@ def run():
                                           settings["single_pad"])
                 if util.set_key(inst, "single_id", value):
                     stats["single"] += 1
+
+    for inst in sorted(no_type, key=util.eid):
+        inst_code = util.get_key(inst, "class") or ""
+        if not inst_code or formats.check_class(inst_code):
+            stats["no_class"] += 1
+            continue
+        group, _ = util.group_and_kind(doc, inst)
+        lod = smod.lod_for(settings, group)
+        if not (do_single_all or (group == "openings" and lod and
+                                  lod >= 400)):
+            continue
+        if not util.has_key(inst, "single_id"):
+            stats["not_bound"] += 1
+            continue
+        n = registry.number_for(
+            numbering.series("single", inst_code), inst.UniqueId,
+            util.get_key(inst, "single_id"))
+        if util.set_key(inst, "single_id",
+                        formats.single_id(inst_code, n,
+                                          settings["single_pad"])):
+            stats["single"] += 1
 
     storage.save_registry(doc, registry)
 

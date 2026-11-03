@@ -4,9 +4,9 @@ and spaces, and the room an element sits in (CCISingleLevelLocationAtID,
 +B01.01.001) on doors, windows, fixtures and equipment."""
 from __future__ import unicode_literals
 
-from Autodesk.Revit.DB import FamilyInstance
+from Autodesk.Revit.DB import XYZ, FamilyInstance
 
-from cci import groups, levels
+from cci import formats, groups, levels
 from cci.i18n import t
 from cci.revit import ui, util
 
@@ -44,7 +44,15 @@ def compute_space_codes(spaces):
         elif loc:
             out[sp.UniqueId] = loc
     if auto:
-        nums = levels.auto_room_numbers(auto)
+        # keep numbers rooms already got on an earlier run
+        existing = {}
+        for sp in spaces:
+            lvl = sp.Level.Name if sp.Level else None
+            parsed = formats.parse_location(util.get_key(sp, "ml_location_id"))
+            if parsed and parsed[1] == level_codes.get(lvl) and \
+                    int(parsed[0]) == int(building or 0):
+                existing[sp.UniqueId] = parsed[2]
+        nums = levels.auto_room_numbers(auto, existing=existing)
         for sp in spaces:
             if sp.UniqueId not in nums:
                 continue
@@ -92,7 +100,14 @@ def room_of(element, phase):
     pt = util.point_of(element)
     if pt is None:
         return False   # walls, floors... no single room
-    return doc.GetRoomAtPoint(pt, phase) if phase else doc.GetRoomAtPoint(pt)
+    # a point exactly on the floor is on the room's lower boundary; look a
+    # little above it first (Revit units are feet: 1 ft = 0.3 m)
+    for p in (pt + XYZ(0, 0, 1.0), pt):
+        room = doc.GetRoomAtPoint(p, phase) if phase else \
+            doc.GetRoomAtPoint(p)
+        if room is not None:
+            return room
+    return None
 
 
 all_elems = util.classified_instances(doc)

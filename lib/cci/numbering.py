@@ -101,6 +101,20 @@ class Registry(object):
                 return n
         return self.allocate(series_key, uid)
 
+    def prime(self, series_key, uid, existing_value):
+        """Reserve an ID that is already in the model before new numbers
+        are handed out, so a new element can't take a number that a later
+        element in the same run already has. No-op for items the registry
+        already knows. Returns True if the number was taken over."""
+        kind = series_key.split(":", 1)[0]
+        if not existing_value or self.find(kind, uid):
+            return False
+        n = formats.number_of_id(existing_value)
+        cls = formats.class_of_id(existing_value)
+        if not n or cls != series_key.split(":", 1)[1]:
+            return False
+        return self.adopt(series_key, uid, n)
+
     def forget_missing(self, series, alive_uids):
         """Drop items that no longer exist. Counters are not lowered."""
         bucket = self.items.get(series, {})
