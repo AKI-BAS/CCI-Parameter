@@ -53,6 +53,15 @@ and click Reload.
 8. **IFC file**: writes `CCI_in_Revit_to_IFC.txt` and shows the
    Classification Settings values.
 
+## Guide
+The **Guide** button (Help panel) opens a window with tabs: step by
+step (with a button that shows what is done in the open model), what
+CCI is, the parameters and their expected values, level of development
+(LOD), scope, common problems (every Check finding explained), a CCI
+browser (search the whole table in Icelandic, English and Danish, with
+definitions) and a glossary. The tables in the window are generated
+from the tool's own data, so they follow changes.
+
 ## What stays put
 - **Numbers never change.** A type or element keeps its number. Deleted
   numbers are not reused. If a type changes class it gets a new number in the
