@@ -1,3 +1,3 @@
 title: "Parameters"
 tooltip: "Adds the CCI parameters under Identity Data on the right categories: from Molio's file (C420) if the studio has it, otherwise from the tool's own file with the same names. Can move a project to Molio's file later without losing values."
-author: "Sveinn Aki Olafs"
+author: "Aki Olafs"

@@ -1,0 +1,9 @@
+{
+  "type": "extension",
+  "name": "CCI-EN",
+  "description": "CCI classification in Revit following BIM Ísland's guidelines (Molio CCI): classify, IDs, locations, checks and IFC.",
+  "author": "Aki Olafs",
+  "author_profile": "https://github.com/AKI-BAS",
+  "url": "https://github.com/AKI-BAS/CCI-Parameter.git",
+  "website": "https://github.com/AKI-BAS/CCI-Parameter"
+}
