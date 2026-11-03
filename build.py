@@ -36,6 +36,9 @@ PANELS = [
         ("check", "Check", "\u2713", "#7A4E2D"),
         ("ifc", "IFCFile", "IFC", "#7A4E2D"),
     ]),
+    ("help", [
+        ("guide", "Guide", "?", "#5B4B8A"),
+    ]),
 ]
 LANGS = {"is": "CCI-IS", "en": "CCI-EN"}
 AUTHOR = "Aki Olafs"

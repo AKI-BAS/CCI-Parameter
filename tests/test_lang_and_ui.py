@@ -64,9 +64,9 @@ def _expected_keys():
     keys.update("topnode." + tn for tn in formats.TOPNODES)
     keys.update("sev." + s for s in ("error", "warning", "info"))
     for b in ("setup", "params", "table", "classify", "number",
-              "locations", "check", "ifc"):
+              "locations", "check", "ifc", "guide"):
         keys.update(["btn.%s.title" % b, "btn.%s.tip" % b])
-    keys.update("panel." + p for p in ("setup", "classify", "deliver"))
+    keys.update("panel." + p for p in ("setup", "classify", "deliver", "help"))
     keys.update("params." + g for g in ("added", "updated", "unchanged",
                                         "missing", "wrong_type", "conflict",
                                         "other_file"))
