@@ -214,9 +214,9 @@ def page_steps():
          L("CCI eigindin fara í eigindasafnið CCI_Administrative í IFC.",
            "The CCI parameters go into the CCI_Administrative property set "
            "in the IFC."),
-         L("Opnaðu IFC í skoðara (Solibri, BIMcollab Zoom) og athugaðu "
+         L("Opnaðu IFC skrána í ACC (Autodesk Construction Cloud) og athugaðu "
            "nokkra hluti.",
-           "Open the IFC in a viewer (Solibri, BIMcollab Zoom) and check a "
+           "Open the IFC in ACC (Autodesk Construction Cloud) and check a "
            "few elements.")),
     ]
     for i, (name, what, result, trouble) in enumerate(steps):
