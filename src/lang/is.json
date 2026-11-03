@@ -250,7 +250,7 @@
   "ifc.step2": "2. User defined property sets",
   "ifc.step2_d": "Á sama flipa: hakaðu við Export user defined property sets og veldu `{path}`. CCI eigindin lenda þá í eigindasafninu CCI_Administrative.",
   "ifc.step3": "3. Prófa",
-  "ifc.step3_d": "Opnaðu IFC skrána í skoðara (t.d. Solibri eða BIMcollab Zoom) og athugaðu CCI_Administrative og flokkunina á nokkrum hlutum. Prófaðu sérstaklega að gildi af tegund skili sér þegar instance eigindið er tómt.",
+  "ifc.step3_d": "Opnaðu IFC skrána í ACC (Autodesk Construction Cloud) og athugaðu CCI_Administrative og flokkunina á nokkrum hlutum. Prófaðu sérstaklega að gildi af tegund skili sér þegar instance eigindið er tómt.",
   "btn.table.title": "CCI\ntafla",
   "btn.table.tip": "Hvaða CCI tafla er í notkun, uppfærsla úr tengli eða skrám (xlsx frá Molio eða json), skipta um útgáfu, og flytja íslensk heiti út og inn til yfirlestrar.",
   "btn.select": "Velja",

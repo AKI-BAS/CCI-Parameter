@@ -250,7 +250,7 @@
   "ifc.step2": "2. User defined property sets",
   "ifc.step2_d": "On the same tab: tick Export user defined property sets and pick `{path}`. The CCI parameters then end up in the CCI_Administrative property set.",
   "ifc.step3": "3. Test",
-  "ifc.step3_d": "Open the IFC in a viewer (e.g. Solibri or BIMcollab Zoom) and check CCI_Administrative and the classification on a few elements. In particular, check that type values come through when the instance parameter is empty.",
+  "ifc.step3_d": "Open the IFC in ACC (Autodesk Construction Cloud) and check CCI_Administrative and the classification on a few elements. In particular, check that type values come through when the instance parameter is empty.",
   "btn.table.title": "CCI\ntable",
   "btn.table.tip": "Which CCI table is in use, update from a link or files (Molio xlsx or json), switch version, and export/import the Icelandic names for review.",
   "btn.select": "Select",
