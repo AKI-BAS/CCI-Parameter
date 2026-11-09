@@ -1,5 +1,5 @@
 # Icelandic names for CCI classes - DRAFT translations (status "draft").
-# key<TAB>Icelandic name. Keys: L:<code>, S:<code>, E:<code>,
+# key<TAB>Icelandic name[<TAB>other search words, comma separated]. Keys: L:<code>, S:<code>, E:<code>,
 # group:component:<code>, group:technical:<code>.
 # Terms marked with * are BIM Ísland's own (CCI leiðbeiningar v2).
 # Regenerate src/data/names_is.json with: python tools/make_names.py
@@ -39,7 +39,7 @@ L:AD	Vegguppbygging*
 L:AE	Þakuppbygging
 L:AF	Stigauppbygging
 L:AG	Skábrautaruppbygging
-L:AH	Svalir
+L:AH	Svalir	svalagólf, svalaplata, balcony, altan
 L:AJ	Útskotsgluggi
 L:AK	Kvistur
 L:AL	Þakturn
@@ -252,7 +252,7 @@ L:XSC	Stigi (lóðréttur)
 L:XSD	Skábraut
 L:XTA	Gat
 L:XTB	Úrtak
-L:XKA	Vaskur
+L:XKA	Vaskur	handlaug, eldhúsvaskur, baðkar, sturtubotn, sturta, basin, bathtub, shower tray
 L:XKB	Salerni
 L:XKC	Þvagskál
 L:XKE	Gólfniðurfall
@@ -289,7 +289,7 @@ L:GLE	Rúllustigi
 L:GRA	Sólfangari
 L:QMA	Lokunarloki
 L:QMB	Lokunarspjald
-L:QNA	Stjórnloki*
+L:QNA	Stjórnloki*	blöndunartæki, krani, sturtutæki, mixer tap, faucet
 L:QNB	Stjórnspjald
 L:RMA	Einstreymisloki
 L:RNA	Stilliloki
@@ -448,7 +448,7 @@ S:PBA	Rafmagnsflæðisrými
 S:PBB	Varmaflæðisrými
 S:PBC	Hreyfiorkurými
 S:PBD	Sprengirými
-S:PBE	Brunahólf
+S:PBE	Brennslurými	katlarými, eldstæði
 E:A	Bygging fyrir fólk og starfsemi
 E:AA	Íbúðarhúsnæði
 E:AB	Hótel og veitingahús

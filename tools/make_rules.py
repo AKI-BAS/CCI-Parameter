@@ -87,6 +87,14 @@ r("floor_drain", P, "XKE", CCS, True,
   names("niðurfall", "floor drain", "gulvafløb", "gólfniðurfall"))
 r("sink", P, "XKA", CCS, True,
   names("vaskur", "handlaug", "sink", "basin", "lavatory", "vask"))
+# Molio's table has no class for a shower or bath as such. The tray or tub
+# collects waste water like a sink (XKA's definition: "collecting
+# interfacing object of wastewater"); the mixer is a liquid control valve.
+r("shower_mixer", P, "QNA", SUGG, False,
+  names("sturtutæki", "blöndunartæki", "mixer", "armatur", "batteri"))
+r("shower_bath", P, "XKA", SUGG, False,
+  names("sturt", "shower", "bruse", "baðkar", "bathtub", "bath tub",
+        "badekar"))
 
 # rooms by name (Icelandic, English, Danish). Longer words first: the
 # first rule that matches wins, and e.g. "stigagangur" contains "gangur".

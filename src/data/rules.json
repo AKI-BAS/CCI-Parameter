@@ -348,6 +348,42 @@
    }
   },
   {
+   "id": "shower_mixer",
+   "category": [
+    "OST_PlumbingFixtures"
+   ],
+   "class": "QNA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "sturtutæki",
+     "blöndunartæki",
+     "mixer",
+     "armatur",
+     "batteri"
+    ]
+   }
+  },
+  {
+   "id": "shower_bath",
+   "category": [
+    "OST_PlumbingFixtures"
+   ],
+   "class": "XKA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "sturt",
+     "shower",
+     "bruse",
+     "baðkar",
+     "bathtub",
+     "bath tub",
+     "badekar"
+    ]
+   }
+  },
+  {
    "id": "room_sauna",
    "category": [
     "OST_Rooms",

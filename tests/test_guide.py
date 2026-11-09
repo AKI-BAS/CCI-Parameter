@@ -214,3 +214,13 @@ def test_guide_button_runs(monkeypatch, tmp_path):
                    run_name="__main__")
     assert len(shown["tabs"]) == 8
     assert "QQC" in shown["codes"]
+
+
+def test_search_finds_other_words():
+    t = _table()
+    codes = [c for c, _ in t.search("baðkar", "L", "is")]
+    assert "XKA" in codes
+    assert "AH" in [c for c, _ in t.search("svalir", "L", "is")]
+    assert "QNA" in [c for c, _ in t.search("blöndunartæki", "L", "en")]
+    label = dict(t.choices("L", "is"))["XKA"]
+    assert "handlaug" in label

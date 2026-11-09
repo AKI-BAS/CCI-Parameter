@@ -27,7 +27,12 @@ def main():
         line = line.rstrip("\n")
         if not line.strip() or line.startswith("#"):
             continue
-        key, name = line.split("\t")
+        cols = line.split("\t")
+        key, name = cols[0], cols[1]
+        # optional third column: other words people search with,
+        # comma separated (e.g. "handlaug, baðkar" for Vaskur)
+        also = [w.strip() for w in cols[2].split(",")] \
+            if len(cols) > 2 and cols[2].strip() else []
         status = "draft"
         if name.endswith("*"):
             name, status = name[:-1], "bim_island"
@@ -41,6 +46,8 @@ def main():
             continue
         names[key] = {"is": name, "en": entry.get("en", ""),
                       "status": status}
+        if also:
+            names[key]["also"] = also
     if unknown:
         print("not in table:", unknown)
         sys.exit(1)
