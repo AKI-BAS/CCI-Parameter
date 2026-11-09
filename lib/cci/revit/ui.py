@@ -65,5 +65,32 @@ def link(out, element_id_int):
         return str(element_id_int)
 
 
+def project_name(d):
+    """Project Name from Project Information, else the file's title."""
+    name = ""
+    try:
+        name = (d.ProjectInformation.Name or "").strip()
+    except Exception:
+        pass
+    if not name or name.lower() in ("project name", "heiti verkefnis"):
+        try:
+            name = d.Title or ""
+        except Exception:
+            name = ""
+    if name.lower().endswith(".rvt"):
+        name = name[:-4]
+    return name
+
+
+def file_name(label, d):
+    """'CCI-athugun_<project>_2026-11-09': label, project, date; safe for
+    Windows file names."""
+    import datetime
+    import re
+    parts = [label, project_name(d), datetime.date.today().isoformat()]
+    name = "_".join(p for p in parts if p)
+    return re.sub(r'[\\/:*?"<>|]+', "-", name).strip()
+
+
 def lang():
     return i18n.lang()
