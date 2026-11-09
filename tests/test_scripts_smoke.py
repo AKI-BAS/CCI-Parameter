@@ -377,3 +377,13 @@ def test_room_numbers_with_storey_get_a_hint(model):
     storage.save_settings(model["doc"], s)
     run("locations")
     assert val(model["room"], "ml_location_id") == "B01.01.003"
+
+
+def test_location_id_scope_also_numbers_rooms(model):
+    from cci.revit import storage
+    s = storage.load_settings(model["doc"])
+    s["scopes"] = ["coordination", "location_id"]
+    storage.save_settings(model["doc"], s)
+    run("locations")
+    assert val(model["room"], "ml_location_id") == "B01.01.101"
+    assert val(model["doors"][0], "location_at_id") == "+B01.01.101"
