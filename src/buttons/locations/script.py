@@ -23,7 +23,7 @@ level_codes = settings["levels"]
 building = settings["building"]
 mode = settings["room_number_mode"]
 stats = {"rooms": 0, "elements": 0, "no_room": 0, "not_point": 0,
-         "bad_rooms": [], "not_bound": 0}
+         "bad_rooms": [], "not_bound": 0, "try_last": 0}
 
 
 def compute_space_codes(spaces):
@@ -39,6 +39,11 @@ def compute_space_codes(spaces):
             auto.append((sp.UniqueId, lc, (raw or "", util.eid(sp))))
         loc, problem = levels.room_location(building, lc, num) \
             if mode != "auto" else (None, None)
+        if problem == "loc.no_room_number" and mode == "as_is" and \
+                levels.room_number(raw, "last_segment"):
+            # e.g. "01-03": the storey is already in the Number
+            problem = "loc.try_last_segment"
+            stats["try_last"] += 1
         if problem:
             stats["bad_rooms"].append((sp, problem, lvl, raw))
         elif loc:
@@ -166,6 +171,9 @@ if stats["not_point"]:
 if stats["not_bound"]:
     out.print_md(t("loc.not_bound", n=stats["not_bound"]))
 if stats["bad_rooms"]:
+    if stats["try_last"]:
+        out.print_md("> **" + t("loc.hint_last_segment",
+                                n=stats["try_last"]) + "**")
     out.print_md("### " + t("loc.bad_rooms", n=len(stats["bad_rooms"])))
     rows = [[ui.link(out, util.eid(sp)), lvl or "-", raw or "-",
              t(problem)] for sp, problem, lvl, raw in stats["bad_rooms"]]

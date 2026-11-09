@@ -119,6 +119,8 @@ def test_room_number():
     assert levels.room_number("101") == "101"
     assert levels.room_number("1.101") is None
     assert levels.room_number("2.101", "last_segment") == "101"
+    assert levels.room_number("01-03", "last_segment") == "003"
+    assert levels.room_number("01-03") is None
     assert levels.room_number("1001") is None
     assert levels.room_number("") is None
     assert levels.room_number("A12") is None

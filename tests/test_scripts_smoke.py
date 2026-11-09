@@ -363,3 +363,17 @@ def test_equipment_in_a_room_gets_its_location(model):
     model["doc"].elements += [sink_t, sink]
     run("locations")
     assert val(sink, "location_at_id") == "+B01.01.101"
+
+
+def test_room_numbers_with_storey_get_a_hint(model):
+    model["room"].LookupParameter("Number").Set("01-03")
+    run("locations")
+    text = "\n".join(x for x in fr.STATE["output"].lines
+                     if isinstance(x, str))
+    assert "Last part of Number" in text
+    from cci.revit import storage
+    s = storage.load_settings(model["doc"])
+    s["room_number_mode"] = "last_segment"
+    storage.save_settings(model["doc"], s)
+    run("locations")
+    assert val(model["room"], "ml_location_id") == "B01.01.003"
