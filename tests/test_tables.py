@@ -260,7 +260,14 @@ def test_room_name_rules(name, code):
     ("OST_SecurityDevices", "NBS_Gunnebo_HalfHghtAcsCtrlGts_PreSec", None),
     ("OST_SecurityDevices", "Aðgangshlið Gunnebo gate", "QQF"),
     ("OST_Toposolid", "Gras og jörð", "CF"),
-    ("OST_Toposolid", "Jörð", "CA")])
+    ("OST_Toposolid", "Jörð", "CA"),
+    ("OST_GenericModel", "Lyfta", "GMB"),
+    ("OST_GenericModel", "Hringborð", "UBE"),
+    ("OST_GenericModel", "Eldhús vinnu borð", "UBE"),
+    ("OST_SpecialityEquipment", "Reyklúga frá jörðu upp, 0.5m2", "QQD"),
+    ("OST_Furniture", "Standing desk Qbus 1400", "UBE"),
+    ("OST_Furniture", "Monza Bistro Chair", "CLC"),
+    ("OST_Furniture", "Hilla", "RB")])
 def test_element_rules(cat, name, code):
     rs = rules.RuleSet(_load("rules.json"))
     assert rs.classify({"category": cat, "family": name,

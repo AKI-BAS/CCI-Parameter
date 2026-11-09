@@ -213,6 +213,18 @@ r("stair_run", ["OST_StairsRuns"], "XSB", CCS, True)
 r("stair_landing", ["OST_StairsLandings"], "XSA", CCS, True)
 r("ramp", ["OST_Ramps"], "AG", CCS, True)
 r("railing", ["OST_StairsRailing", "OST_Railings"], "FQD", CCS, True)
+# manufacturer and in-house families modelled as Generic Models
+GM = ["OST_GenericModel", "OST_SpecialityEquipment", "OST_Furniture",
+      "OST_Casework"]
+r("lift", ["OST_GenericModel", "OST_SpecialityEquipment"], "GMB", SUGG,
+  False, names("lyfta", "lyftu", "elevator", "lift", "elevator"))
+r("hatch_other", ["OST_GenericModel", "OST_SpecialityEquipment"], "QQD",
+  SUGG, False, names("lúga", "hatch", "reyklúga"))
+r("table", GM, "UBE", SUGG, False,
+  names("borð", "table", "bord", "skrifborð", "desk"))
+r("seat", GM, "CLC", SUGG, False,
+  names("stóll", "stólar", "sófi", "bekkur", "chair", "sofa", "bench",
+        "stol", "seat"))
 r("casework", ["OST_Casework"], "RB", CCS, True)
 r("furniture", ["OST_Furniture", "OST_FurnitureSystems"], "RB", CCS, True)
 r("equipment", ["OST_SpecialityEquipment"], "RC", CCS, True)

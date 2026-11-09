@@ -1391,6 +1391,84 @@
    "verified": true
   },
   {
+   "id": "lift",
+   "category": [
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
+   ],
+   "class": "GMB",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "lyfta",
+     "lyftu",
+     "elevator",
+     "lift",
+     "elevator"
+    ]
+   }
+  },
+  {
+   "id": "hatch_other",
+   "category": [
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
+   ],
+   "class": "QQD",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "lúga",
+     "hatch",
+     "reyklúga"
+    ]
+   }
+  },
+  {
+   "id": "table",
+   "category": [
+    "OST_GenericModel",
+    "OST_SpecialityEquipment",
+    "OST_Furniture",
+    "OST_Casework"
+   ],
+   "class": "UBE",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "borð",
+     "table",
+     "bord",
+     "skrifborð",
+     "desk"
+    ]
+   }
+  },
+  {
+   "id": "seat",
+   "category": [
+    "OST_GenericModel",
+    "OST_SpecialityEquipment",
+    "OST_Furniture",
+    "OST_Casework"
+   ],
+   "class": "CLC",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "stóll",
+     "stólar",
+     "sófi",
+     "bekkur",
+     "chair",
+     "sofa",
+     "bench",
+     "stol",
+     "seat"
+    ]
+   }
+  },
+  {
    "id": "casework",
    "category": [
     "OST_Casework"
