@@ -382,5 +382,6 @@
   "params.migrate_rolled_back": "The move failed and was rolled back completely, so the project is unchanged and no values were lost. Error: {error}",
   "msg.discard_changes": "Close without saving? The changes you made in this window will be lost.",
   "loc.try_last_segment": "the storey is already in the number; choose \"Last part of Number\" in Project setup",
-  "loc.hint_last_segment": "{n} rooms have numbers like 01-03, with the storey already in front. Open Project setup > Storeys and rooms and choose \"Last part of Number\" for Room number. 01-03 then becomes B01.01.003. Then run Locations again."
+  "loc.hint_last_segment": "{n} rooms have numbers like 01-03, with the storey already in front. Open Project setup > Storeys and rooms and choose \"Last part of Number\" for Room number. 01-03 then becomes B01.01.003. Then run Locations again.",
+  "loc.no_room_why": "Common reasons: the element is outdoors (site, façade equipment), in a room without a number or storey code, or above the room's upper limit (Upper Limit / Limit Offset). Here they are by category:"
 }

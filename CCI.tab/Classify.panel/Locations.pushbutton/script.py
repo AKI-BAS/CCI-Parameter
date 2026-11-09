@@ -14,8 +14,10 @@ doc = ui.doc()
 ui.require_project(doc)
 settings = ui.settings_or_warn(doc)
 scopes = settings["scopes"]
-write_rooms = "operations" in scopes
 write_elements = "location_id" in scopes
+# room numbers are part of Operations; with Location ID they're written
+# too, since +B01.01.003 on an element refers to the room's number
+write_rooms = "operations" in scopes or write_elements
 if not (write_rooms or write_elements):
     ui.alert("loc.nothing_in_scope", exit=True)
 
@@ -23,7 +25,8 @@ level_codes = settings["levels"]
 building = settings["building"]
 mode = settings["room_number_mode"]
 stats = {"rooms": 0, "elements": 0, "no_room": 0, "not_point": 0,
-         "bad_rooms": [], "not_bound": 0, "try_last": 0}
+         "bad_rooms": [], "not_bound": 0, "try_last": 0,
+         "no_room_cats": {}}
 
 
 def compute_space_codes(spaces):
@@ -111,9 +114,10 @@ def room_of(element, phase):
     pt = util.point_of(element)
     if pt is None:
         return False   # walls, floors... no single room
-    # a point exactly on the floor is on the room's lower boundary; look a
-    # little above it first (Revit units are feet: 1 ft = 0.3 m)
-    for p in (pt + XYZ(0, 0, 1.0), pt):
+    # a point exactly on the floor is on the room's lower boundary, and
+    # ceiling lights sit at or above the room's top: try a little above,
+    # the point itself, then below (Revit units are feet: 1 ft = 0.3 m)
+    for p in (pt + XYZ(0, 0, 1.0), pt, pt + XYZ(0, 0, -2.0)):
         room = doc.GetRoomAtPoint(p, phase) if phase else \
             doc.GetRoomAtPoint(p)
         if room is not None:
@@ -156,6 +160,9 @@ with ui.Tx(doc, "tx.locations"):
             loc = codes.get(uid) if uid else None
             if not loc:
                 stats["no_room"] += 1
+                cat = e.Category.Name if e.Category else "?"
+                stats["no_room_cats"][cat] = \
+                    stats["no_room_cats"].get(cat, 0) + 1
                 continue
             if util.set_key(e, "location_at_id", "+" + loc):
                 stats["elements"] += 1
@@ -166,6 +173,11 @@ out.print_md(t("loc.done", rooms=stats["rooms"],
                elements=stats["elements"]))
 if stats["no_room"]:
     out.print_md(t("loc.no_room", n=stats["no_room"]))
+    out.print_md(t("loc.no_room_why"))
+    out.print_table(sorted(([c, n] for c, n in
+                            stats["no_room_cats"].items()),
+                           key=lambda r: -r[1]),
+                    columns=[t("col.category"), t("col.count")])
 if stats["not_point"]:
     out.print_md(t("loc.not_point", n=stats["not_point"]))
 if stats["not_bound"]:
