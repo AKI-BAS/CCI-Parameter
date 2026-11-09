@@ -107,6 +107,18 @@ def auto_room_numbers(rooms, pad=3, existing=None):
     return out
 
 
+def lowest_room(candidates):
+    """Location for an element that lies in several rooms: the room on
+    the lowest storey, and on that storey the lowest room number.
+
+    candidates: [(level elevation, 'B01.01.003'), ...]. Returns the
+    location or None."""
+    cands = [c for c in candidates if c[1]]
+    if not cands:
+        return None
+    return min(cands, key=lambda c: (c[0], natural_key(c[1])))[1]
+
+
 def room_location(building, level_code, number):
     """(location_id, location_at_id) or (None, issue_key)."""
     if level_code is None:

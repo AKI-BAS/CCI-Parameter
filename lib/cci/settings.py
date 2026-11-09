@@ -15,6 +15,9 @@ DEFAULTS = {
     "levels": {},                  # Revit level name -> 01 / K1 / M2
     "room_number_mode": "as_is",   # as_is | last_segment | auto
     "door_room": "to",             # doors/windows: to-room or from-room first
+    # walls, floors, pipes... in several rooms: location of the room on
+    # the lowest storey (then the lowest room number), or none
+    "multi_room": "lowest",        # lowest | none
     "lod_default": 300,
     "lod": {},                     # group id -> 200/300/325/400
     "type_pad": 3,                 # %QQC001
@@ -82,6 +85,8 @@ def validate(settings):
     for key in ("type_pad", "single_pad"):
         if int(settings[key]) not in (1, 2, 3, 4):
             issues.append(("set.pad", {"value": settings[key]}))
+    if settings.get("multi_room", "lowest") not in ("lowest", "none"):
+        issues.append(("set.room_mode", {"value": settings["multi_room"]}))
     if settings["room_number_mode"] not in ("as_is", "last_segment", "auto"):
         issues.append(("set.room_mode", {"value":
                                          settings["room_number_mode"]}))

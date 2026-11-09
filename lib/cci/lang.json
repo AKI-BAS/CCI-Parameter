@@ -146,7 +146,7 @@
   "loc.title": "CCI locations",
   "loc.done": "Room numbers written on **{rooms}** rooms and locations on **{elements}** elements.",
   "loc.no_room": "{n} elements are not in a room with a room number and got no location.",
-  "loc.not_point": "{n} elements (walls, floors etc.) span several rooms and get no location ID.",
+  "loc.not_point": "{n} elements (walls, floors etc.) lie in more than one room and get no location ID (set in Project setup).",
   "loc.not_bound": "{n} rooms don't have the CCIMultiLevelLocationID parameter. Run Parameters.",
   "loc.bad_rooms": "Rooms without a room number ({n})",
   "loc.nothing_in_scope": "Neither space information (Operations) nor location ID is in the project's scope. Change it in Project setup.",
@@ -383,5 +383,9 @@
   "msg.discard_changes": "Close without saving? The changes you made in this window will be lost.",
   "loc.try_last_segment": "the storey is already in the number; choose \"Last part of Number\" in Project setup",
   "loc.hint_last_segment": "{n} rooms have numbers like 01-03, with the storey already in front. Open Project setup > Storeys and rooms and choose \"Last part of Number\" for Room number. 01-03 then becomes B01.01.003. Then run Locations again.",
-  "loc.no_room_why": "Common reasons: the element is outdoors (site, façade equipment), in a room without a number or storey code, or above the room's upper limit (Upper Limit / Limit Offset). Here they are by category:"
+  "loc.no_room_why": "Common reasons: the element is outdoors (site, façade equipment), in a room without a number or storey code, or above the room's upper limit (Upper Limit / Limit Offset). Here they are by category:",
+  "setup.multiroom": "Elements in more than one room (walls, floors, pipes)",
+  "setup.multiroom.lowest": "The room on the lowest storey (then lowest room number)",
+  "setup.multiroom.none": "No location",
+  "loc.multi": "{n} elements (walls, floors, pipes etc.) lie in more than one room and got the location of the room on the lowest storey."
 }

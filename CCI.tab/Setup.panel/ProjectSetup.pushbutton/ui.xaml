@@ -69,6 +69,11 @@
                          VerticalAlignment="Center"/>
               <ComboBox x:Name="doorroom_cb" Width="320"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock x:Name="multiroom_l" Width="200"
+                         VerticalAlignment="Center" TextWrapping="Wrap"/>
+              <ComboBox x:Name="multiroom_cb" Width="320"/>
+            </StackPanel>
           </StackPanel>
           <DataGrid x:Name="levels_dg" AutoGenerateColumns="False"
                     CanUserAddRows="False" CanUserDeleteRows="False"
