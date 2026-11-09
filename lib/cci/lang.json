@@ -390,6 +390,8 @@
   "loc.multi": "{n} hlutir (veggir, gólf, lagnir o.þ.h.) ná yfir fleiri en eitt rými og fengu staðsetningu rýmisins á lægstu hæðinni.",
   "setup.roomnum.number_storey": "Hæð og rými úr Number (02-37 → B01.02.037)",
   "loc.storey_mismatch": "Hæðin í rýmisnúmerinu passar ekki við hæðakóðann ({n})",
-  "loc.storey_mismatch_d": "Þessi rými eru á Revit hæð með öðrum kóða en fremst í Number (t.d. 02-37 á hæð með kóða 03). Annað hvort eru hæðakóðarnir í Uppsetningu verkefnis hliðraðir, eða rýmið er á rangri hæð í Revit. Ef númerin ráða, veldu „Hæð og rými úr Number“ í Uppsetningu.",
-  "loc.col_code": "Hæðakóði"
+  "loc.storey_mismatch_d": "Þessi rými eru á Revit hæð með öðrum kóða en fremst í Number (t.d. 01-03 á hæð með kóða 03). Yfirleitt eru hæðakóðarnir í Uppsetningu verkefnis hliðraðir: opnaðu Uppsetningu > Hæðir og rými og smelltu á „Stinga upp á kóðum“; hann les nú hæðina úr rýmisnúmerunum. Ef aðeins fá rými stangast á eru þau líklega á rangri hæð í Revit.",
+  "loc.col_code": "Hæðakóði",
+  "loc.col_in_number": "Hæð í Number",
+  "loc.col_examples": "Dæmi"
 }
