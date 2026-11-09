@@ -382,5 +382,6 @@
   "params.migrate_rolled_back": "Flutningurinn tókst ekki og var allur afturkallaður, svo verkefnið er óbreytt og engin gildi töpuðust. Villa: {error}",
   "msg.discard_changes": "Hætta við án þess að vista? Breytingarnar sem þú gerðir í glugganum tapast.",
   "loc.try_last_segment": "hæðin er þegar í númerinu; veldu „Síðasta hluta Number“ í Uppsetningu verkefnis",
-  "loc.hint_last_segment": "{n} rými hafa númer eins og 01-03, þar sem hæðin er þegar fremst. Opnaðu Uppsetningu verkefnis > Hæðir og rými og veldu „Síðasta hluta Number“ við Rýmisnúmer. Þá verður 01-03 að B01.01.003. Keyrðu svo Staðsetningu aftur."
+  "loc.hint_last_segment": "{n} rými hafa númer eins og 01-03, þar sem hæðin er þegar fremst. Opnaðu Uppsetningu verkefnis > Hæðir og rými og veldu „Síðasta hluta Number“ við Rýmisnúmer. Þá verður 01-03 að B01.01.003. Keyrðu svo Staðsetningu aftur.",
+  "loc.no_room_why": "Algengar ástæður: hluturinn er utandyra (lóð, útveggjabúnaður), í rými án rýmisnúmers eða hæðakóða, eða ofan við efri mörk rýmisins (Upper Limit / Limit Offset). Hér er skiptingin eftir flokkum:"
 }
