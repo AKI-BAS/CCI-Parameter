@@ -432,3 +432,14 @@ def test_started_from_selection_can_show_whole_model(model, monkeypatch):
         fr.STATE["selection"] = []
     assert seen["before"] == 1 and seen["after"] > 1
     assert seen["kept"] == ["QQE"]
+
+
+def test_roof_window_finds_the_room_below(model):
+    win_t = fr.Element("OST_Windows", "Velux", cci(TYPE_KEYS))
+    win_t.is_type = True
+    win = fr.FamilyInstance("OST_Windows", "", cci(INST_KEYS), etype=win_t)
+    win.bbox = fr.BoundingBox((0, 0, 20), (2, 2, 21))
+    model["doc"].elements += [win_t, win]
+    model["doc"].room_at = lambda p: model["room"] if p[2] < 15 else None
+    run("locations")
+    assert val(win, "location_at_id") == "+B01.01.101"
