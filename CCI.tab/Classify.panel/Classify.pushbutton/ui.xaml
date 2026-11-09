@@ -22,6 +22,8 @@
                 Click="pick_click"/>
         <Button x:Name="replace_b" Margin="8,0,0,0" Padding="8,2"
                 Click="replace_click"/>
+        <Button x:Name="all_b" Margin="8,0,0,0" Padding="8,2"
+                FontWeight="SemiBold" Click="all_click"/>
       </StackPanel>
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
