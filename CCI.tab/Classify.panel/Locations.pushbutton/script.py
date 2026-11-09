@@ -189,6 +189,8 @@ def sample_points(element):
         lv_z = level_elevation(element)
         if lv_z is not None and lv_z + 1.0 < lo.Z:
             zs.append(lv_z + 1.0)   # high windows in rooms set low
+        if cat in WALL_HOSTED:
+            zs.append(lo.Z - 2.0)   # roof windows: the room is below
     pts = []
     loc = element.Location
     if isinstance(element, Wall) and isinstance(loc, LocationCurve):
