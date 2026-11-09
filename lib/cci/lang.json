@@ -43,7 +43,7 @@
   "setup.col_code": "Code",
   "setup.roomnum": "Room number (zzz) taken from",
   "setup.roomnum.as_is": "Revit Number as it is (1-3 digits)",
-  "setup.roomnum.last_segment": "Last part of Number (2.101 → 101)",
+  "setup.roomnum.last_segment": "Last part of Number (2.101 → 101, 01-03 → 003)",
   "setup.roomnum.auto": "Running number per storey",
   "setup.doorroom": "Doors and windows belong to",
   "setup.doorroom.to": "The room they open into (To Room)",
@@ -380,5 +380,7 @@
   "guide.browser_d": "Search the whole CCI table in Icelandic, English or Danish, or by code. Pick a row to see its definition, where it sits in the system and which values go into Revit.",
   "guide.browser_count": "{n} classes",
   "params.migrate_rolled_back": "The move failed and was rolled back completely, so the project is unchanged and no values were lost. Error: {error}",
-  "msg.discard_changes": "Close without saving? The changes you made in this window will be lost."
+  "msg.discard_changes": "Close without saving? The changes you made in this window will be lost.",
+  "loc.try_last_segment": "the storey is already in the number; choose \"Last part of Number\" in Project setup",
+  "loc.hint_last_segment": "{n} rooms have numbers like 01-03, with the storey already in front. Open Project setup > Storeys and rooms and choose \"Last part of Number\" for Room number. 01-03 then becomes B01.01.003. Then run Locations again."
 }
