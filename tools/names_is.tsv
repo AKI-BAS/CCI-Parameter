@@ -237,6 +237,7 @@ L:ULM	Veggeining
 L:UND	Póstakerfi
 L:UAC	Lampi*
 L:UAD	Stigakjálki
+L:UAJ	Ökutækjastæði	bílastæði, bílastæðareitur, hjólastandur, parking bay
 L:UBA	Strengjabakki
 L:UBB	Upphengja
 L:UBC	Þrep
@@ -302,7 +303,7 @@ L:BQB	Gasskynjari
 L:TRA	Tré
 L:UCB	Gróðurmold
 S:A	Rými til búsetu
-S:AA	Íverurými
+S:AA	Íverurými	svalir, verönd, þaksvalir
 S:AAA	Herbergi
 S:AAB	Stofa
 S:AAC	Biðrými
@@ -370,7 +371,7 @@ S:CB	Búnaðargeymsla
 S:CBA	Húsgagnageymsla
 S:CBB	Verkfærageymsla
 S:CBC	Tækjageymsla
-S:CBD	Ökutækjageymsla
+S:CBD	Ökutækjageymsla	bílastæði, bílakjallari, bílageymsla, bílskúr, hjólageymsla
 S:CC	Dýrarými
 S:CCA	Búr
 S:CCB	Stía
@@ -386,7 +387,7 @@ S:D	Tæknirými
 S:DA	Lagnarými
 S:DAA	Rafmagnsrými
 S:DAB	Tölvurými
-S:DAC	Lagna- og vélarými
+S:DAC	Lagna- og vélarými	sprinklerrými, úðakerfisrými, inntaksrými, tæknirými, hitaklefi
 S:DAD	Sameiginlegt lagnarými
 S:DB	Búnaðarrými
 S:DBA	Stjórnbúnaðarrými
@@ -477,6 +478,8 @@ E:C	Innviðir
 E:CA	Samgöngumannvirki
 E:CB	Endastöð
 E:CC	Bílastæðamannvirki
+E:CCA	Hjólastæði
+E:CCB	Bílastæði	bílastæðahús, bílakjallari, car park
 E:CD	Fjarskiptabygging
 E:CE	Vatnsstjórnunarmannvirki
 E:D	Landslag

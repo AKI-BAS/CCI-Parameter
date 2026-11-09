@@ -100,6 +100,13 @@ r("shower_bath", P, "XKA", SUGG, False,
 # first rule that matches wins, and e.g. "stigagangur" contains "gangur".
 SP = ["OST_Rooms", "OST_MEPSpaces"]
 ROOMS = [
+    # svalagangur (access balcony) is a corridor; other balconies and
+    # terraces have no room class in Molio's table, so the group
+    # "Occupiable space" (AA) is suggested
+    ("access_balcony", "EAC", ["svalagang", "access balcony",
+                               "altangang"]),
+    ("balcony", "AA", ["svalir", "svölum", "balcony", "balkon", "altan",
+                       "verönd", "terrace", "terrasse", "þaksvalir"]),
     ("sauna", "ABF", ["gufubað", "sauna"]),
     ("shower", "ABE", ["sturta", "sturtur", "shower", "bruserum"]),
     ("baby", "ABC", ["skiptiaðstaða", "skiptiherbergi", "baby"]),
@@ -118,14 +125,17 @@ ROOMS = [
     ("refuse", "CAA", ["sorpgeymsla", "sorp", "refuse", "waste", "affald",
                        "skraldespand"]),
     ("vehicles", "CBD", ["bílskúr", "bílageymsla", "hjólageymsla",
-                         "vagnageymsla", "garage", "carport", "cykel",
-                         "bicycle"]),
+                         "bílakjallari", "bílastæði", "bílastæðahús",
+                         "bílgeymsla", "vagnageymsla", "garage", "carport",
+                         "parking", "parkering", "cykel", "bicycle"]),
     ("clothes", "CAK", ["fataherbergi", "fatahengi", "walk-in", "garderobe",
                         "wardrobe"]),
     ("electrical", "DAA", ["rafmagnstafla", "rafmagnsherbergi",
                            "rafmagnsrými", "töflurými", "el-rum", "elrum",
                            "electrical room", "switch room"]),
     ("it", "DAB", ["tölvurými", "netþjón", "server", "it-rum", "it room"]),
+    ("sprinkler", "DAC", ["sprinkler", "úðakerfi", "úðarými",
+                          "brunavatn", "sprinkler room"]),
     ("plant", "DAC", ["inntaksrými", "inntak", "lagnarými", "tæknirými",
                       "loftræsiklefi", "loftræsirými", "hitaklefi",
                       "plant room", "teknikrum", "teknik", "mechanical"]),
@@ -169,6 +179,9 @@ r("curtain_panel", ["OST_CurtainWallPanels"], "QQA", SUGG, False, None,
 r("mullion", ["OST_CurtainWallMullions"], "UND", SUGG)
 r("window", W, "QQA", CCS, True, None, "B", "AD")
 r("door", D, "QQC", BIM_IS + "; " + CCS, True, None, "B", "AD")
+r("balcony", ["OST_Floors", "OST_GenericModel"], "AH", SUGG, False,
+  names("svalir", "svala", "svalagólf", "svalaplata", "balcony", "balkon",
+        "altan"))
 r("floor", ["OST_Floors"], "AC", CCS, True)
 r("ceiling", ["OST_Ceilings"], "NCD", CCS + " (loftklæðning)", True,
   None, "C", "AC")
@@ -208,12 +221,14 @@ r("insulation", ["OST_DuctInsulations", "OST_PipeInsulations"], "RQA",
 r("pipe", ["OST_PipeCurves", "OST_PipeFitting", "OST_FlexPipeCurves"],
   "WPA", CCS, True)
 
+# a parking bay (Revit's Parking category) positions one vehicle
+r("parking", ["OST_Parking"], "UAJ", SUGG)
+
 # known categories without a default yet
 for rid, cats in [
         ("toposolid", ["OST_Topography", "OST_Toposolid"]),
         ("site", ["OST_Site"]),
         ("generic", ["OST_GenericModel"]),
-        ("parking", ["OST_Parking"]),
         ("entourage", ["OST_Entourage"]),
         ("conduit", ["OST_Conduit", "OST_ConduitFitting"]),
         ("electrical_equipment", ["OST_ElectricalEquipment"]),

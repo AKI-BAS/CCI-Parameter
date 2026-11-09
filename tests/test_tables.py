@@ -225,7 +225,9 @@ def test_shipped_rules_use_real_codes():
     ("Skrifstofa", "BAA"), ("Baðherbergi", "ABA"), ("Gufubað", "ABF"),
     ("Salerni", "ABB"), ("WC", "ABB"), ("Eldhús", "BBA"),
     ("Anddyri", "EAA"), ("Inntaksrými", "DAC"), ("Fundarherbergi", "BAB"),
-    ("Corridor", "EAC"), ("Kontor", "BAA"), ("Hjólageymsla", "CBD")])
+    ("Corridor", "EAC"), ("Kontor", "BAA"), ("Hjólageymsla", "CBD"),
+    ("Bílakjallari", "CBD"), ("Bílastæði", "CBD"), ("Svalir", "AA"),
+    ("Svalagangur", "EAC"), ("Sprinklerrými", "DAC")])
 def test_room_name_rules(name, code):
     rs = rules.RuleSet(_load("rules.json"))
     r = rs.classify({"category": "OST_Rooms", "family": "", "type": name},
@@ -239,6 +241,8 @@ def test_room_name_rules(name, code):
     ("OST_PlumbingFixtures", "Salerni vegghengt", "XKB"),
     ("OST_PlumbingFixtures", "Handlaug", "XKA"),
     ("OST_PlumbingFixtures", "Sturtubotn 900x900", "XKA"),
+    ("OST_Floors", "Svalagólf 200", "AH"),
+    ("OST_Floors", "Steypt plata 250", "AC"),
     ("OST_PlumbingFixtures", "Baðkar 1700", "XKA"),
     ("OST_PlumbingFixtures", "Sturtutæki hitastýrt", "QNA"),
     ("OST_DuctAccessory", "Reykloka 200", "FMB"),

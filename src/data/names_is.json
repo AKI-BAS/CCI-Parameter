@@ -141,6 +141,21 @@
    "is": "Bílastæðamannvirki",
    "status": "draft"
   },
+  "E:CCA": {
+   "en": "Cycle park",
+   "is": "Hjólastæði",
+   "status": "draft"
+  },
+  "E:CCB": {
+   "also": [
+    "bílastæðahús",
+    "bílakjallari",
+    "car park"
+   ],
+   "en": "Car park",
+   "is": "Bílastæði",
+   "status": "draft"
+  },
   "E:CD": {
    "en": "Communication building",
    "is": "Fjarskiptabygging",
@@ -1184,6 +1199,17 @@
    "is": "Stigakjálki",
    "status": "draft"
   },
+  "L:UAJ": {
+   "also": [
+    "bílastæði",
+    "bílastæðareitur",
+    "hjólastandur",
+    "parking bay"
+   ],
+   "en": "Vehicle stand",
+   "is": "Ökutækjastæði",
+   "status": "draft"
+  },
   "L:UBA": {
    "en": "Cable tray",
    "is": "Strengjabakki",
@@ -1385,6 +1411,11 @@
    "status": "draft"
   },
   "S:AA": {
+   "also": [
+    "svalir",
+    "verönd",
+    "þaksvalir"
+   ],
    "en": "Occupiable space",
    "is": "Íverurými",
    "status": "draft"
@@ -1725,6 +1756,13 @@
    "status": "draft"
   },
   "S:CBD": {
+   "also": [
+    "bílastæði",
+    "bílakjallari",
+    "bílageymsla",
+    "bílskúr",
+    "hjólageymsla"
+   ],
    "en": "Vehicle storage space",
    "is": "Ökutækjageymsla",
    "status": "draft"
@@ -1805,6 +1843,13 @@
    "status": "draft"
   },
   "S:DAC": {
+   "also": [
+    "sprinklerrými",
+    "úðakerfisrými",
+    "inntaksrými",
+    "tæknirými",
+    "hitaklefi"
+   ],
    "en": "Mechanical installation space",
    "is": "Lagna- og vélarými",
    "status": "draft"
