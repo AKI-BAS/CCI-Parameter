@@ -379,5 +379,6 @@
   "guide.status_none": "No project open (or a family file).",
   "guide.browser_d": "Search the whole CCI table in Icelandic, English or Danish, or by code. Pick a row to see its definition, where it sits in the system and which values go into Revit.",
   "guide.browser_count": "{n} classes",
-  "params.migrate_rolled_back": "The move failed and was rolled back completely, so the project is unchanged and no values were lost. Error: {error}"
+  "params.migrate_rolled_back": "The move failed and was rolled back completely, so the project is unchanged and no values were lost. Error: {error}",
+  "msg.discard_changes": "Close without saving? The changes you made in this window will be lost."
 }

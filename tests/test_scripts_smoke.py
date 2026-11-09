@@ -2,6 +2,7 @@
 """Runs the Revit button scripts end to end on a fake model."""
 import os
 import runpy
+import types
 import sys
 
 import pytest
@@ -325,3 +326,27 @@ def test_selection_without_elements_uses_whole_model(model):
     finally:
         fr.STATE["selection"] = []
     assert val(model["door_t"], "class_t") == "QQC"
+
+
+def test_closing_with_changes_asks_first(model, monkeypatch):
+    """Escape/Cancel/X on Classify: no changes closes, changes ask."""
+    import runpy
+    asked = []
+    seen = {}
+
+    def show(self):
+        args = types.SimpleNamespace(Cancel=False)
+        self.on_closing(None, args)            # nothing changed
+        seen["clean"] = args.Cancel
+        self.rows[0].code = "QQZ"
+        fr.STATE["confirm"] = False            # "No, keep the window"
+        self.on_closing(None, args)
+        seen["kept"] = args.Cancel
+
+    monkeypatch.setattr(fr.WPFWindow, "ShowDialog", show)
+    monkeypatch.setattr(fr.forms, "alert",
+                        lambda msg, **k: asked.append(msg) or
+                        fr.STATE["confirm"])
+    run("classify")
+    assert seen == {"clean": False, "kept": True}
+    assert len(asked) == 1

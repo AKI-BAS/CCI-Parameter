@@ -33,9 +33,9 @@
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <Button x:Name="write_b" MinWidth="130" Padding="10,4"
-                Margin="0,0,8,0" IsDefault="True" Click="write_click"/>
+                Margin="0,0,8,0" Click="write_click"/>
         <Button x:Name="cancel_b" MinWidth="90" Padding="10,4"
-                IsCancel="True"/>
+                Click="cancel_click"/>
       </StackPanel>
     </DockPanel>
     <DataGrid x:Name="grid" AutoGenerateColumns="False"

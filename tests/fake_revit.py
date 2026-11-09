@@ -371,10 +371,16 @@ class Dummy(object):
     def __getattr__(self, name):
         return Dummy0()
 
+    def __iadd__(self, handler):     # event += handler
+        return self
+
 
 class Dummy0(object):
     def __getattr__(self, name):
         return lambda *a, **k: None
+
+    def __iadd__(self, handler):     # event += handler
+        return self
 
 
 class WPFWindow(object):
