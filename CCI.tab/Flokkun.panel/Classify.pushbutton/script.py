@@ -11,7 +11,7 @@ from pyrevit import forms, revit, script
 from cci import formats, groups, numbering
 from cci import table as cci_table
 from cci.i18n import t
-from cci.revit import storage, ui, util
+from cci.revit import params, storage, ui, util
 
 doc = ui.doc()
 ui.require_project(doc)
@@ -471,6 +471,7 @@ if not win.ok:
     script.exit()
 
 with ui.Tx(doc, "tx.classify"):
+    params.allow_vary_in_groups(doc)    # or Revit ungroups group copies
     stats = write(rows, win.reset_instances)
 remembered = remember(rows)
 

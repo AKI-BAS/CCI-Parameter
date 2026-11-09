@@ -74,6 +74,9 @@ fylgja breytingum.
 - **Hlaupandi rýmisnúmer haldast líka** (Staðsetning, „hlaupandi númer á
   hverri hæð“): nýtt rými fær næsta lausa númer á sinni hæð í stað þess að
   hliðra hinum.
+- **Hópar (model groups) haldast.** CCI instance eigindin eru stillt á
+  „Values can vary by group instance“, svo vöru- og staðsetningarauðkenni,
+  sem eru ólík í hverju eintaki hóps, fá Revit ekki til að leysa hópinn upp.
 - **Hlutir án tegundar** (lagnaop og önnur op) eru flokkaðir á hlutnum
   sjálfum, ein lína fyrir hvern flokk í Flokka, og fá vöruauðkenni en
   ekki tegundarauðkenni.

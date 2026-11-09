@@ -85,6 +85,7 @@ keys += [k for k in formats.OPTIONAL_PARAMS
 
 with ui.Tx(doc, "tx.params"):
     report = params.bind_all(doc, defs, keys)
+    params.allow_vary_in_groups(doc)
 
 moved = None
 if report["other_file"] and mode == "molio":
