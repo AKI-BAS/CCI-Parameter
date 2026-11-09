@@ -384,6 +384,44 @@
    }
   },
   {
+   "id": "room_access_balcony",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "EAC",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "svalagang",
+     "access balcony",
+     "altangang"
+    ]
+   }
+  },
+  {
+   "id": "room_balcony",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "AA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "svalir",
+     "svölum",
+     "balcony",
+     "balkon",
+     "altan",
+     "verönd",
+     "terrace",
+     "terrasse",
+     "þaksvalir"
+    ]
+   }
+  },
+  {
    "id": "room_sauna",
    "category": [
     "OST_Rooms",
@@ -625,9 +663,15 @@
      "bílskúr",
      "bílageymsla",
      "hjólageymsla",
+     "bílakjallari",
+     "bílastæði",
+     "bílastæðahús",
+     "bílgeymsla",
      "vagnageymsla",
      "garage",
      "carport",
+     "parking",
+     "parkering",
      "cykel",
      "bicycle"
     ]
@@ -687,6 +731,24 @@
      "server",
      "it-rum",
      "it room"
+    ]
+   }
+  },
+  {
+   "id": "room_sprinkler",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "DAC",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "sprinkler",
+     "úðakerfi",
+     "úðarými",
+     "brunavatn",
+     "sprinkler room"
     ]
    }
   },
@@ -1049,6 +1111,26 @@
    "vv": "AD"
   },
   {
+   "id": "balcony",
+   "category": [
+    "OST_Floors",
+    "OST_GenericModel"
+   ],
+   "class": "AH",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "svalir",
+     "svala",
+     "svalagólf",
+     "svalaplata",
+     "balcony",
+     "balkon",
+     "altan"
+    ]
+   }
+  },
+  {
    "id": "floor",
    "category": [
     "OST_Floors"
@@ -1295,6 +1377,14 @@
    "verified": true
   },
   {
+   "id": "parking",
+   "category": [
+    "OST_Parking"
+   ],
+   "class": "UAJ",
+   "note": "Tillaga verkfærisins / tool's suggestion - check"
+  },
+  {
    "id": "toposolid",
    "category": [
     "OST_Topography",
@@ -1315,14 +1405,6 @@
    "id": "generic",
    "category": [
     "OST_GenericModel"
-   ],
-   "class": null,
-   "note": "Enginn sjálfgefinn kóði / no default code"
-  },
-  {
-   "id": "parking",
-   "category": [
-    "OST_Parking"
    ],
    "class": null,
    "note": "Enginn sjálfgefinn kóði / no default code"
