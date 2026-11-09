@@ -8,7 +8,7 @@ from Autodesk.Revit.DB import XYZ, FamilyInstance
 
 from cci import formats, groups, levels
 from cci.i18n import t
-from cci.revit import ui, util
+from cci.revit import params, ui, util
 
 doc = ui.doc()
 ui.require_project(doc)
@@ -121,6 +121,7 @@ if spaces and not any(level_codes.values()):
 codes = compute_space_codes(spaces)
 
 with ui.Tx(doc, "tx.locations"):
+    params.allow_vary_in_groups(doc)    # or Revit ungroups group copies
     if write_rooms:
         for sp in spaces:
             loc = codes.get(sp.UniqueId)

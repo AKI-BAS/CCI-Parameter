@@ -345,3 +345,18 @@ def test_migrate_failure_raises_so_the_move_rolls_back(monkeypatch):
     import pytest
     with pytest.raises(params.MigrationError):
         params.migrate(doc, molio, ["CCIClassCode[Type]"])
+
+
+def test_instance_parameters_may_vary_between_groups(monkeypatch):
+    params = _patch(monkeypatch)
+    doc = _Doc([_El(_CatObj("OST_Doors"), True)])
+    defs = _defs(sharedparams.guid_for)
+    params.bind_all(doc, defs, ["class", "class_t", "single_id"])
+    for d in defs.values():
+        d.VariesAcrossGroups = False
+        d.SetAllowVaryBetweenGroups = \
+            (lambda dd: lambda doc, v: setattr(dd, "VariesAcrossGroups", v))(d)
+    changed = params.allow_vary_in_groups(doc)
+    assert sorted(changed) == ["CCIClassCode", "CCISingleLevelID"]
+    assert defs["CCIClassCode[Type]"].VariesAcrossGroups is False
+    assert params.allow_vary_in_groups(doc) == []

@@ -71,6 +71,9 @@ from the tool's own data, so they follow changes.
 - **Room running numbers stay too** (Locations, "running number per
   storey"): a new room gets the next free number on its storey instead of
   shifting the others.
+- **Model groups are not broken.** The CCI instance parameters are set
+  to "Values can vary by group instance", so product and location IDs,
+  which differ on every copy of a group, don't make Revit ungroup it.
 - **Elements without a type** (shaft openings and other openings) are
   classified on the element, one row per category in Classify, and get
   product IDs but no type ID.
