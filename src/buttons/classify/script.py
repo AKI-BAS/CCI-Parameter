@@ -149,8 +149,25 @@ class Row(forms.Reactive):
         return name
 
 
-def collect():
-    selected = revit.get_selection().elements
+def expand(selected):
+    """Selected elements, with model groups and assemblies opened up to
+    their members (selecting a group selects the group, not its walls)."""
+    out = []
+    for e in selected:
+        get_members = getattr(e, "GetMemberIds", None)
+        if get_members is not None:
+            try:
+                out.extend(doc.GetElement(i) for i in get_members())
+                continue
+            except Exception:
+                pass
+        out.append(e)
+    return [e for e in out if e is not None]
+
+
+def collect(use_selection=True):
+    selected = expand(revit.get_selection().elements) if use_selection \
+        else []
     elements = selected if selected else util.classified_instances(doc)
     rows = {}
     for e in elements:
@@ -424,6 +441,10 @@ def remember(rows):
 
 
 rows, from_selection = collect()
+if not rows and from_selection:
+    # the selection held nothing to classify (a view, tags, lines, a
+    # linked model...): use the whole model instead
+    rows, from_selection = collect(use_selection=False)
 if not rows:
     ui.alert("classify.nothing", exit=True)
 win = ClassifyWindow(rows, from_selection)

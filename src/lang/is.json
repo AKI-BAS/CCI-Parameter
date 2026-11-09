@@ -189,7 +189,7 @@
   "classify.fix_codes": "Lagaðu þessa kóða fyrst (flokkun 1-3 hástafir, U einn stafur, VV tveir):",
   "classify.done": "Flokkun skráð á {types} tegundir og {spaces} rými.\n\nKeyrðu Númera til að uppfæra tegundarauðkenni.",
   "classify.not_bound": "{n} tegundir/rými vantar CCI eigindi og var sleppt. Keyrðu Eigindi.",
-  "classify.nothing": "Engir byggingarhlutar fundust til að flokka.",
+  "classify.nothing": "Engir byggingarhlutar fundust til að flokka í þessu líkani. Ef byggingarhlutarnir eru í tengdum líkönum (linked models) þarf að opna hvert líkan fyrir sig og flokka þar.",
   "number.title": "CCI númerun",
   "number.nothing_in_scope": "Engin auðkenni eru í umfangi verkefnisins. Breyttu því í Uppsetningu verkefnis.",
   "number.done": "Breytt: {type} tegundarauðkenni, {ml} samsett tegundarauðkenni, {single} vöruauðkenni.",

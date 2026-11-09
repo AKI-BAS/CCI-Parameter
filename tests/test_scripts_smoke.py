@@ -314,3 +314,14 @@ def test_elements_without_a_type(model):
     shaft_rows = [row for _, _, rows in tables for row in rows
                   if "Shaft" in " ".join("%s" % c for c in row)]
     assert not any("CCITypeID" in "%s" % row for row in shaft_rows)
+
+
+def test_selection_without_elements_uses_whole_model(model):
+    """A selected view, tag or line has nothing to classify: Classify
+    falls back to the whole model instead of saying there is nothing."""
+    fr.STATE["selection"] = [fr.Element("OST_Lines", "Detail line", {})]
+    try:
+        run("classify")
+    finally:
+        fr.STATE["selection"] = []
+    assert val(model["door_t"], "class_t") == "QQC"
