@@ -26,13 +26,19 @@ with codecs.open(path, "w", "utf-8") as f:
 out = ui.output()
 out.print_md("## " + t("ifc.title"))
 out.print_md(t("ifc.written", path=path))
-out.print_md("### " + t("ifc.step1"))
-out.print_md(t("ifc.step1_d"))
+low = path.lower()
+if "downloads" in low or "\\temp" in low or "desktop" in low:
+    out.print_md("> " + t("ifc.keep_file"))
+out.print_md("### " + t("ifc.steps"))
+out.print_md("1. " + t("ifc.s1"))
+out.print_md("2. " + t("ifc.s2"))
+out.print_md("3. " + t("ifc.s3", path=path))
 out.print_table([[k, v] for k, v in
                  ifcmap.classification_settings(settings["ifc"])],
                 columns=[t("ifc.col_field"), t("ifc.col_value")])
-out.print_md("### " + t("ifc.step2"))
-out.print_md(t("ifc.step2_d", path=path))
-out.print_md("### " + t("ifc.step3"))
-out.print_md(t("ifc.step3_d"))
+out.print_md("4. " + t("ifc.s4"))
+out.print_md("5. " + t("ifc.s5"))
+out.print_md("### " + t("ifc.check"))
+for key in ("ifc.check1", "ifc.check2", "ifc.check3"):
+    out.print_md("- " + t(key))
 script.show_file_in_explorer(path)
