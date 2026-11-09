@@ -168,7 +168,7 @@
   "params.no_classification": "CCIClassification er ekki í skránni. IFC export notar það sem Classification field name; án þess fylgir CCI flokkunin ekki sem IfcClassificationReference.",
   "classify.title": "CCI flokkun",
   "classify.intro": "Ein lína fyrir hverja tegund (og hvert rýmisheiti). Dálkurinn Núna sýnir kóðun sem er þegar í líkaninu, t.d. eldri kóðun. Skipta út eldri kóðun setur tillögu verkfærisins í staðinn (valdar línur, eða allar með eldri kóðun). Heimild: Leiðbeiningar = BIM Ísland/Molio, Tillaga = verkfærið, Stofan = regla stofunnar. Hakaðu við Muna til að vista flokkun sem reglu. Óhakaðar línur eru ekki skrifaðar.",
-  "classify.intro_sel": "Aðeins tegundir valdra hluta. Breyttu dálkinum Flokkun þar sem þarf. Óhakaðar línur eru ekki skrifaðar.",
+  "classify.intro_sel": "Aðeins tegundir þeirra hluta sem voru valdir í Revit. Smelltu á „Sýna allt líkanið“ til að fá allar tegundir. Óhakaðar línur eru ekki skrifaðar.",
   "classify.search": "Leita",
   "classify.only_missing": "Aðeins óflokkað",
   "classify.use_rules": "Nota tillögu á valdar línur",
@@ -396,5 +396,6 @@
   "loc.col_examples": "Dæmi",
   "setup.skip_loose": "Lausir munir (húsgögn, stólar, borð, bílastæðamerkingar) eru valkvæðir",
   "setup.skip_loose_d": "Þeir eru flokkaðir eins og annað ef þú vilt, en Athuga og Staðsetning krefjast ekki kóða eða staðsetningar á þeim. Skilin snúast um það sem er hluti af byggingunni; lausir munir færast og breytast.",
-  "loc.loose": "{n} lausir munir (húsgögn o.þ.h.) fundust ekki í rými og var sleppt (valkvæðir samkvæmt Uppsetningu)."
+  "loc.loose": "{n} lausir munir (húsgögn o.þ.h.) fundust ekki í rými og var sleppt (valkvæðir samkvæmt Uppsetningu).",
+  "classify.show_all": "Sýna allt líkanið"
 }

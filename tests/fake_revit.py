@@ -26,6 +26,8 @@ class Guid(object):
 
 _mod("clr", GetClrType=lambda t: t, AddReference=lambda *a: None)
 _mod("System", Guid=Guid, String=str, Int64=int, Enum=None)
+_mod("System.Windows", Visibility=types.SimpleNamespace(
+    Visible="Visible", Collapsed="Collapsed"))
 _mod("System.Collections")
 _mod("System.Collections.Generic", List=_Generic())
 

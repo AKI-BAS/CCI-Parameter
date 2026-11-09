@@ -411,3 +411,24 @@ def test_element_in_several_rooms_gets_the_lowest(model):
     run("locations")
     assert val(low, "ml_location_id") == "B01.K1.007"
     assert val(col, "location_at_id") == "+B01.K1.007"
+
+
+def test_started_from_selection_can_show_whole_model(model, monkeypatch):
+    fr.STATE["selection"] = [model["doors"][0]]
+    seen = {}
+
+    def show(self):
+        seen["before"] = len(self.rows)
+        self.rows[0].code = "QQE"
+        self.all_click(None, None)
+        seen["after"] = len(self.rows)
+        seen["kept"] = [r.code for r in self.rows
+                        if r.key == model["door_t"].UniqueId]
+
+    monkeypatch.setattr(fr.WPFWindow, "ShowDialog", show)
+    try:
+        run("classify")
+    finally:
+        fr.STATE["selection"] = []
+    assert seen["before"] == 1 and seen["after"] > 1
+    assert seen["kept"] == ["QQE"]

@@ -168,7 +168,7 @@
   "params.no_classification": "CCIClassification is not in the file. The IFC export uses it as the Classification field name; without it the CCI classification is not exported as an IfcClassificationReference.",
   "classify.title": "CCI classification",
   "classify.intro": "One row per type (and per room name). The Now column shows coding already in the model, e.g. old coding. Replace old coding puts the tool's suggestion in its place (selected rows, or all rows with old coding). Source: Guidelines = BIM Ísland/Molio, Suggestion = the tool, Studio = a studio rule. Tick Remember to save a classification as a rule. Unticked rows are not written.",
-  "classify.intro_sel": "Only the types of the selected elements. Edit the Class column where needed. Unticked rows are not written.",
+  "classify.intro_sel": "Only the types of the elements selected in Revit. Click \"Show the whole model\" to get every type. Unticked rows aren't written.",
   "classify.search": "Search",
   "classify.only_missing": "Unclassified only",
   "classify.use_rules": "Use suggestion on selected rows",
@@ -396,5 +396,6 @@
   "loc.col_examples": "Examples",
   "setup.skip_loose": "Loose items (furniture, chairs, tables, parking marks) are optional",
   "setup.skip_loose_d": "They're classified like anything else if you want, but Check and Locations don't require codes or a location on them. The delivery is about what is part of the building; loose items move and change.",
-  "loc.loose": "{n} loose items (furniture etc.) weren't in a room and were skipped (optional per Project setup)."
+  "loc.loose": "{n} loose items (furniture etc.) weren't in a room and were skipped (optional per Project setup).",
+  "classify.show_all": "Show the whole model"
 }
