@@ -120,6 +120,10 @@ class ClassTable(object):
             label = self.name(code, lang, top)
             if lang == "is" and e.get("en") and not label.startswith("("):
                 label = "%s (%s)" % (label, e["en"])
+            also = self.names.get(domain + ":" + code, {}).get("also")
+            if lang == "is" and also:
+                # so pyRevit's search box in Pick from table finds them too
+                label = "%s · %s" % (label, ", ".join(also))
             out.append((code, label))
         return out
 
@@ -128,8 +132,9 @@ class ClassTable(object):
         out = []
         for code, label in self.choices(domain, lang):
             e = self.domains[domain][code]
+            also = self.names.get(domain + ":" + code, {}).get("also") or []
             hay = " ".join([code, label, e.get("en", ""), e.get("da", ""),
-                            e.get("def_en", "")]).lower()
+                            e.get("def_en", "")] + list(also)).lower()
             if not text or text in hay:
                 out.append((code, label))
                 if len(out) >= limit:

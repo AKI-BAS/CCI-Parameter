@@ -242,6 +242,12 @@
    "status": "draft"
   },
   "L:AH": {
+   "also": [
+    "svalagólf",
+    "svalaplata",
+    "balcony",
+    "altan"
+   ],
    "en": "Balcony",
    "is": "Svalir",
    "status": "draft"
@@ -1007,6 +1013,13 @@
    "status": "draft"
   },
   "L:QNA": {
+   "also": [
+    "blöndunartæki",
+    "krani",
+    "sturtutæki",
+    "mixer tap",
+    "faucet"
+   ],
    "en": "Liquid control valve",
    "is": "Stjórnloki",
    "status": "bim_island"
@@ -1307,6 +1320,16 @@
    "status": "draft"
   },
   "L:XKA": {
+   "also": [
+    "handlaug",
+    "eldhúsvaskur",
+    "baðkar",
+    "sturtubotn",
+    "sturta",
+    "basin",
+    "bathtub",
+    "shower tray"
+   ],
    "en": "Sink",
    "is": "Vaskur",
    "status": "draft"
@@ -2092,8 +2115,12 @@
    "status": "draft"
   },
   "S:PBE": {
+   "also": [
+    "katlarými",
+    "eldstæði"
+   ],
    "en": "Fire zone",
-   "is": "Brunahólf",
+   "is": "Brennslurými",
    "status": "draft"
   },
   "group:component:B": {
