@@ -254,6 +254,24 @@ class ClassifyWindow(forms.WPFWindow):
             col.Header = t(key) if key else ""
         self.grid.ItemsSource = rows
         self._status()
+        # Escape no longer closes the window, and closing it (Cancel or
+        # the X) asks first when something was changed
+        self._start = self._state()
+        self.Closing += self.on_closing
+
+    def _state(self):
+        return [(r.code, r.include, r.u, r.vv, r.remember)
+                for r in self.rows]
+
+    def cancel_click(self, sender, args):
+        self.Close()
+
+    def on_closing(self, sender, args):
+        if self.ok or self._state() == self._start:
+            return
+        if not forms.alert(t("msg.discard_changes"), title=t("app.name"),
+                           yes=True, no=True):
+            args.Cancel = True
 
     def _status(self):
         done = sum(1 for r in self.rows if r.code)

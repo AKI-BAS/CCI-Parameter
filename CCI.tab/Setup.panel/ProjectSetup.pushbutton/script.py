@@ -71,6 +71,28 @@ class SetupWindow(forms.WPFWindow):
         self.saved = False
         self._texts()
         self._fill()
+        # Escape no longer closes the window; closing with changes asks
+        self._start = self._gather_safe()
+        self.Closing += self.on_closing
+
+    def _gather_safe(self):
+        try:
+            return self._gather()
+        except Exception:
+            return None
+
+    def cancel_click(self, sender, args):
+        self.Close()
+
+    def on_closing(self, sender, args):
+        if self.saved:
+            return
+        now = self._gather_safe()
+        if now is not None and now == self._start:
+            return
+        if not forms.alert(t("msg.discard_changes"), title=t("setup.title"),
+                           yes=True, no=True):
+            args.Cancel = True
 
     # -- text in the current language
     def _texts(self):
@@ -191,7 +213,8 @@ class SetupWindow(forms.WPFWindow):
             row.lod = self.lod_default_cb.SelectedItem
         self.lod_dg.Items.Refresh()
 
-    def save_click(self, sender, args):
+    def _gather(self):
+        """The settings as the window shows them now."""
         s = dict(self.s)
         s["scopes"] = [sc for sc in groups.SCOPES
                        if getattr(self, "sc_" + sc).IsChecked]
@@ -221,7 +244,10 @@ class SetupWindow(forms.WPFWindow):
         ifc["edition_date"] = self.ifc_date_tb.Text.strip()
         ifc["location"] = self.ifc_loc_tb.Text.strip()
         s["ifc"] = ifc
+        return s
 
+    def save_click(self, sender, args):
+        s = self._gather()
         problems = smod.validate(s)
         if not s["scopes"]:
             problems.insert(0, ("set.no_scope", {}))
