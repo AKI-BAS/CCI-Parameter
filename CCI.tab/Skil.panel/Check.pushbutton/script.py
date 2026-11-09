@@ -129,7 +129,8 @@ out.print_table(
 if not issues:
     out.print_md("**" + t("check.all_ok") + "**")
 elif ui.confirm("check.save_csv"):
-    path = forms.save_file(file_ext="csv", default_name=t("check.csv_name"))
+    path = forms.save_file(file_ext="csv",
+                           default_name=ui.file_name(t("check.csv_name"), doc))
     if path:
         with codecs.open(path, "w", "utf-8-sig") as f:
             f.write(";".join([t("col.severity"), t("col.element"),
