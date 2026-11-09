@@ -26,7 +26,7 @@ building = settings["building"]
 mode = settings["room_number_mode"]
 stats = {"rooms": 0, "elements": 0, "no_room": 0, "not_point": 0,
          "bad_rooms": [], "not_bound": 0, "try_last": 0,
-         "no_room_cats": {}, "multi": 0}
+         "no_room_cats": {}, "multi": 0, "storey_mismatch": []}
 
 
 def compute_space_codes(spaces):
@@ -37,7 +37,17 @@ def compute_space_codes(spaces):
         lvl = sp.Level.Name if sp.Level else None
         lc = level_codes.get(lvl) if lvl else None
         raw = util.get(sp, "Number")
-        num = None if mode == "auto" else levels.room_number(raw, mode)
+        in_number = levels.storey_of_number(raw)
+        if mode == "number_storey":
+            # storey from the Number itself (02-37 -> 02), not the level
+            lc = in_number or lc
+            num = levels.room_number(raw, "last_segment")
+        elif mode == "auto":
+            num = None
+        else:
+            num = levels.room_number(raw, mode)
+        if mode == "last_segment" and in_number and lc and in_number != lc:
+            stats["storey_mismatch"].append((sp, lvl, lc, raw))
         if mode == "auto":
             auto.append((sp.UniqueId, lc, (raw or "", util.eid(sp))))
         loc, problem = levels.room_location(building, lc, num) \
@@ -96,6 +106,22 @@ def _room_prop(element, name, phase):
     except Exception:
         return None
     return value if getattr(value, "UniqueId", None) else None
+
+
+def level_name(element):
+    """The element's level, for the report."""
+    try:
+        lv = doc.GetElement(element.LevelId)
+        if lv is not None and getattr(lv, "Name", None):
+            return lv.Name
+    except Exception:
+        pass
+    for p in ("Level", "Schedule Level", "Base Level", "Reference Level",
+              "Base Constraint"):
+        v = util.get(element, p)
+        if v:
+            return v
+    return "-"
 
 
 def phases_of(element):
@@ -272,9 +298,10 @@ with ui.Tx(doc, "tx.locations"):
                 continue
             if not loc:
                 stats["no_room"] += 1
-                cat = e.Category.Name if e.Category else "?"
-                stats["no_room_cats"][cat] = \
-                    stats["no_room_cats"].get(cat, 0) + 1
+                key = (e.Category.Name if e.Category else "?",
+                       level_name(e))
+                stats["no_room_cats"][key] = \
+                    stats["no_room_cats"].get(key, 0) + 1
                 continue
             util.set_key(e, "location_at_id", "+" + loc)
             stats["elements"] += 1
@@ -286,16 +313,25 @@ out.print_md(t("loc.done", rooms=stats["rooms"],
 if stats["no_room"]:
     out.print_md(t("loc.no_room", n=stats["no_room"]))
     out.print_md(t("loc.no_room_why"))
-    out.print_table(sorted(([c, n] for c, n in
+    out.print_table(sorted(([c, lv, n] for (c, lv), n in
                             stats["no_room_cats"].items()),
-                           key=lambda r: -r[1]),
-                    columns=[t("col.category"), t("col.count")])
+                           key=lambda r: -r[2]),
+                    columns=[t("col.category"), t("col.level"),
+                             t("col.count")])
 if stats["multi"]:
     out.print_md(t("loc.multi", n=stats["multi"]))
 if stats["not_point"]:
     out.print_md(t("loc.not_point", n=stats["not_point"]))
 if stats["not_bound"]:
     out.print_md(t("loc.not_bound", n=stats["not_bound"]))
+if stats["storey_mismatch"]:
+    out.print_md("### " + t("loc.storey_mismatch",
+                            n=len(stats["storey_mismatch"])))
+    out.print_md(t("loc.storey_mismatch_d"))
+    out.print_table([[ui.link(out, util.eid(sp)), lvl or "-", lc, raw]
+                     for sp, lvl, lc, raw in stats["storey_mismatch"]],
+                    columns=[t("col.element"), t("col.level"),
+                             t("loc.col_code"), t("col.number")])
 if stats["bad_rooms"]:
     if stats["try_last"]:
         out.print_md("> **" + t("loc.hint_last_segment",

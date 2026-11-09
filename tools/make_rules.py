@@ -53,6 +53,10 @@ r("window_unit", W, "QQB", CCS, True,
         "vindueselement", "storefront"), "B", "AD")
 r("handrail", ["OST_StairsRailing", "OST_Railings"], "FQC", CCS, True,
   names("handlisti", "handrail", "håndliste", "håndlist"))
+# access control gates (security gates, speed gates) are gates: QQF Hlið
+r("access_gate", ["OST_SecurityDevices", "OST_SpecialityEquipment",
+                  "OST_GenericModel", "OST_Doors"], "QQF", SUGG, False,
+  names("aðgangshlið", "hlið", "gate", "speedgate", "turnstile"))
 # a fence on the site (girðing) is RUA; guard rails stay FQD Handrið
 r("fence", ["OST_Railings", "OST_Site"], "RUA", SUGG, False,
   names("girðing", "grindverk", "fence", "hegn", "skjólgirðing"))
@@ -82,7 +86,9 @@ r("fan", ["OST_MechanicalEquipment"], "GQB", SUGG, False,
   names("vifta", "blásari", "fan", "ventilator"))
 r("radiator", ["OST_MechanicalEquipment", "OST_PlumbingFixtures"], "EPC",
   SUGG, False, names("ofn", "radiator", "varmepanel", "ofnar"))
-P = ["OST_PlumbingFixtures"]
+# plumbing fixtures are often modelled as Generic Models or Specialty
+# Equipment (manufacturer families), so the name rules look there too
+P = ["OST_PlumbingFixtures", "OST_GenericModel", "OST_SpecialityEquipment"]
 r("urinal", P, "XKC", SUGG, False, names("þvagskál", "urinal"))
 r("toilet", P, "XKB", CCS, True,
   names("salerni", "klósett", "wc", "toilet"))
@@ -121,7 +127,18 @@ ROOMS = [
                           "trapperum", "trappe"]),
     ("lift", "EAE", ["lyftuhús", "lyfta", "lift", "elevator", "elevatorskakt"]),
     ("shaft", "EBB", ["lagnastokkur", "lagnaskakt", "shaft", "skakt"]),
-    ("airlock", "EAB", ["loftlás", "air lock", "airlock", "sluse"]),
+    ("airlock", "EAB", ["loftlás", "air lock", "airlock", "sluse",
+                        "brunastúka", "brunaforstofa", "fire lobby"]),
+    ("security", "BAK", ["öryggisstúka", "öryggisrými", "öryggisgæsla",
+                         "vaktherbergi", "vaktstofa", "security", "guard"]),
+    ("control", "DBA", ["stjórnstöð", "stjórnrými", "control room"]),
+    ("cleaning", "CBB", ["ræstirými", "ræsting", "ræstiherbergi",
+                         "ræstikompa", "rengøring", "janitor", "cleaning"]),
+    ("cold_store", "CAG", ["frystir", "frystigeymsla", "kælir",
+                           "kæligeymsla", "kælirými", "matvælageymsla",
+                           "freezer", "cold room", "køle"]),
+    ("dishwash", "BBA", ["uppvask", "uppþvott", "dishwash", "opvask"]),
+    ("print", "BAA", ["prentrými", "prent", "ljósritun", "print", "copy"]),
     ("vestibule", "EAA", ["anddyri", "forstofa", "vindfang", "inngangur",
                           "entré", "vestibule", "lobby", "foyer"]),
     ("corridor", "EAC", ["gangur", "gangar", "corridor", "hallway", "gang"]),
@@ -158,6 +175,8 @@ ROOMS = [
     ("treatment", "BAH", ["meðferðarherbergi", "meðferð", "treatment",
                           "behandling"]),
     ("kitchen", "BBA", ["eldhús", "kitchen", "køkken", "tekøkken"]),
+    ("pantry", "BBA", ["kaffiaðstaða", "kaffistofa", "kaffi",
+                       "tekøkken", "pantry", "kitchenette"]),
     ("studio", "BBD", ["vinnustofa", "studio", "atelier"]),
     ("dining", "BEA", ["borðstofa", "matsalur", "mötuneyti", "dining",
                        "spisestue", "kantine"]),
@@ -227,9 +246,14 @@ r("pipe", ["OST_PipeCurves", "OST_PipeFitting", "OST_FlexPipeCurves"],
 # a parking bay (Revit's Parking category) positions one vehicle
 r("parking", ["OST_Parking"], "UAJ", SUGG)
 
+# terrain: grass and planted ground is a vegetation area (CF), other
+# terrain the subgrade (CA)
+r("terrain_green", ["OST_Topography", "OST_Toposolid"], "CF", SUGG, False,
+  names("gras", "grass", "gróður", "græn", "beð", "planting"))
+r("terrain", ["OST_Topography", "OST_Toposolid"], "CA", SUGG)
+
 # known categories without a default yet
 for rid, cats in [
-        ("toposolid", ["OST_Topography", "OST_Toposolid"]),
         ("site", ["OST_Site"]),
         ("generic", ["OST_GenericModel"]),
         ("entourage", ["OST_Entourage"]),

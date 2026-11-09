@@ -227,7 +227,11 @@ def test_shipped_rules_use_real_codes():
     ("Anddyri", "EAA"), ("Inntaksrými", "DAC"), ("Fundarherbergi", "BAB"),
     ("Corridor", "EAC"), ("Kontor", "BAA"), ("Hjólageymsla", "CBD"),
     ("Bílakjallari", "CBD"), ("Bílastæði", "CBD"), ("Svalir", "AA"),
-    ("Svalagangur", "EAC"), ("Sprinklerrými", "DAC")])
+    ("Svalagangur", "EAC"), ("Sprinklerrými", "DAC"),
+    ("00-03 Brunastúka", "EAB"), ("00-02 Öryggisstúka", "BAK"),
+    ("01-17 Frystir", "CAG"), ("01-18 Uppvask", "BBA"),
+    ("02-22 Kaffi aðstaða", "BBA"), ("02-06 Kaffiaðsataða", "BBA"),
+    ("02-35 Ræstirými", "CBB"), ("01-14 Prentrými", "BAA")])
 def test_room_name_rules(name, code):
     rs = rules.RuleSet(_load("rules.json"))
     r = rs.classify({"category": "OST_Rooms", "family": "", "type": name},
@@ -250,7 +254,13 @@ def test_room_name_rules(name, code):
     ("OST_Planting", "Birki", "TRA"),
     ("OST_Railings", "Handrið 1100", "FQD"),
     ("OST_Railings", "Handlisti 40", "FQC"),
-    ("OST_Railings", "Girðing 1200", "RUA")])
+    ("OST_Railings", "Girðing 1200", "RUA"),
+    ("OST_GenericModel", "DURAVIT_045260-Vero-Above-Counter-Bathroom-Sink",
+     "XKA"),
+    ("OST_SecurityDevices", "NBS_Gunnebo_HalfHghtAcsCtrlGts_PreSec", None),
+    ("OST_SecurityDevices", "Aðgangshlið Gunnebo gate", "QQF"),
+    ("OST_Toposolid", "Gras og jörð", "CF"),
+    ("OST_Toposolid", "Jörð", "CA")])
 def test_element_rules(cat, name, code):
     rs = rules.RuleSet(_load("rules.json"))
     assert rs.classify({"category": cat, "family": name,

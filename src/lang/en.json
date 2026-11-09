@@ -387,5 +387,9 @@
   "setup.multiroom": "Elements in more than one room (walls, floors, pipes)",
   "setup.multiroom.lowest": "The room on the lowest storey (then lowest room number)",
   "setup.multiroom.none": "No location",
-  "loc.multi": "{n} elements (walls, floors, pipes etc.) lie in more than one room and got the location of the room on the lowest storey."
+  "loc.multi": "{n} elements (walls, floors, pipes etc.) lie in more than one room and got the location of the room on the lowest storey.",
+  "setup.roomnum.number_storey": "Storey and room from Number (02-37 → B01.02.037)",
+  "loc.storey_mismatch": "The storey in the room number doesn't match the storey code ({n})",
+  "loc.storey_mismatch_d": "These rooms are on a Revit level with a different code from the one at the front of their Number (e.g. 02-37 on a level coded 03). Either the storey codes in Project setup are shifted, or the room is on the wrong level in Revit. If the numbers are right, choose \"Storey and room from Number\" in Project setup.",
+  "loc.col_code": "Storey code"
 }

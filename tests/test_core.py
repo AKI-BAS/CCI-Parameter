@@ -410,3 +410,14 @@ def test_lowest_room():
                                (0.0, "B01.01.002"), (-3.0, None)]) \
         == "B01.01.002"
     assert levels.lowest_room([]) is None
+
+
+def test_storey_of_number_and_four_digit_ids():
+    assert levels.storey_of_number("02-37") == "02"
+    assert levels.storey_of_number("1.105") == "01"
+    assert levels.storey_of_number("K1-04") == "K1"
+    assert levels.storey_of_number("0025") is None
+    assert levels.storey_of_number("101") is None
+    assert formats.check_type_id("%BF0007") is None
+    assert formats.check_ml_type_id("§B.AD.QQC0001") is None
+    assert formats.check_type_id("%BF00007")
