@@ -10,7 +10,7 @@ from Autodesk.Revit.DB import FilteredElementCollector, Level, UnitUtils, \
 
 from cci import formats, groups, levels as levels_mod, settings as smod
 from cci.i18n import t
-from cci.revit import storage, ui
+from cci.revit import storage, ui, util
 
 doc = ui.doc()
 ui.require_project(doc)
@@ -61,6 +61,20 @@ def project_levels():
                                                   UnitTypeId.Meters)
         out.append((lv.Name, elev))
     return sorted(out, key=lambda x: x[1])
+
+
+def room_numbers():
+    """[(level name, room Number)] for the placed rooms."""
+    out = []
+    try:
+        for r in util.instances(doc, ["OST_Rooms"]):
+            if not util.is_placed_space(r):
+                continue
+            lv = r.Level.Name if r.Level else None
+            out.append((lv, util.get(r, "Number")))
+    except Exception:
+        pass
+    return out
 
 
 class SetupWindow(forms.WPFWindow):
@@ -208,6 +222,9 @@ class SetupWindow(forms.WPFWindow):
     def suggest_click(self, sender, args):
         codes = levels_mod.suggest_level_codes(
             self.lvls, self.ground_cb.SelectedItem)
+        # where the rooms already carry the storey in their numbers
+        # (02-37), follow the numbers
+        codes.update(levels_mod.codes_from_room_numbers(room_numbers()))
         for row in self.level_rows:
             row.code = codes.get(row.name, "")
         self.levels_dg.Items.Refresh()
