@@ -4,7 +4,7 @@ and spaces, and the room an element sits in (CCISingleLevelLocationAtID,
 +B01.01.001) on doors, windows, fixtures and equipment."""
 from __future__ import unicode_literals
 
-from Autodesk.Revit.DB import XYZ, FamilyInstance
+from Autodesk.Revit.DB import XYZ, FamilyInstance, LocationCurve, Wall
 
 from cci import formats, groups, levels
 from cci.i18n import t
@@ -26,7 +26,7 @@ building = settings["building"]
 mode = settings["room_number_mode"]
 stats = {"rooms": 0, "elements": 0, "no_room": 0, "not_point": 0,
          "bad_rooms": [], "not_bound": 0, "try_last": 0,
-         "no_room_cats": {}}
+         "no_room_cats": {}, "multi": 0}
 
 
 def compute_space_codes(spaces):
@@ -98,6 +98,102 @@ def _room_prop(element, name, phase):
     return value if getattr(value, "UniqueId", None) else None
 
 
+def phases_of(element):
+    """Phases to look for rooms in: the element's own phase first (rooms
+    only exist in their phase), then the project's last phase."""
+    out = []
+    try:
+        ph = doc.GetElement(element.CreatedPhaseId)
+        if ph is not None:
+            out.append(ph)
+    except Exception:
+        pass
+    last = last_phase()
+    if last is not None and not any(
+            p is last or getattr(p, "Id", 1) == getattr(last, "Id", 2)
+            for p in out):
+        out.append(last)
+    return out or [None]
+
+
+def _room_at(p, phase):
+    try:
+        return doc.GetRoomAtPoint(p, phase) if phase else \
+            doc.GetRoomAtPoint(p)
+    except Exception:
+        return None
+
+
+FLOOR_LIKE = ("OST_Floors", "OST_Roofs", "OST_Stairs", "OST_StairsRuns",
+              "OST_StairsLandings", "OST_Ramps", "OST_StructuralFoundation")
+WALL_HOSTED = ("OST_Windows", "OST_Doors", "OST_CurtainWallMullions",
+               "OST_CurtainWallPanels")
+
+
+def sample_points(element):
+    """Points inside the rooms an element touches: beside a wall on both
+    sides, above a floor, below a ceiling, in and around anything else."""
+    try:
+        bb = element.get_BoundingBox(None)
+    except Exception:
+        bb = None
+    if bb is None:
+        return []
+    cat = util.bic_name(element)
+    lo, hi = bb.Min, bb.Max
+    if cat in FLOOR_LIKE:
+        zs = [hi.Z + 1.0]
+    elif cat == "OST_Ceilings":
+        zs = [lo.Z - 1.0]
+    else:
+        zs = [lo.Z + 1.0, (lo.Z + hi.Z) / 2.0]
+    pts = []
+    loc = element.Location
+    if isinstance(element, Wall) and isinstance(loc, LocationCurve):
+        curve = loc.Curve
+        side = (getattr(element, "Width", 0.0) or 0.0) / 2.0 + 1.0
+        for i in range(5):
+            prm = 0.1 + 0.2 * i
+            try:
+                pt = curve.Evaluate(prm, True)
+                d = curve.ComputeDerivatives(prm, True).BasisX.Normalize()
+            except Exception:
+                continue
+            n = XYZ(-d.Y, d.X, 0)
+            for s in (1.0, -1.0):
+                for z in zs:
+                    pts.append(XYZ(pt.X + n.X * side * s,
+                                   pt.Y + n.Y * side * s, z))
+        return pts
+    grow = 1.5 if cat in WALL_HOSTED else 0.0
+    for i in range(4):
+        for j in range(4):
+            x = lo.X - grow + (hi.X - lo.X + 2 * grow) * (0.125 + 0.25 * i)
+            y = lo.Y - grow + (hi.Y - lo.Y + 2 * grow) * (0.125 + 0.25 * j)
+            for z in zs:
+                pts.append(XYZ(x, y, z))
+    return pts
+
+
+def lowest_room_location(element, phases):
+    """Location of the room on the lowest storey the element touches."""
+    cands = []
+    seen = set()
+    for p in sample_points(element):
+        for ph in phases:
+            room = _room_at(p, ph)
+            uid = getattr(room, "UniqueId", None) if room else None
+            if not uid or uid in seen:
+                continue
+            seen.add(uid)
+            try:
+                elev = room.Level.Elevation if room.Level else 0.0
+            except Exception:
+                elev = 0.0
+            cands.append((elev, codes.get(uid)))
+    return levels.lowest_room(cands)
+
+
 def room_of(element, phase):
     if isinstance(element, FamilyInstance):
         cat = util.bic_name(element)
@@ -145,27 +241,43 @@ with ui.Tx(doc, "tx.locations"):
             if not util.has_key(sp, "ml_location_id"):
                 stats["not_bound"] += 1
                 continue
-            if util.set_key(sp, "ml_location_id", loc):
-                stats["rooms"] += 1
+            util.set_key(sp, "ml_location_id", loc)
+            stats["rooms"] += 1
     if write_elements:
-        phase = last_phase()
+        lowest = settings.get("multi_room", "lowest") == "lowest"
         for e in others:
             if not util.has_key(e, "location_at_id"):
                 continue
-            room = room_of(e, phase)
-            if room is False:
+            phases = phases_of(e)
+            loc = None
+            single = False
+            for ph in phases:
+                room = room_of(e, ph)
+                if room is False:
+                    break
+                single = True
+                uid = getattr(room, "UniqueId", None) if room else None
+                loc = codes.get(uid) if uid else None
+                if loc:
+                    break
+            if not loc and lowest:
+                # several rooms (walls, floors, pipes) or none found at its
+                # point (exterior windows, mullions): the room on the
+                # lowest storey it touches
+                loc = lowest_room_location(e, phases)
+                if loc and not single:
+                    stats["multi"] += 1
+            if not loc and not single:
                 stats["not_point"] += 1
                 continue
-            uid = getattr(room, "UniqueId", None) if room else None
-            loc = codes.get(uid) if uid else None
             if not loc:
                 stats["no_room"] += 1
                 cat = e.Category.Name if e.Category else "?"
                 stats["no_room_cats"][cat] = \
                     stats["no_room_cats"].get(cat, 0) + 1
                 continue
-            if util.set_key(e, "location_at_id", "+" + loc):
-                stats["elements"] += 1
+            util.set_key(e, "location_at_id", "+" + loc)
+            stats["elements"] += 1
 
 out = ui.output()
 out.print_md("## " + t("loc.title"))
@@ -178,6 +290,8 @@ if stats["no_room"]:
                             stats["no_room_cats"].items()),
                            key=lambda r: -r[1]),
                     columns=[t("col.category"), t("col.count")])
+if stats["multi"]:
+    out.print_md(t("loc.multi", n=stats["multi"]))
 if stats["not_point"]:
     out.print_md(t("loc.not_point", n=stats["not_point"]))
 if stats["not_bound"]:

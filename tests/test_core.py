@@ -403,3 +403,10 @@ def test_functional_id_examples_from_bim_island():
               "=H201.HD002.EPC001"):
         assert formats.check_functional_id(v) is None, v
     assert formats.check_functional_id("=H1.HD02.EGC001")
+
+
+def test_lowest_room():
+    assert levels.lowest_room([(3.0, "B01.02.001"), (0.0, "B01.01.010"),
+                               (0.0, "B01.01.002"), (-3.0, None)]) \
+        == "B01.01.002"
+    assert levels.lowest_room([]) is None

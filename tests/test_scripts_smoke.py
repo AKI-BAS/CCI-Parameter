@@ -387,3 +387,27 @@ def test_location_id_scope_also_numbers_rooms(model):
     run("locations")
     assert val(model["room"], "ml_location_id") == "B01.01.101"
     assert val(model["doors"][0], "location_at_id") == "+B01.01.101"
+
+
+def test_element_in_several_rooms_gets_the_lowest(model):
+    """A column (no single room) between a room on 1st floor and one on
+    the basement level gets the basement room's location."""
+    from cci.revit import storage
+    s = storage.load_settings(model["doc"])
+    s["room_number_mode"] = "as_is"
+    storage.save_settings(model["doc"], s)
+    lvl0 = [e for e in model["doc"].elements
+            if isinstance(e, fr.Level) and e.Name == "Kjallari"][0]
+    low = fr.Element("OST_Rooms", "Geymsla", dict(
+        cci(["class", "topnode", "ml_location_id", "classification"]),
+        Number="7", Name="Geymsla"), level=lvl0, location=fr.LocationPoint())
+    col_t = fr.Element("OST_StructuralColumns", "Súla", cci(TYPE_KEYS))
+    col_t.is_type = True
+    col = fr.Element("OST_StructuralColumns", "", cci(INST_KEYS),
+                     etype=col_t)
+    col.bbox = fr.BoundingBox((0, 0, -10), (1, 1, 10))
+    model["doc"].elements += [low, col_t, col]
+    model["doc"].room_at = lambda p: low if p[2] < 0 else model["room"]
+    run("locations")
+    assert val(low, "ml_location_id") == "B01.K1.007"
+    assert val(col, "location_at_id") == "+B01.K1.007"

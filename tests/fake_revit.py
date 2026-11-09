@@ -111,8 +111,13 @@ class Element(object):
         self.entities = {}
         self.is_type = False
 
+    bbox = None
+
     def LookupParameter(self, name):
         return self.params.get(name)
+
+    def get_BoundingBox(self, view):
+        return self.bbox
 
     def get_Parameter(self, bip):
         return None
@@ -168,6 +173,20 @@ class XYZ(tuple):
 
     def __add__(self, o):
         return XYZ(*[a + b for a, b in zip(self, o)])
+
+    X = property(lambda self: self[0])
+    Y = property(lambda self: self[1])
+    Z = property(lambda self: self[2])
+
+
+class LocationCurve(object):
+    def __init__(self, curve):
+        self.Curve = curve
+
+
+class BoundingBox(object):
+    def __init__(self, lo, hi):
+        self.Min, self.Max = XYZ(*lo), XYZ(*hi)
 
 
 class LocationPoint(object):
@@ -262,7 +281,8 @@ _db = _mod("Autodesk.Revit.DB",
            ElementMulticategoryFilter=Filter,
            FamilyInstance=FamilyInstance,
            FilteredElementCollector=FilteredElementCollector,
-           LocationPoint=LocationPoint, XYZ=XYZ, StorageType=StorageType, Wall=Wall,
+           LocationPoint=LocationPoint, LocationCurve=LocationCurve,
+           XYZ=XYZ, StorageType=StorageType, Wall=Wall,
            WallKind=_AnyNS(), Element=Element, Level=Level,
            BuiltInParameter=_AnyNS(), Category=Category,
            CategorySet=list, GroupTypeId=_AnyNS(), SpecTypeId=_AnyNS(),
@@ -349,8 +369,10 @@ class Doc(object):
                 return e
         return None
 
+    room_at = None      # test hook: function(point) -> room or None
+
     def GetRoomAtPoint(self, pt, phase=None):
-        return None
+        return self.room_at(pt) if self.room_at else None
 
 
 STATE = {"doc": None, "alerts": [], "output": None, "selection": [],
