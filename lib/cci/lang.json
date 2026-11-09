@@ -189,7 +189,7 @@
   "classify.fix_codes": "Fix these codes first (class 1-3 capital letters, U one letter, VV two):",
   "classify.done": "Classification written on {types} types and {spaces} rooms.\n\nRun Number to update the type IDs.",
   "classify.not_bound": "{n} types/rooms are missing CCI parameters and were skipped. Run Parameters.",
-  "classify.nothing": "No building elements found to classify.",
+  "classify.nothing": "No building elements found to classify in this model. If the elements are in linked models, open each model and classify it there.",
   "number.title": "CCI numbering",
   "number.nothing_in_scope": "No IDs are in the project's scope. Change it in Project setup.",
   "number.done": "Changed: {type} type IDs, {ml} multi-level type IDs, {single} product IDs.",
