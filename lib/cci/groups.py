@@ -66,6 +66,22 @@ EXTRA_CATEGORIES = ["OST_Furniture", "OST_FurnitureSystems",
                     "OST_Columns", "OST_Parking", "OST_Entourage"]
 
 
+# Loose items: furniture, chairs, tables, people, parking marks. They are
+# classified like anything else, but with "skip_loose" on they are not
+# required to have codes or a location: they move and change, and the
+# delivery is about what is built into the building.
+LOOSE_CATEGORIES = ("OST_Furniture", "OST_FurnitureSystems", "OST_Entourage",
+                    "OST_Parking")
+LOOSE_CLASSES = ("CLC", "UBE")     # seats and tables, whatever the category
+
+
+def is_loose(category, class_code=None):
+    if category in LOOSE_CATEGORIES:
+        return True
+    return bool(class_code) and class_code in LOOSE_CLASSES and \
+        category != "OST_Casework"
+
+
 def all_categories():
     cats = []
     for _, c in GROUPS:

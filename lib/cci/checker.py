@@ -86,6 +86,9 @@ def check(records, project_settings, class_table=None):
         need = groups.required_fields(kind, group, lod, s["scopes"])
         allowed = groups.PARAMS_BY_KIND[kind]
         cls_now, _ = effective(rec, "class")
+        if s.get("skip_loose", True) and \
+                groups.is_loose(rec.get("category"), cls_now):
+            need = []       # loose items: nothing required, formats checked
         if cls_now and len(cls_now) != 3 and "ml_type_id" in need:
             # §U.VV.XXX needs a component (3 letters); systems such as
             # AD (walls) can't have one.

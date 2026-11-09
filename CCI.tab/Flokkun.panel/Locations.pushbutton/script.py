@@ -26,7 +26,8 @@ building = settings["building"]
 mode = settings["room_number_mode"]
 stats = {"rooms": 0, "elements": 0, "no_room": 0, "not_point": 0,
          "bad_rooms": [], "not_bound": 0, "try_last": 0,
-         "no_room_cats": {}, "multi": 0, "storey_mismatch": []}
+         "no_room_cats": {}, "multi": 0, "storey_mismatch": [],
+         "loose": 0}
 
 
 def compute_space_codes(spaces):
@@ -331,6 +332,13 @@ with ui.Tx(doc, "tx.locations"):
             if not loc and not single:
                 stats["not_point"] += 1
                 continue
+            if not loc and settings.get("skip_loose", True) and \
+                    groups.is_loose(util.bic_name(e),
+                                    util.get_key(e, "class") or
+                                    util.get_key(util.element_type(doc, e),
+                                                 "class_t")):
+                stats["loose"] += 1
+                continue
             if not loc:
                 stats["no_room"] += 1
                 key = (e.Category.Name if e.Category else "?",
@@ -353,6 +361,8 @@ if stats["no_room"]:
                      for (c, lv), els in rows],
                     columns=[t("col.category"), t("col.level"),
                              t("col.count"), t("loc.col_examples")])
+if stats["loose"]:
+    out.print_md(t("loc.loose", n=stats["loose"]))
 if stats["multi"]:
     out.print_md(t("loc.multi", n=stats["multi"]))
 if stats["not_point"]:

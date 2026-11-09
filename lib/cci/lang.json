@@ -393,5 +393,8 @@
   "loc.storey_mismatch_d": "Þessi rými eru á Revit hæð með öðrum kóða en fremst í Number (t.d. 01-03 á hæð með kóða 03). Yfirleitt eru hæðakóðarnir í Uppsetningu verkefnis hliðraðir: opnaðu Uppsetningu > Hæðir og rými og smelltu á „Stinga upp á kóðum“; hann les nú hæðina úr rýmisnúmerunum. Ef aðeins fá rými stangast á eru þau líklega á rangri hæð í Revit.",
   "loc.col_code": "Hæðakóði",
   "loc.col_in_number": "Hæð í Number",
-  "loc.col_examples": "Dæmi"
+  "loc.col_examples": "Dæmi",
+  "setup.skip_loose": "Lausir munir (húsgögn, stólar, borð, bílastæðamerkingar) eru valkvæðir",
+  "setup.skip_loose_d": "Þeir eru flokkaðir eins og annað ef þú vilt, en Athuga og Staðsetning krefjast ekki kóða eða staðsetningar á þeim. Skilin snúast um það sem er hluti af byggingunni; lausir munir færast og breytast.",
+  "loc.loose": "{n} lausir munir (húsgögn o.þ.h.) fundust ekki í rými og var sleppt (valkvæðir samkvæmt Uppsetningu)."
 }
