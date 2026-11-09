@@ -47,7 +47,9 @@ def compute_space_codes(spaces):
             num = None
         else:
             num = levels.room_number(raw, mode)
-        if mode == "last_segment" and in_number and lc and in_number != lc:
+        if mode == "last_segment" and in_number and lc and in_number != lc \
+                and not (in_number == "00" and lc == "K1"):
+            # (00 in the numbers and K1 in the model are the same basement)
             stats["storey_mismatch"].append((sp, lvl, lc, raw))
         if mode == "auto":
             auto.append((sp.UniqueId, lc, (raw or "", util.eid(sp))))
