@@ -333,8 +333,7 @@ with ui.Tx(doc, "tx.locations"):
                 stats["no_room"] += 1
                 key = (e.Category.Name if e.Category else "?",
                        level_name(e))
-                stats["no_room_cats"][key] = \
-                    stats["no_room_cats"].get(key, 0) + 1
+                stats["no_room_cats"].setdefault(key, []).append(e)
                 continue
             util.set_key(e, "location_at_id", "+" + loc)
             stats["elements"] += 1
@@ -346,11 +345,12 @@ out.print_md(t("loc.done", rooms=stats["rooms"],
 if stats["no_room"]:
     out.print_md(t("loc.no_room", n=stats["no_room"]))
     out.print_md(t("loc.no_room_why"))
-    out.print_table(sorted(([c, lv, n] for (c, lv), n in
-                            stats["no_room_cats"].items()),
-                           key=lambda r: -r[2]),
+    rows = sorted(stats["no_room_cats"].items(), key=lambda kv: -len(kv[1]))
+    out.print_table([[c, lv, len(els),
+                      " ".join(ui.link(out, util.eid(e)) for e in els[:3])]
+                     for (c, lv), els in rows],
                     columns=[t("col.category"), t("col.level"),
-                             t("col.count")])
+                             t("col.count"), t("loc.col_examples")])
 if stats["multi"]:
     out.print_md(t("loc.multi", n=stats["multi"]))
 if stats["not_point"]:
