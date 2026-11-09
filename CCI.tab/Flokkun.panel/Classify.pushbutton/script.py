@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 import os
 
 from pyrevit import forms, revit, script
+from System.Windows import Visibility
 
 from cci import formats, groups, numbering
 from cci import table as cci_table
@@ -245,6 +246,9 @@ class ClassifyWindow(forms.WPFWindow):
         self.pick_b.Content = t("classify.pick")
         self.write_b.Content = t("classify.write")
         self.cancel_b.Content = t("btn.cancel")
+        self.all_b.Content = t("classify.show_all")
+        self.all_b.Visibility = Visibility.Visible if from_selection \
+            else Visibility.Collapsed
         heads = ["", "classify.col_category", "classify.col_name",
                  "classify.col_count", "classify.col_current",
                  "classify.col_suggested", "classify.col_source",
@@ -258,6 +262,24 @@ class ClassifyWindow(forms.WPFWindow):
         # the X) asks first when something was changed
         self._start = self._state()
         self.Closing += self.on_closing
+
+    def all_click(self, sender, args):
+        """Started from a selection: load every type in the model, keeping
+        what was already edited."""
+        edited = dict((r.key, r) for r in self.rows)
+        rows, _ = collect(use_selection=False)
+        start = [(r.code, r.include, r.u, r.vv, r.remember) for r in rows]
+        for r in rows:
+            old = edited.get(r.key)
+            if old is not None:
+                r.code, r.u, r.vv = old.code, old.u, old.vv
+                r.include, r.remember = old.include, old.remember
+        self.rows = rows
+        self._start = start
+        self.grid.ItemsSource = rows
+        self.intro.Text = t("classify.intro")
+        self.all_b.Visibility = Visibility.Collapsed
+        self._status()
 
     def _state(self):
         return [(r.code, r.include, r.u, r.vv, r.remember)
