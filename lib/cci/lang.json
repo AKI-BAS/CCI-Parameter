@@ -393,5 +393,8 @@
   "loc.storey_mismatch_d": "These rooms are on a Revit level with a different code from the one at the front of their Number (e.g. 01-03 on a level coded 03). Usually the storey codes in Project setup are shifted: open Project setup > Storeys and rooms and click \"Suggest codes\"; it now reads the storey from the room numbers. If only a few rooms disagree, they're probably on the wrong level in Revit.",
   "loc.col_code": "Storey code",
   "loc.col_in_number": "Storey in Number",
-  "loc.col_examples": "Examples"
+  "loc.col_examples": "Examples",
+  "setup.skip_loose": "Loose items (furniture, chairs, tables, parking marks) are optional",
+  "setup.skip_loose_d": "They're classified like anything else if you want, but Check and Locations don't require codes or a location on them. The delivery is about what is part of the building; loose items move and change.",
+  "loc.loose": "{n} loose items (furniture etc.) weren't in a room and were skipped (optional per Project setup)."
 }

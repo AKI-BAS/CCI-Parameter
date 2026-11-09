@@ -18,6 +18,7 @@ DEFAULTS = {
     # walls, floors, pipes... in several rooms: location of the room on
     # the lowest storey (then the lowest room number), or none
     "multi_room": "lowest",        # lowest | none
+    "skip_loose": True,            # furniture, chairs...: no codes required
     "lod_default": 300,
     "lod": {},                     # group id -> 200/300/325/400
     "type_pad": 3,                 # %QQC001
