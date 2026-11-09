@@ -131,6 +131,10 @@ class Element(object):
         self.entities[id(entity.schema)] = entity
 
 
+class _Indexer(object):
+    """What IronPython gives for element.Room (indexed property)."""
+
+
 class FamilyInstance(Element):
     room = None
     to_room = None
@@ -139,7 +143,13 @@ class FamilyInstance(Element):
 
     @property
     def Room(self):
+        return _Indexer()      # like IronPython: an indexed property
+
+    def get_Room(self, phase):
         return self.room
+
+    def get_Space(self, phase):
+        return None
 
     def get_ToRoom(self, phase):
         return self.to_room

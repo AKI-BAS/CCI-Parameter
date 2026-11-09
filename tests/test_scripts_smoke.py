@@ -350,3 +350,16 @@ def test_closing_with_changes_asks_first(model, monkeypatch):
     run("classify")
     assert seen == {"clean": False, "kept": True}
     assert len(asked) == 1
+
+
+def test_equipment_in_a_room_gets_its_location(model):
+    """element.Room is an indexer in IronPython; get_Room(phase) is used."""
+    sink_t = fr.Element("OST_PlumbingFixtures", "Vaskur", cci(TYPE_KEYS),
+                        family="Vaskur")
+    sink_t.is_type = True
+    sink = fr.FamilyInstance("OST_PlumbingFixtures", "", cci(INST_KEYS),
+                             etype=sink_t, location=fr.LocationPoint())
+    sink.room = model["room"]
+    model["doc"].elements += [sink_t, sink]
+    run("locations")
+    assert val(sink, "location_at_id") == "+B01.01.101"

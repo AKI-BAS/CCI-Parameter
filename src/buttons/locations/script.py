@@ -73,30 +73,36 @@ def last_phase():
     return phases[phases.Size - 1] if phases.Size else None
 
 
+def _room_prop(element, name, phase):
+    """FamilyInstance.Room/Space/ToRoom/FromRoom at a phase.
+
+    In IronPython these are indexed properties: element.Room gives an
+    'indexer' object, not the room, so call get_Room(phase) instead.
+    Returns a room/space or None."""
+    value = None
+    try:
+        if phase is not None:
+            value = getattr(element, "get_" + name)(phase)
+        else:
+            value = getattr(element, name)
+    except Exception:
+        return None
+    return value if getattr(value, "UniqueId", None) else None
+
+
 def room_of(element, phase):
     if isinstance(element, FamilyInstance):
         cat = util.bic_name(element)
         if cat in ("OST_Doors", "OST_Windows"):
-            if phase is not None:
-                first, second = (element.get_ToRoom(phase),
-                                 element.get_FromRoom(phase))
-            else:
-                first, second = element.ToRoom, element.FromRoom
+            first = _room_prop(element, "ToRoom", phase)
+            second = _room_prop(element, "FromRoom", phase)
             if settings["door_room"] == "from":
                 first, second = second, first
             return first or second
-        try:
-            room = element.Room
+        for name in ("Room", "Space"):
+            room = _room_prop(element, name, phase)
             if room is not None:
                 return room
-        except Exception:
-            pass
-        try:
-            space = element.Space
-            if space is not None:
-                return space
-        except Exception:
-            pass
     pt = util.point_of(element)
     if pt is None:
         return False   # walls, floors... no single room
@@ -141,7 +147,8 @@ with ui.Tx(doc, "tx.locations"):
             if room is False:
                 stats["not_point"] += 1
                 continue
-            loc = codes.get(room.UniqueId) if room is not None else None
+            uid = getattr(room, "UniqueId", None) if room else None
+            loc = codes.get(uid) if uid else None
             if not loc:
                 stats["no_room"] += 1
                 continue
