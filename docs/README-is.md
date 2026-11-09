@@ -77,6 +77,9 @@ fylgja breytingum.
 - **Hópar (model groups) haldast.** CCI instance eigindin eru stillt á
   „Values can vary by group instance“, svo vöru- og staðsetningarauðkenni,
   sem eru ólík í hverju eintaki hóps, fá Revit ekki til að leysa hópinn upp.
+- **Lausir munir eru valkvæðir** (stilling, sjálfgefið á). Húsgögn,
+  stólar, borð og bílastæðamerkingar má flokka, en Athuga og Staðsetning
+  krefjast ekki kóða eða staðsetningar á þeim.
 - **Hlutir án tegundar** (lagnaop og önnur op) eru flokkaðir á hlutnum
   sjálfum, ein lína fyrir hvern flokk í Flokka, og fá vöruauðkenni en
   ekki tegundarauðkenni.

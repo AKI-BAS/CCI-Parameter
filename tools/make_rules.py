@@ -56,7 +56,8 @@ r("handrail", ["OST_StairsRailing", "OST_Railings"], "FQC", CCS, True,
 # access control gates (security gates, speed gates) are gates: QQF Hlið
 r("access_gate", ["OST_SecurityDevices", "OST_SpecialityEquipment",
                   "OST_GenericModel", "OST_Doors"], "QQF", SUGG, False,
-  names("aðgangshlið", "hlið", "gate", "speedgate", "turnstile"))
+  names("aðgangshlið", "hlið", "gate", "speedgate", "turnstile",
+        "gunnebo", "acsctrl", "boarding"))
 # a fence on the site (girðing) is RUA; guard rails stay FQD Handrið
 r("fence", ["OST_Railings", "OST_Site"], "RUA", SUGG, False,
   names("girðing", "grindverk", "fence", "hegn", "skjólgirðing"))
@@ -129,7 +130,8 @@ ROOMS = [
     ("shaft", "EBB", ["lagnastokkur", "lagnaskakt", "shaft", "skakt"]),
     ("airlock", "EAB", ["loftlás", "air lock", "airlock", "sluse",
                         "brunastúka", "brunaforstofa", "fire lobby"]),
-    ("security", "BAK", ["öryggisstúka", "öryggisrými", "öryggisgæsla",
+    ("security", "BAK", ["ög stjórnun", "öryggisstjórn", "security control",
+                         "öryggisstúka", "öryggisrými", "öryggisgæsla",
                          "vaktherbergi", "vaktstofa", "security", "guard"]),
     ("control", "DBA", ["stjórnstöð", "stjórnrými", "control room"]),
     ("cleaning", "CBB", ["ræstirými", "ræsting", "ræstiherbergi",
@@ -138,6 +140,7 @@ ROOMS = [
                            "kæligeymsla", "kælirými", "matvælageymsla",
                            "freezer", "cold room", "køle"]),
     ("dishwash", "BBA", ["uppvask", "uppþvott", "dishwash", "opvask"]),
+    ("open_hall", "AA", ["blaðamann", "opið rými", "open hall"]),
     ("print", "BAA", ["prentrými", "prent", "ljósritun", "print", "copy"]),
     ("vestibule", "EAA", ["anddyri", "forstofa", "vindfang", "inngangur",
                           "entré", "vestibule", "lobby", "foyer"]),
@@ -224,7 +227,12 @@ r("table", GM, "UBE", SUGG, False,
   names("borð", "table", "bord", "skrifborð", "desk"))
 r("seat", GM, "CLC", SUGG, False,
   names("stóll", "stólar", "sófi", "bekkur", "chair", "sofa", "bench",
-        "stol", "seat"))
+        "stol", "seat", "alford"))
+r("dispenser", GM + ["OST_PlumbingFixtures"], "RB", SUGG, False,
+  names("dispenser", "skammtari", "sápu", "pappírs", "handþurrk"))
+r("ahu", ["OST_GenericModel", "OST_MechanicalEquipment"], "HF", SUGG,
+  False, names("loftræstisamstæða", "loftræsti inntak", "loftinntak",
+               "air handling", "ahu", "aggregat"))
 r("casework", ["OST_Casework"], "RB", CCS, True)
 r("furniture", ["OST_Furniture", "OST_FurnitureSystems"], "RB", CCS, True)
 r("equipment", ["OST_SpecialityEquipment"], "RC", CCS, True)

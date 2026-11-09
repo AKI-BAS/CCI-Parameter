@@ -434,3 +434,18 @@ def test_codes_from_room_numbers():
     assert codes["0.Kjallari"] == "00"
     assert "Þak" not in codes          # one room is not enough
     assert codes["3.hæð"] == "04"      # 2 of 3 agree
+
+
+def test_loose_items_are_optional():
+    from cci import checker
+    s = settings.merged({"scopes": ["coordination", "location_id"]})
+    chair = {"id": 1, "category": "OST_Furniture", "kind": "element",
+             "group": None, "bound": ["class", "location_at_id"],
+             "values": {}}
+    gm_chair = dict(chair, category="OST_GenericModel",
+                    values={"class": "CLC"})
+    worktop = dict(chair, category="OST_Casework", values={"class": "UBE"})
+    assert checker.check([chair, gm_chair], s) == []
+    assert checker.check([worktop], s)          # casework is built in
+    s["skip_loose"] = False
+    assert checker.check([chair], s)

@@ -114,7 +114,10 @@
      "hlið",
      "gate",
      "speedgate",
-     "turnstile"
+     "turnstile",
+     "gunnebo",
+     "acsctrl",
+     "boarding"
     ]
    }
   },
@@ -655,6 +658,9 @@
    "note": "Tillaga verkfærisins / tool's suggestion - check",
    "match": {
     "name_contains": [
+     "ög stjórnun",
+     "öryggisstjórn",
+     "security control",
      "öryggisstúka",
      "öryggisrými",
      "öryggisgæsla",
@@ -737,6 +743,22 @@
      "uppþvott",
      "dishwash",
      "opvask"
+    ]
+   }
+  },
+  {
+   "id": "room_open_hall",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "AA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "blaðamann",
+     "opið rými",
+     "open hall"
     ]
    }
   },
@@ -1464,7 +1486,48 @@
      "sofa",
      "bench",
      "stol",
-     "seat"
+     "seat",
+     "alford"
+    ]
+   }
+  },
+  {
+   "id": "dispenser",
+   "category": [
+    "OST_GenericModel",
+    "OST_SpecialityEquipment",
+    "OST_Furniture",
+    "OST_Casework",
+    "OST_PlumbingFixtures"
+   ],
+   "class": "RB",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "dispenser",
+     "skammtari",
+     "sápu",
+     "pappírs",
+     "handþurrk"
+    ]
+   }
+  },
+  {
+   "id": "ahu",
+   "category": [
+    "OST_GenericModel",
+    "OST_MechanicalEquipment"
+   ],
+   "class": "HF",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "loftræstisamstæða",
+     "loftræsti inntak",
+     "loftinntak",
+     "air handling",
+     "ahu",
+     "aggregat"
     ]
    }
   },

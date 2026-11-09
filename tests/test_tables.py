@@ -231,7 +231,9 @@ def test_shipped_rules_use_real_codes():
     ("00-03 Brunastúka", "EAB"), ("00-02 Öryggisstúka", "BAK"),
     ("01-17 Frystir", "CAG"), ("01-18 Uppvask", "BBA"),
     ("02-22 Kaffi aðstaða", "BBA"), ("02-06 Kaffiaðsataða", "BBA"),
-    ("02-35 Ræstirými", "CBB"), ("01-14 Prentrými", "BAA")])
+    ("02-35 Ræstirými", "CBB"), ("01-14 Prentrými", "BAA"),
+    ("01-02 ÖG stjórnun/RLS", "BAK"), ("01-30 Blaðamanna rými", "AA"),
+    ("Fundarsalur", "BAB"), ("Matsalur", "BEA")])
 def test_room_name_rules(name, code):
     rs = rules.RuleSet(_load("rules.json"))
     r = rs.classify({"category": "OST_Rooms", "family": "", "type": name},
@@ -257,7 +259,6 @@ def test_room_name_rules(name, code):
     ("OST_Railings", "Girðing 1200", "RUA"),
     ("OST_GenericModel", "DURAVIT_045260-Vero-Above-Counter-Bathroom-Sink",
      "XKA"),
-    ("OST_SecurityDevices", "NBS_Gunnebo_HalfHghtAcsCtrlGts_PreSec", None),
     ("OST_SecurityDevices", "Aðgangshlið Gunnebo gate", "QQF"),
     ("OST_Toposolid", "Gras og jörð", "CF"),
     ("OST_Toposolid", "Jörð", "CA"),
@@ -267,7 +268,12 @@ def test_room_name_rules(name, code):
     ("OST_SpecialityEquipment", "Reyklúga frá jörðu upp, 0.5m2", "QQD"),
     ("OST_Furniture", "Standing desk Qbus 1400", "UBE"),
     ("OST_Furniture", "Monza Bistro Chair", "CLC"),
-    ("OST_Furniture", "Hilla", "RB")])
+    ("OST_Furniture", "Hilla", "RB"),
+    ("OST_GenericModel", "Alford", "CLC"),
+    ("OST_SecurityDevices",
+     "NBS_Gunnebo_HalfHghtAcsCtrlGts_PreSec_BoardSec", "QQF"),
+    ("OST_GenericModel", "Loftræstisamstæða", "HF"),
+    ("OST_GenericModel", "Mediclinics_Foam soap dispenser", "RB")])
 def test_element_rules(cat, name, code):
     rs = rules.RuleSet(_load("rules.json"))
     assert rs.classify({"category": cat, "family": name,

@@ -157,6 +157,9 @@
             <CheckBox x:Name="write_topnode_cb" Margin="0,3"/>
             <CheckBox x:Name="write_cls_cb" Margin="0,3"/>
             <CheckBox x:Name="cls_tn_cb" Margin="20,3,0,3"/>
+            <CheckBox x:Name="skip_loose_cb" Margin="0,3"/>
+            <TextBlock x:Name="skip_loose_d" Margin="22,0,0,6"
+                       Foreground="Gray" TextWrapping="Wrap"/>
             <CheckBox x:Name="copy_inst_cb" Margin="0,3"/>
             <TextBlock x:Name="copy_inst_d" Margin="22,0,0,10"
                        Foreground="Gray" TextWrapping="Wrap"/>

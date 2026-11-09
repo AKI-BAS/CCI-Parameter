@@ -74,6 +74,9 @@ from the tool's own data, so they follow changes.
 - **Model groups are not broken.** The CCI instance parameters are set
   to "Values can vary by group instance", so product and location IDs,
   which differ on every copy of a group, don't make Revit ungroup it.
+- **Loose items are optional** (setting, on by default). Furniture,
+  chairs, tables and parking marks can be classified, but Check and
+  Locations don't require codes or a location on them.
 - **Elements without a type** (shaft openings and other openings) are
   classified on the element, one row per category in Classify, and get
   product IDs but no type ID.

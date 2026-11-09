@@ -147,6 +147,8 @@ class SetupWindow(forms.WPFWindow):
         self.write_topnode_cb.Content = t("setup.write_topnode")
         self.write_cls_cb.Content = t("setup.write_cls")
         self.cls_tn_cb.Content = t("setup.cls_tn")
+        self.skip_loose_cb.Content = t("setup.skip_loose")
+        self.skip_loose_d.Text = t("setup.skip_loose_d")
         self.copy_inst_cb.Content = t("setup.copy_inst")
         self.copy_inst_d.Text = t("setup.copy_inst_d")
         self.ifc_h.Text = t("setup.ifc_h")
@@ -201,6 +203,7 @@ class SetupWindow(forms.WPFWindow):
         self.write_topnode_cb.IsChecked = s["write_topnode"]
         self.write_cls_cb.IsChecked = s["write_classification"]
         self.cls_tn_cb.IsChecked = s["classification_desc"]
+        self.skip_loose_cb.IsChecked = bool(s.get("skip_loose", True))
         self.copy_inst_cb.IsChecked = s["copy_to_instance"]
         self.ifc_edition_tb.Text = s["ifc"]["edition"]
         self.ifc_date_tb.Text = s["ifc"]["edition_date"]
@@ -261,6 +264,7 @@ class SetupWindow(forms.WPFWindow):
         s["write_classification"] = bool(self.write_cls_cb.IsChecked)
         s["classification_desc"] = bool(self.cls_tn_cb.IsChecked)
         s["copy_to_instance"] = bool(self.copy_inst_cb.IsChecked)
+        s["skip_loose"] = bool(self.skip_loose_cb.IsChecked)
         ifc = dict(self.s["ifc"])
         ifc["edition"] = self.ifc_edition_tb.Text.strip()
         ifc["edition_date"] = self.ifc_date_tb.Text.strip()
