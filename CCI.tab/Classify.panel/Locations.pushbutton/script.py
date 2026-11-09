@@ -220,11 +220,10 @@ def sample_points(element):
     return pts
 
 
-def lowest_room_location(element, phases):
-    """Location of the room on the lowest storey the element touches."""
+def _rooms_at(points, phases):
     cands = []
     seen = set()
-    for p in sample_points(element):
+    for p in points:
         for ph in phases:
             room = _room_at(p, ph)
             uid = getattr(room, "UniqueId", None) if room else None
@@ -236,7 +235,31 @@ def lowest_room_location(element, phases):
             except Exception:
                 elev = 0.0
             cands.append((elev, codes.get(uid)))
-    return levels.lowest_room(cands)
+    return cands
+
+
+def lowest_room_location(element, phases):
+    """Location of the room on the lowest storey the element touches."""
+    loc = levels.lowest_room(_rooms_at(sample_points(element), phases))
+    if loc or util.bic_name(element) not in ("OST_Windows", "OST_Doors"):
+        return loc
+    # roof windows over a ceiling void: step down until the first room
+    # below (the nearest one, not the lowest storey)
+    try:
+        bb = element.get_BoundingBox(None)
+    except Exception:
+        bb = None
+    if bb is None:
+        return None
+    lo, hi = bb.Min, bb.Max
+    for dz in (3.0, 5.0, 7.0, 9.0, 11.0):
+        pts = [XYZ(lo.X + (hi.X - lo.X) * f, lo.Y + (hi.Y - lo.Y) * g,
+                   lo.Z - dz)
+               for f in (0.25, 0.75) for g in (0.25, 0.75)]
+        loc = levels.lowest_room(_rooms_at(pts, phases))
+        if loc:
+            return loc
+    return None
 
 
 def room_of(element, phase):
