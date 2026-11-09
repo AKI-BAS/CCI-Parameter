@@ -18,6 +18,7 @@ ui.require_project(doc)
 LOD_OPTIONS = ["200", "300", "325", "400"]
 ROOM_MODES = ["as_is", "last_segment", "auto"]
 DOOR_ROOMS = ["to", "from"]
+MULTI_ROOMS = ["lowest", "none"]
 ML_NUMBERS = ["type", "instance"]
 PADS = ["2", "3", "4"]
 
@@ -118,6 +119,7 @@ class SetupWindow(forms.WPFWindow):
         cols[2].Header = t("setup.col_code")
         self.roomnum_l.Text = t("setup.roomnum")
         self.doorroom_l.Text = t("setup.doorroom")
+        self.multiroom_l.Text = t("setup.multiroom")
         self.lod_help.Text = t("setup.lod_help")
         self.lod_default_l.Text = t("setup.lod_default")
         self.lod_all_b.Content = t("setup.lod_all")
@@ -165,6 +167,8 @@ class SetupWindow(forms.WPFWindow):
                     s["room_number_mode"])
         self._combo(self.doorroom_cb, DOOR_ROOMS, "setup.doorroom.",
                     s["door_room"])
+        self._combo(self.multiroom_cb, MULTI_ROOMS, "setup.multiroom.",
+                    s.get("multi_room", "lowest"))
         self.lod_default_cb.ItemsSource = LOD_OPTIONS
         self.lod_default_cb.SelectedItem = str(s["lod_default"])
         self.lod_rows = [LodRow(g, smod.lod_for(s, g))
@@ -227,6 +231,7 @@ class SetupWindow(forms.WPFWindow):
                            if r.code)
         s["room_number_mode"] = self._picked(self.roomnum_cb)
         s["door_room"] = self._picked(self.doorroom_cb)
+        s["multi_room"] = self._picked(self.multiroom_cb)
         s["lod_default"] = int(self.lod_default_cb.SelectedItem)
         s["lod"] = dict((r.gid, int(r.lod)) for r in self.lod_rows
                         if int(r.lod) != s["lod_default"])

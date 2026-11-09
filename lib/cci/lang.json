@@ -146,7 +146,7 @@
   "loc.title": "CCI staðsetning",
   "loc.done": "Rýmisnúmer skráð á **{rooms}** rými og staðsetning á **{elements}** hluti.",
   "loc.no_room": "{n} hlutir eru ekki í rými með rýmisnúmeri og fengu enga staðsetningu.",
-  "loc.not_point": "{n} hlutir (veggir, gólf o.þ.h.) ná yfir fleiri en eitt rými og fá ekki staðsetningarauðkenni.",
+  "loc.not_point": "{n} hlutir (veggir, gólf o.þ.h.) ná yfir fleiri en eitt rými og fá ekki staðsetningarauðkenni (stillt í Uppsetningu verkefnis).",
   "loc.not_bound": "{n} rými hafa ekki eigindið CCIMultiLevelLocationID. Keyrðu Eigindi.",
   "loc.bad_rooms": "Rými án rýmisnúmers ({n})",
   "loc.nothing_in_scope": "Hvorki rýmisupplýsingar (Rekstur) né staðsetningarauðkenni eru í umfangi verkefnisins. Breyttu því í Uppsetningu verkefnis.",
@@ -383,5 +383,9 @@
   "msg.discard_changes": "Hætta við án þess að vista? Breytingarnar sem þú gerðir í glugganum tapast.",
   "loc.try_last_segment": "hæðin er þegar í númerinu; veldu „Síðasta hluta Number“ í Uppsetningu verkefnis",
   "loc.hint_last_segment": "{n} rými hafa númer eins og 01-03, þar sem hæðin er þegar fremst. Opnaðu Uppsetningu verkefnis > Hæðir og rými og veldu „Síðasta hluta Number“ við Rýmisnúmer. Þá verður 01-03 að B01.01.003. Keyrðu svo Staðsetningu aftur.",
-  "loc.no_room_why": "Algengar ástæður: hluturinn er utandyra (lóð, útveggjabúnaður), í rými án rýmisnúmers eða hæðakóða, eða ofan við efri mörk rýmisins (Upper Limit / Limit Offset). Hér er skiptingin eftir flokkum:"
+  "loc.no_room_why": "Algengar ástæður: hluturinn er utandyra (lóð, útveggjabúnaður), í rými án rýmisnúmers eða hæðakóða, eða ofan við efri mörk rýmisins (Upper Limit / Limit Offset). Hér er skiptingin eftir flokkum:",
+  "setup.multiroom": "Hlutir í fleiri en einu rými (veggir, gólf, lagnir)",
+  "setup.multiroom.lowest": "Rýmið á lægstu hæðinni (svo lægsta rýmisnúmer)",
+  "setup.multiroom.none": "Engin staðsetning",
+  "loc.multi": "{n} hlutir (veggir, gólf, lagnir o.þ.h.) ná yfir fleiri en eitt rými og fengu staðsetningu rýmisins á lægstu hæðinni."
 }
