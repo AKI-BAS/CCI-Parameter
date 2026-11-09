@@ -248,7 +248,9 @@ def test_room_name_rules(name, code):
     ("OST_DuctAccessory", "Reykloka 200", "FMB"),
     ("OST_PipeAccessory", "Stjórnloki DN20", "QNA"),
     ("OST_Planting", "Birki", "TRA"),
-    ("OST_Railings", "Handrið 1100", "FQD")])
+    ("OST_Railings", "Handrið 1100", "FQD"),
+    ("OST_Railings", "Handlisti 40", "FQC"),
+    ("OST_Railings", "Girðing 1200", "RUA")])
 def test_element_rules(cat, name, code):
     rs = rules.RuleSet(_load("rules.json"))
     assert rs.classify({"category": cat, "family": name,

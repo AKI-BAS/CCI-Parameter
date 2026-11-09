@@ -53,6 +53,9 @@ r("window_unit", W, "QQB", CCS, True,
         "vindueselement", "storefront"), "B", "AD")
 r("handrail", ["OST_StairsRailing", "OST_Railings"], "FQC", CCS, True,
   names("handlisti", "handrail", "håndliste", "håndlist"))
+# a fence on the site (girðing) is RUA; guard rails stay FQD Handrið
+r("fence", ["OST_Railings", "OST_Site"], "RUA", SUGG, False,
+  names("girðing", "grindverk", "fence", "hegn", "skjólgirðing"))
 r("tree", ["OST_Planting"], "TRA", SUGG, False,
   names("tré", "tree", "træ", "birki", "reynir", "ösp"))
 r("smoke_damper", ["OST_DuctAccessory"], "FMB",

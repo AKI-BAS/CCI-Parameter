@@ -99,6 +99,24 @@
    }
   },
   {
+   "id": "fence",
+   "category": [
+    "OST_Railings",
+    "OST_Site"
+   ],
+   "class": "RUA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "girðing",
+     "grindverk",
+     "fence",
+     "hegn",
+     "skjólgirðing"
+    ]
+   }
+  },
+  {
    "id": "tree",
    "category": [
     "OST_Planting"
