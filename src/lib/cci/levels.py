@@ -74,6 +74,26 @@ def storey_of_number(raw):
     return s if s[0] in "KM" else "%02d" % int(s)
 
 
+def codes_from_room_numbers(pairs, share=0.6, minimum=2):
+    """Storey codes read from the room numbers on each level.
+
+    pairs: [(level name, room Number)]. A level gets the storey most of
+    its rooms carry at the front of their Number (02-37 -> 02), when at
+    least `share` of them agree. Returns {level name: code}."""
+    by_level = {}
+    for level, raw in pairs:
+        s = storey_of_number(raw)
+        if level and s:
+            by_level.setdefault(level, []).append(s)
+    out = {}
+    for level, found in by_level.items():
+        best = max(set(found), key=found.count)
+        n = found.count(best)
+        if n >= minimum and n >= share * len(found):
+            out[level] = best
+    return out
+
+
 def natural_key(text):
     """'2' < '10' < 'A2' < 'A10' (numbers compared as numbers)."""
     return [(0, int(p), "") if p.isdigit() else (1, 0, p.lower())

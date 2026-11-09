@@ -421,3 +421,16 @@ def test_storey_of_number_and_four_digit_ids():
     assert formats.check_type_id("%BF0007") is None
     assert formats.check_ml_type_id("§B.AD.QQC0001") is None
     assert formats.check_type_id("%BF00007")
+
+
+def test_codes_from_room_numbers():
+    pairs = [("1.hæð", "01-0%d" % i) for i in range(1, 6)] + \
+        [("2.hæð", "02-01"), ("2.hæð", "02-02"), ("2.hæð", "0025"),
+         ("0.Kjallari", "00-01"), ("0.Kjallari", "00-02"),
+         ("Þak", "04-01"), ("3.hæð", "03-01"), ("3.hæð", "04-02"),
+         ("3.hæð", "04-03")]
+    codes = levels.codes_from_room_numbers(pairs)
+    assert codes["1.hæð"] == "01" and codes["2.hæð"] == "02"
+    assert codes["0.Kjallari"] == "00"
+    assert "Þak" not in codes          # one room is not enough
+    assert codes["3.hæð"] == "04"      # 2 of 3 agree

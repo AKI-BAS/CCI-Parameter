@@ -108,6 +108,17 @@ def _room_prop(element, name, phase):
     return value if getattr(value, "UniqueId", None) else None
 
 
+def level_elevation(element):
+    for src in (element, getattr(element, "Host", None)):
+        try:
+            lv = doc.GetElement(src.LevelId)
+            if lv is not None:
+                return lv.Elevation
+        except Exception:
+            continue
+    return None
+
+
 def level_name(element):
     """The element's level, for the report."""
     try:
@@ -134,11 +145,13 @@ def phases_of(element):
             out.append(ph)
     except Exception:
         pass
-    last = last_phase()
-    if last is not None and not any(
-            p is last or getattr(p, "Id", 1) == getattr(last, "Id", 2)
-            for p in out):
-        out.append(last)
+    # rooms exist in one phase only: also look in every phase that has
+    # rooms (e.g. doors in existing walls, rooms in New Construction)
+    for ph in ROOM_PHASES + [last_phase()]:
+        if ph is not None and not any(
+                p is ph or getattr(p, "Id", 1) == getattr(ph, "Id", 2)
+                for p in out):
+            out.append(ph)
     return out or [None]
 
 
@@ -173,6 +186,9 @@ def sample_points(element):
         zs = [lo.Z - 1.0]
     else:
         zs = [lo.Z + 1.0, (lo.Z + hi.Z) / 2.0]
+        lv_z = level_elevation(element)
+        if lv_z is not None and lv_z + 1.0 < lo.Z:
+            zs.append(lv_z + 1.0)   # high windows in rooms set low
     pts = []
     loc = element.Location
     if isinstance(element, Wall) and isinstance(loc, LocationCurve):
@@ -257,6 +273,23 @@ if spaces and not any(level_codes.values()):
 
 codes = compute_space_codes(spaces)
 
+
+def _room_phases():
+    out = []
+    for sp in spaces:
+        try:
+            ph = doc.GetElement(sp.CreatedPhaseId)
+        except Exception:
+            ph = None
+        if ph is not None and not any(
+                p is ph or getattr(p, "Id", 1) == getattr(ph, "Id", 2)
+                for p in out):
+            out.append(ph)
+    return out
+
+
+ROOM_PHASES = _room_phases()
+
 with ui.Tx(doc, "tx.locations"):
     params.allow_vary_in_groups(doc)    # or Revit ungroups group copies
     if write_rooms:
@@ -328,10 +361,15 @@ if stats["storey_mismatch"]:
     out.print_md("### " + t("loc.storey_mismatch",
                             n=len(stats["storey_mismatch"])))
     out.print_md(t("loc.storey_mismatch_d"))
-    out.print_table([[ui.link(out, util.eid(sp)), lvl or "-", lc, raw]
-                     for sp, lvl, lc, raw in stats["storey_mismatch"]],
-                    columns=[t("col.element"), t("col.level"),
-                             t("loc.col_code"), t("col.number")])
+    groups_ = {}
+    for sp, lvl, lc, raw in stats["storey_mismatch"]:
+        key = (lvl or "-", lc, levels.storey_of_number(raw))
+        groups_.setdefault(key, []).append(raw)
+    out.print_table([[lvl, lc, s, len(nums), ", ".join(sorted(nums)[:4])]
+                     for (lvl, lc, s), nums in sorted(groups_.items())],
+                    columns=[t("col.level"), t("loc.col_code"),
+                             t("loc.col_in_number"), t("col.count"),
+                             t("loc.col_examples")])
 if stats["bad_rooms"]:
     if stats["try_last"]:
         out.print_md("> **" + t("loc.hint_last_segment",
