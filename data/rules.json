@@ -99,6 +99,26 @@
    }
   },
   {
+   "id": "access_gate",
+   "category": [
+    "OST_SecurityDevices",
+    "OST_SpecialityEquipment",
+    "OST_GenericModel",
+    "OST_Doors"
+   ],
+   "class": "QQF",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "aðgangshlið",
+     "hlið",
+     "gate",
+     "speedgate",
+     "turnstile"
+    ]
+   }
+  },
+  {
    "id": "fence",
    "category": [
     "OST_Railings",
@@ -301,7 +321,9 @@
   {
    "id": "urinal",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "XKC",
    "note": "Tillaga verkfærisins / tool's suggestion - check",
@@ -315,7 +337,9 @@
   {
    "id": "toilet",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "XKB",
    "note": "Molio, CCS introduktion for arkitekter (2020)",
@@ -332,7 +356,9 @@
   {
    "id": "floor_drain",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "XKE",
    "note": "Molio, CCS introduktion for arkitekter (2020)",
@@ -349,7 +375,9 @@
   {
    "id": "sink",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "XKA",
    "note": "Molio, CCS introduktion for arkitekter (2020)",
@@ -368,7 +396,9 @@
   {
    "id": "shower_mixer",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "QNA",
    "note": "Tillaga verkfærisins / tool's suggestion - check",
@@ -385,7 +415,9 @@
   {
    "id": "shower_bath",
    "category": [
-    "OST_PlumbingFixtures"
+    "OST_PlumbingFixtures",
+    "OST_GenericModel",
+    "OST_SpecialityEquipment"
    ],
    "class": "XKA",
    "note": "Tillaga verkfærisins / tool's suggestion - check",
@@ -606,7 +638,123 @@
      "loftlás",
      "air lock",
      "airlock",
-     "sluse"
+     "sluse",
+     "brunastúka",
+     "brunaforstofa",
+     "fire lobby"
+    ]
+   }
+  },
+  {
+   "id": "room_security",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "BAK",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "öryggisstúka",
+     "öryggisrými",
+     "öryggisgæsla",
+     "vaktherbergi",
+     "vaktstofa",
+     "security",
+     "guard"
+    ]
+   }
+  },
+  {
+   "id": "room_control",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "DBA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "stjórnstöð",
+     "stjórnrými",
+     "control room"
+    ]
+   }
+  },
+  {
+   "id": "room_cleaning",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "CBB",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "ræstirými",
+     "ræsting",
+     "ræstiherbergi",
+     "ræstikompa",
+     "rengøring",
+     "janitor",
+     "cleaning"
+    ]
+   }
+  },
+  {
+   "id": "room_cold_store",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "CAG",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "frystir",
+     "frystigeymsla",
+     "kælir",
+     "kæligeymsla",
+     "kælirými",
+     "matvælageymsla",
+     "freezer",
+     "cold room",
+     "køle"
+    ]
+   }
+  },
+  {
+   "id": "room_dishwash",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "BBA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "uppvask",
+     "uppþvott",
+     "dishwash",
+     "opvask"
+    ]
+   }
+  },
+  {
+   "id": "room_print",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "BAA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "prentrými",
+     "prent",
+     "ljósritun",
+     "print",
+     "copy"
     ]
    }
   },
@@ -951,6 +1099,25 @@
      "kitchen",
      "køkken",
      "tekøkken"
+    ]
+   }
+  },
+  {
+   "id": "room_pantry",
+   "category": [
+    "OST_Rooms",
+    "OST_MEPSpaces"
+   ],
+   "class": "BBA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "kaffiaðstaða",
+     "kaffistofa",
+     "kaffi",
+     "tekøkken",
+     "pantry",
+     "kitchenette"
     ]
    }
   },
@@ -1403,13 +1570,32 @@
    "note": "Tillaga verkfærisins / tool's suggestion - check"
   },
   {
-   "id": "toposolid",
+   "id": "terrain_green",
    "category": [
     "OST_Topography",
     "OST_Toposolid"
    ],
-   "class": null,
-   "note": "Enginn sjálfgefinn kóði / no default code"
+   "class": "CF",
+   "note": "Tillaga verkfærisins / tool's suggestion - check",
+   "match": {
+    "name_contains": [
+     "gras",
+     "grass",
+     "gróður",
+     "græn",
+     "beð",
+     "planting"
+    ]
+   }
+  },
+  {
+   "id": "terrain",
+   "category": [
+    "OST_Topography",
+    "OST_Toposolid"
+   ],
+   "class": "CA",
+   "note": "Tillaga verkfærisins / tool's suggestion - check"
   },
   {
    "id": "site",

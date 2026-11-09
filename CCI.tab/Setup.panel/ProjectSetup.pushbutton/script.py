@@ -16,7 +16,7 @@ doc = ui.doc()
 ui.require_project(doc)
 
 LOD_OPTIONS = ["200", "300", "325", "400"]
-ROOM_MODES = ["as_is", "last_segment", "auto"]
+ROOM_MODES = ["as_is", "last_segment", "number_storey", "auto"]
 DOOR_ROOMS = ["to", "from"]
 MULTI_ROOMS = ["lowest", "none"]
 ML_NUMBERS = ["type", "instance"]

@@ -61,6 +61,19 @@ def room_number(raw, mode="as_is", pad=3):
     return ("%0" + str(pad) + "d") % int(raw)
 
 
+_STOREY_IN_NUMBER = re.compile(r"^(\d{1,2}|[KkMm]\d{1,2})[.\-_/ ]+\S+$")
+
+
+def storey_of_number(raw):
+    """The storey at the front of a room Number, as a storey code:
+    '02-37' -> '02', '1.105' -> '01', 'K1-04' -> 'K1', '0025' -> None."""
+    m = _STOREY_IN_NUMBER.match((raw or "").strip())
+    if not m:
+        return None
+    s = m.group(1).upper()
+    return s if s[0] in "KM" else "%02d" % int(s)
+
+
 def natural_key(text):
     """'2' < '10' < 'A2' < 'A10' (numbers compared as numbers)."""
     return [(0, int(p), "") if p.isdigit() else (1, 0, p.lower())

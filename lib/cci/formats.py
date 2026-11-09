@@ -57,9 +57,10 @@ _CLASS_RE = re.compile(r"^[A-Z]{1,3}$")
 _TOPNODE_RE = re.compile(r"^\[([A-Z])\]$")
 _LEVEL_RE = re.compile(r"^(\d{2}|K\d{1,2}|M\d{1,2})$")
 _LOC_RE = re.compile(r"^B(\d{2})\.(\d{2}|K\d{1,2}|M\d{1,2})\.(\d{3})$")
-_TYPE_RE = re.compile(r"^(\[[A-Z]\])?%([A-Z]{1,3})(\d{1,3})(\.\d{1,3})?$")
+# 1-4 digits: the number of digits is a setting (Project setup)
+_TYPE_RE = re.compile(r"^(\[[A-Z]\])?%([A-Z]{1,3})(\d{1,4})(\.\d{1,4})?$")
 _ML_TYPE_RE = re.compile(
-    r"^(\[[A-Z]\])?§([A-Z])\.([A-Z]{2})\.([A-Z]{3})(\d{1,3})(\.\d{1,3})?$")
+    r"^(\[[A-Z]\])?§([A-Z])\.([A-Z]{2})\.([A-Z]{3})(\d{1,4})(\.\d{1,4})?$")
 _SINGLE_RE = re.compile(r"^(\[[A-Z]\])?#([A-Z]{1,3})(\d{1,4})$")
 # =Ukk[.VVmm][.WWnn].XXXppp - the feeding system (VVmm) may be left out.
 # kk/mm are two digits in BIM Ísland's detailed section (=H01.HD02.EGC001)
