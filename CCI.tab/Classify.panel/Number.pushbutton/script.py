@@ -8,7 +8,7 @@ from pyrevit import forms
 
 from cci import formats, groups, numbering, settings as smod
 from cci.i18n import t
-from cci.revit import storage, ui, util
+from cci.revit import params, storage, ui, util
 
 doc = ui.doc()
 ui.require_project(doc)
@@ -177,6 +177,7 @@ def run():
 
 
 with ui.Tx(doc, "tx.number"):
+    params.allow_vary_in_groups(doc)    # or Revit ungroups group copies
     run()
 
 lines = [t("number.done", type=stats["type"], ml=stats["ml"],

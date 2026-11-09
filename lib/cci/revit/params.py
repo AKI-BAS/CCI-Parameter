@@ -145,6 +145,34 @@ def bind_all(doc, definitions, keys):
     return report
 
 
+def allow_vary_in_groups(doc):
+    """Let the CCI instance parameters differ between copies of a model
+    group ("Values can vary by group instance").
+
+    Otherwise Revit ungroups a group copy as soon as one of its members
+    gets a value the other copies don't have - and product IDs (#) and
+    location IDs (+B01.02.003) are different on every copy by nature.
+    Must run inside a Transaction. Returns the names it changed.
+    """
+    names = set(formats.PARAM[k] for k in formats.PARAM
+                if not k.endswith("_t"))
+    low = set(n.lower() for n in names)
+    changed = []
+    it = doc.ParameterBindings.ForwardIterator()
+    it.Reset()
+    while it.MoveNext():
+        d, binding = it.Key, it.Current
+        if isinstance(binding, TypeBinding) or d.Name.lower() not in low:
+            continue
+        try:
+            if not d.VariesAcrossGroups:
+                d.SetAllowVaryBetweenGroups(doc, True)
+                changed.append(d.Name)
+        except Exception:
+            pass        # not allowed for this parameter: leave it
+    return changed
+
+
 def _elements(doc, categories, types):
     for cat in categories:
         col = FilteredElementCollector(doc).OfCategoryId(cat.Id)
