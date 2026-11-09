@@ -387,5 +387,9 @@
   "setup.multiroom": "Hlutir í fleiri en einu rými (veggir, gólf, lagnir)",
   "setup.multiroom.lowest": "Rýmið á lægstu hæðinni (svo lægsta rýmisnúmer)",
   "setup.multiroom.none": "Engin staðsetning",
-  "loc.multi": "{n} hlutir (veggir, gólf, lagnir o.þ.h.) ná yfir fleiri en eitt rými og fengu staðsetningu rýmisins á lægstu hæðinni."
+  "loc.multi": "{n} hlutir (veggir, gólf, lagnir o.þ.h.) ná yfir fleiri en eitt rými og fengu staðsetningu rýmisins á lægstu hæðinni.",
+  "setup.roomnum.number_storey": "Hæð og rými úr Number (02-37 → B01.02.037)",
+  "loc.storey_mismatch": "Hæðin í rýmisnúmerinu passar ekki við hæðakóðann ({n})",
+  "loc.storey_mismatch_d": "Þessi rými eru á Revit hæð með öðrum kóða en fremst í Number (t.d. 02-37 á hæð með kóða 03). Annað hvort eru hæðakóðarnir í Uppsetningu verkefnis hliðraðir, eða rýmið er á rangri hæð í Revit. Ef númerin ráða, veldu „Hæð og rými úr Number“ í Uppsetningu.",
+  "loc.col_code": "Hæðakóði"
 }

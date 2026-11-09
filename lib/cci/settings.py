@@ -13,7 +13,7 @@ DEFAULTS = {
     "building": 1,
     "ground_level": None,
     "levels": {},                  # Revit level name -> 01 / K1 / M2
-    "room_number_mode": "as_is",   # as_is | last_segment | auto
+    "room_number_mode": "as_is",   # as_is | last_segment | number_storey | auto
     "door_room": "to",             # doors/windows: to-room or from-room first
     # walls, floors, pipes... in several rooms: location of the room on
     # the lowest storey (then the lowest room number), or none
@@ -87,7 +87,8 @@ def validate(settings):
             issues.append(("set.pad", {"value": settings[key]}))
     if settings.get("multi_room", "lowest") not in ("lowest", "none"):
         issues.append(("set.room_mode", {"value": settings["multi_room"]}))
-    if settings["room_number_mode"] not in ("as_is", "last_segment", "auto"):
+    if settings["room_number_mode"] not in ("as_is", "last_segment", "auto",
+                                            "number_storey"):
         issues.append(("set.room_mode", {"value":
                                          settings["room_number_mode"]}))
     return issues
